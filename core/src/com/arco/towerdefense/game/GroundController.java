@@ -37,6 +37,7 @@ public class GroundController {
                 drawGridBlock(x, y, grassImg, batch);
             }
         }
+        //drawLane(0, 1, 12, 1, batch);
     }
 
     private void drawGridBlock(int x, int y, Texture texture, SpriteBatch batch) {
@@ -52,5 +53,24 @@ public class GroundController {
                 batch.draw(texture, realX, realY);
             }
         }
+    }
+
+    private void drawLane(int start_x, int start_y, int final_x, int final_y, SpriteBatch batch) {
+        if(start_x == final_x) {
+            for(int y = start_y; y < final_y; y++) {
+                drawGridBlock(start_x, y, laneImg, batch);
+            }
+        }
+
+        if(start_y == final_y) {
+            for(int x = start_x; x < final_x; x++) {
+                drawGridBlock(x, start_y, laneImg, batch);
+            }
+        }
+    }
+
+    public void dispose() {
+        grassImg.dispose();
+        laneImg.dispose();
     }
 }
