@@ -3,7 +3,7 @@ package com.arco.towerdefense.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class GroundPainter {
+public class GroundController {
     private Texture grassImg;
     private Texture laneImg;
     private int groundSize;
@@ -12,7 +12,7 @@ public class GroundPainter {
     private int viewportWidth;
     private int viewportHeight;
 
-    public GroundPainter(String grassImgPath, String laneImgPath, int groundSize, int gridBlockSize, int viewWidth, int viewHeight) {
+    public GroundController(String grassImgPath, String laneImgPath, int groundSize, int gridBlockSize, int viewWidth, int viewHeight) {
         grassImg = new Texture(grassImgPath);
         laneImg = new Texture(laneImgPath);
 
