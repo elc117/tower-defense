@@ -1,32 +1,33 @@
 package com.arco.towerdefense.game;
 
+import com.arco.towerdefense.game.screens.GameScreen;
+import com.arco.towerdefense.game.screens.MenuScreen;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class TowerDefenseGame extends ApplicationAdapter {
-	private OrthographicCamera camera;
-	private SpriteBatch batch;
-	private GroundController groundController;
-	
+public class TowerDefenseGame extends Game {
+	public static final String TITLE = "Tower Defense";
+	public static final int V_WIDTH = 800;
+	public static final int V_HEIGHT = 480;
+
+	public OrthographicCamera camera;
+	public SpriteBatch batch;
+
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
 		batch = new SpriteBatch();
-
-		groundController = new GroundController("grasstop.png", "dirt.png", 16, 4, 800, 480);
+		this.setScreen(new MenuScreen(this));
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		this.groundController.paint(batch);
-		batch.end();
+		super.render();
 	}
 	
 	@Override
