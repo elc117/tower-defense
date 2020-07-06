@@ -7,6 +7,11 @@ import com.arco.towerdefense.game.TowerDefenseGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+
+		config.title = "Tower Defense";
+		config.width = 800;
+		config.height = 480;
+
 		new LwjglApplication(new TowerDefenseGame(), config);
 	}
 }
