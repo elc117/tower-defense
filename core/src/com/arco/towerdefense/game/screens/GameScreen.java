@@ -18,7 +18,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(TowerDefenseGame game) {
         this.game = game;
-        groundController = new GroundController("grasstop.png", "dirt.png", 16, 2, game.V_WIDTH, game.V_HEIGHT);
+        groundController = new GroundController(game.batch, "grasstop.png", "dirt.png", 16, 2, game.V_WIDTH, game.V_HEIGHT);
         mouse = new InputController();
     }
 
@@ -27,15 +27,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-            groundController.paint(game.batch);
+            groundController.update();
         game.batch.end();
-
-        update();
-
-    }
-
-    public void update() {
-        groundController.update();
     }
 
     @Override
