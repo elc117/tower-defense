@@ -1,18 +1,25 @@
 package com.arco.towerdefense.game.screens;
 
-import com.arco.towerdefense.game.GroundController;
+import com.arco.towerdefense.game.controllers.GroundController;
 import com.arco.towerdefense.game.TowerDefenseGame;
+import com.arco.towerdefense.game.controllers.InputController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {
     final TowerDefenseGame game;
     private GroundController groundController;
+    private InputController mouse;
 
     public GameScreen(TowerDefenseGame game) {
         this.game = game;
-        groundController = new GroundController("grasstop.png", "dirt.png", 16, 4, game.V_WIDTH, game.V_HEIGHT);
+        groundController = new GroundController("grasstop.png", "dirt.png", 16, 2, game.V_WIDTH, game.V_HEIGHT);
+        mouse = new InputController();
     }
 
     @Override
@@ -23,11 +30,18 @@ public class GameScreen implements Screen {
             groundController.paint(game.batch);
         game.batch.end();
 
+        update();
+
+    }
+
+    public void update() {
+        groundController.update();
     }
 
     @Override
     public void dispose() {
         groundController.dispose();
+        mouse.dispose();
     }
 
     @Override

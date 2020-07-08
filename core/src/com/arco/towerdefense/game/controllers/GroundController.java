@@ -1,16 +1,24 @@
-package com.arco.towerdefense.game;
+package com.arco.towerdefense.game.controllers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+
+import static com.arco.towerdefense.game.TowerDefenseGame.V_HEIGHT;
 
 public class GroundController {
     private Texture grassImg;
     private Texture laneImg;
     private int groundSize;
     private int gridBlockSize;
+    private int scale;
 
     private int viewportWidth;
     private int viewportHeight;
+    Vector2 cursorLocation;
+    ShapeRenderer shapeRenderer;
 
     public GroundController(String grassImgPath, String laneImgPath, int groundSize, int gridBlockSize, int viewWidth, int viewHeight) {
         grassImg = new Texture(grassImgPath);
@@ -18,17 +26,22 @@ public class GroundController {
 
         this.groundSize = groundSize;
         this.gridBlockSize = gridBlockSize;
+        this.scale = gridBlockSize*groundSize;
 
         viewportWidth = viewWidth;
         viewportHeight = viewHeight;
+
+        cursorLocation = new Vector2(0, 0);
+
+        shapeRenderer = new ShapeRenderer();
     }
 
     public int getGridWidth() {
-        return viewportWidth / (groundSize * gridBlockSize);
+        return viewportWidth / scale;
     }
 
     public int getGridHeight() {
-        return viewportHeight / (groundSize * gridBlockSize);
+        return viewportHeight / scale;
     }
 
     public void paint(SpriteBatch batch) {
@@ -42,14 +55,13 @@ public class GroundController {
 
     private void drawGridBlock(int x, int y, Texture texture, SpriteBatch batch) {
         for (int i = 0; i < gridBlockSize; i++) {
-            int realX = x*(gridBlockSize*groundSize);
+            int realX = x*scale;
 
             realX += i*groundSize;
 
             for (int j = 0; j < gridBlockSize; j++) {
-                int realY = y*(gridBlockSize*groundSize);
+                int realY = y*scale;
                 realY += j*groundSize;
-
                 batch.draw(texture, realX, realY);
             }
         }
@@ -69,8 +81,27 @@ public class GroundController {
         }
     }
 
+    public void update() {
+        cursorLocation.x = Gdx.input.getX();
+        cursorLocation.y = V_HEIGHT - Gdx.input.getY();
+
+        for(int x = 0; x <= this.getGridWidth(); x++) {
+            for (int y = 0; y <= this.getGridHeight(); y++) {
+                int realx = x*scale;
+                int realy = y*scale;
+                if(cursorLocation.x >= realx-scale && cursorLocation.x <= realx && cursorLocation.y >= realy-scale && cursorLocation.y <= realy) {
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(1,0,0,1);
+                    shapeRenderer.rect(realx-scale, realy-scale, scale, scale);
+                    shapeRenderer.end();
+                }
+            }
+        }
+    }
+
     public void dispose() {
         grassImg.dispose();
         laneImg.dispose();
+        shapeRenderer.dispose();
     }
 }
