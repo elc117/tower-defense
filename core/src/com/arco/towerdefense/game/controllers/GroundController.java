@@ -1,14 +1,18 @@
 package com.arco.towerdefense.game.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import static com.arco.towerdefense.game.TowerDefenseGame.V_HEIGHT;
 
 public class GroundController {
+    private SpriteBatch batch;
     private Texture grassImg;
     private Texture laneImg;
     private int groundSize;
@@ -18,9 +22,14 @@ public class GroundController {
     private int viewportWidth;
     private int viewportHeight;
     Vector2 cursorLocation;
-    ShapeRenderer shapeRenderer;
 
-    public GroundController(String grassImgPath, String laneImgPath, int groundSize, int gridBlockSize, int viewWidth, int viewHeight) {
+    Texture texture;
+    TextureRegion region;
+    ShapeDrawer shapeDrawer;
+
+    public GroundController(SpriteBatch batch, String grassImgPath, String laneImgPath, int groundSize, int gridBlockSize, int viewWidth, int viewHeight) {
+        this.batch = batch;
+
         grassImg = new Texture(grassImgPath);
         laneImg = new Texture(laneImgPath);
 
@@ -33,7 +42,14 @@ public class GroundController {
 
         cursorLocation = new Vector2(0, 0);
 
-        shapeRenderer = new ShapeRenderer();
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.drawPixel(0, 0);
+        texture = new Texture(pixmap); //remember to dispose of later
+        pixmap.dispose();
+        region = new TextureRegion(texture, 0, 0, 1, 1);
+
+        shapeDrawer = new ShapeDrawer(batch, region);
     }
 
     public int getGridWidth() {
@@ -44,16 +60,16 @@ public class GroundController {
         return viewportHeight / scale;
     }
 
-    public void paint(SpriteBatch batch) {
+    public void paint() {
         for(int x = 0; x <= this.getGridWidth(); x++) {
             for (int y = 0; y <= this.getGridHeight(); y++) {
-                drawGridBlock(x, y, grassImg, batch);
+                drawGridBlock(x, y, grassImg);
             }
         }
-        //drawLane(0, 1, 12, 1, batch);
+//        drawLane(0, 1, 12, 1, batch);
     }
 
-    private void drawGridBlock(int x, int y, Texture texture, SpriteBatch batch) {
+    private void drawGridBlock(int x, int y, Texture texture) {
         for (int i = 0; i < gridBlockSize; i++) {
             int realX = x*scale;
 
@@ -67,21 +83,24 @@ public class GroundController {
         }
     }
 
-    private void drawLane(int start_x, int start_y, int final_x, int final_y, SpriteBatch batch) {
+    private void drawLane(int start_x, int start_y, int final_x, int final_y) {
         if(start_x == final_x) {
             for(int y = start_y; y < final_y; y++) {
-                drawGridBlock(start_x, y, laneImg, batch);
+                drawGridBlock(start_x, y, laneImg);
             }
         }
 
         if(start_y == final_y) {
             for(int x = start_x; x < final_x; x++) {
-                drawGridBlock(x, start_y, laneImg, batch);
+                drawGridBlock(x, start_y, laneImg);
             }
         }
     }
 
     public void update() {
+
+        this.paint();
+
         cursorLocation.x = Gdx.input.getX();
         cursorLocation.y = V_HEIGHT - Gdx.input.getY();
 
@@ -90,10 +109,8 @@ public class GroundController {
                 int realx = x*scale;
                 int realy = y*scale;
                 if(cursorLocation.x >= realx-scale && cursorLocation.x <= realx && cursorLocation.y >= realy-scale && cursorLocation.y <= realy) {
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                    shapeRenderer.setColor(1,0,0,1);
-                    shapeRenderer.rect(realx-scale, realy-scale, scale, scale);
-                    shapeRenderer.end();
+                    shapeDrawer.setColor(Color.RED);
+                    shapeDrawer.rectangle(realx-scale, realy-scale, scale, scale);
                 }
             }
         }
@@ -102,6 +119,6 @@ public class GroundController {
     public void dispose() {
         grassImg.dispose();
         laneImg.dispose();
-        shapeRenderer.dispose();
+        texture.dispose();
     }
 }
