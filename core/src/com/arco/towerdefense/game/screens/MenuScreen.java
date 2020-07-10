@@ -22,13 +22,12 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-            font.draw(game.batch, "Welcome to Tower Defense ", 120, 150);
-            font.draw(game.batch, "Tap anywhere to begin", 100, 100);
+        font.draw(game.batch, "Welcome to Tower Defense ", 120, 150);
+        font.draw(game.batch, "Tap anywhere to begin", 100, 100);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
+            game.setScreen(game.gameScreen);
         }
     }
 
@@ -62,4 +61,3 @@ public class MenuScreen implements Screen {
 
     }
 }
-
