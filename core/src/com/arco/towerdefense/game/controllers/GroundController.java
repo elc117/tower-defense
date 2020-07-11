@@ -1,6 +1,8 @@
+
 package com.arco.towerdefense.game.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
+import java.util.ArrayList;
 
 import static com.arco.towerdefense.game.TowerDefenseGame.V_HEIGHT;
 
@@ -26,6 +30,8 @@ public class GroundController {
     Texture texture;
     TextureRegion region;
     ShapeDrawer shapeDrawer;
+
+    ArrayList<Player> players;
 
     public GroundController(SpriteBatch batch, String grassImgPath, String laneImgPath, int groundSize, int gridBlockSize, int viewWidth, int viewHeight) {
         this.batch = batch;
@@ -50,6 +56,8 @@ public class GroundController {
         region = new TextureRegion(texture, 0, 0, 1, 1);
 
         shapeDrawer = new ShapeDrawer(batch, region);
+
+        players = new ArrayList<>();
     }
 
     public int getGridWidth() {
@@ -108,11 +116,22 @@ public class GroundController {
             for (int y = 0; y <= this.getGridHeight(); y++) {
                 int realx = x*scale;
                 int realy = y*scale;
-                if(cursorLocation.x >= realx-scale && cursorLocation.x <= realx && cursorLocation.y >= realy-scale && cursorLocation.y <= realy) {
+                if(cursorLocation.x > realx-scale && cursorLocation.x < realx && cursorLocation.y > realy-scale && cursorLocation.y < realy) {
+                    if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                        players.add(new Player(x-1, y-1));
+                    }
                     shapeDrawer.setColor(Color.RED);
                     shapeDrawer.rectangle(realx-scale, realy-scale, scale, scale);
                 }
             }
+        }
+
+        playerUpdate();
+    }
+
+    public void playerUpdate() {
+        for (Player player: players) {
+            drawGridBlock(player.x, player.y, player.txt);
         }
     }
 

@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.title = TowerDefenseGame.TITLE;
 		config.width = TowerDefenseGame.V_WIDTH;
 		config.height = TowerDefenseGame.V_HEIGHT;
+		//config.resizable = true;
 
 		new LwjglApplication(new TowerDefenseGame(), config);
 	}
