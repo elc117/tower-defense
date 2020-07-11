@@ -20,7 +20,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(TowerDefenseGame game) {
         this.game = game;
-        groundController = new GroundController(game.batch, "grasstop.png", "dirt.png", 16, 2, game.V_WIDTH, game.V_HEIGHT);
+        groundController = new GroundController(game.batch,2, game.V_WIDTH, game.V_HEIGHT);
         homeButton = new Texture("menu/HomeButton.png");
     }
 
