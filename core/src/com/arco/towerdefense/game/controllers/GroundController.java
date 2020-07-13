@@ -41,7 +41,7 @@ public class GroundController {
     public void handleCursor() {
         updateCursor();
 
-        if (viewRectangle.contains(cursorLocation) || true) {
+        if (viewRectangle.contains(cursorLocation)) {
             int gridX = (int) Math.ceil(cursorLocation.x / groundDrawer.getScale());
             int gridY = (int) Math.ceil(cursorLocation.y / groundDrawer.getScale());
 
