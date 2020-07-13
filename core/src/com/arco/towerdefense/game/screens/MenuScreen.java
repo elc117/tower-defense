@@ -3,10 +3,12 @@ package com.arco.towerdefense.game.screens;
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.utils.Consts;
+import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public class MenuScreen implements Screen {
@@ -18,8 +20,6 @@ public class MenuScreen implements Screen {
     Texture quitButtonHigh;
     Texture helpButton;
     Texture helpButtonHigh;
-
-    Vector2 cursorLocation = new Vector2(0, 0);
 
     public MenuScreen(TowerDefenseGame game) {
         this.game = game;
@@ -40,35 +40,36 @@ public class MenuScreen implements Screen {
     }
 
     public void update() {
-        cursorLocation.x = Gdx.input.getX();
-        cursorLocation.y = Consts.V_HEIGHT - Gdx.input.getY();
-
         playButtonUpdate();
         quitButtonUpdate();
-
     }
 
     public void playButtonUpdate() {
-        if (cursorLocation.x > Consts.V_WIDTH / 2 - 90 && cursorLocation.x < Consts.V_WIDTH / 2 + 40 && cursorLocation.y > Consts.V_HEIGHT / 2 + 60 && cursorLocation.y < Consts.V_HEIGHT / 2 + 165) {
-            game.batch.draw(playButtonHigh, Consts.V_WIDTH / 2 - playButtonHigh.getWidth() / 8, Consts.V_HEIGHT / 2, 200, 200);
+        float posX = Utils.getScreenCenterX() - playButton.getWidth()/2;
+        float posY = Utils.getScreenCenterY() - playButton.getHeight()/2;
+
+        if (Utils.isCursorInside(posX, posY, playButton.getWidth(), playButton.getHeight())) {
+            game.batch.draw(playButtonHigh, posX, posY);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.gameScreen);
             }
         }
         else {
-            game.batch.draw(playButton, Consts.V_WIDTH / 2 - playButton.getWidth() / 8, Consts.V_HEIGHT / 2, 200, 200);
+            game.batch.draw(playButton, posX, posY);
         }
     }
 
     public void quitButtonUpdate() {
-        if (cursorLocation.x > Consts.V_WIDTH / 2 - 90 && cursorLocation.x < Consts.V_WIDTH / 2 + 40 && cursorLocation.y > Consts.V_HEIGHT / 2 + 60 - 120 && cursorLocation.y < Consts.V_HEIGHT / 2 + 165 - 120) {
-            game.batch.draw(quitButton, Consts.V_WIDTH / 2 - quitButton.getWidth() / 8, Consts.V_HEIGHT / 2 - 120, 200, 200);
-            game.batch.draw(quitButtonHigh, Consts.V_WIDTH / 2 - quitButtonHigh.getWidth() / 8, Consts.V_HEIGHT / 2 - 120, 200, 200);
+        float posX = Utils.getScreenCenterX() - quitButton.getWidth()/2;
+        float posY = Utils.getScreenCenterY() - quitButton.getHeight()/2 - playButton.getHeight() - 30; // 30 is the margin
+
+        if (Utils.isCursorInside(posX, posY, quitButton.getWidth(), quitButton.getHeight())) {
+            game.batch.draw(quitButtonHigh, posX, posY);
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
             }
         } else {
-            game.batch.draw(quitButton, Consts.V_WIDTH / 2 - quitButton.getWidth() / 8, Consts.V_HEIGHT / 2 - 120, 200, 200);
+            game.batch.draw(quitButton, posX, posY);
         }
     }
 
