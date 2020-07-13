@@ -3,6 +3,7 @@ package com.arco.towerdefense.game;
 import com.arco.towerdefense.game.screens.GameScreen;
 import com.arco.towerdefense.game.screens.IntroScreen;
 import com.arco.towerdefense.game.screens.MenuScreen;
+import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,10 +13,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TowerDefenseGame extends Game {
-	public static final String TITLE = "Tower Defense";
-	public static final int V_WIDTH = 800;
-	public static final int V_HEIGHT = 480;
-
 	public OrthographicCamera camera;
 	public SpriteBatch batch;
 
@@ -23,10 +20,12 @@ public class TowerDefenseGame extends Game {
 	public MenuScreen menuScreen;
 	public GameScreen gameScreen;
 
+	private boolean hasLoadedAssets;
+
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
+		camera.setToOrtho(false, Consts.V_WIDTH, Consts.V_HEIGHT);
 		batch = new SpriteBatch();
 
 		introScreen = new IntroScreen(this);
@@ -51,5 +50,6 @@ public class TowerDefenseGame extends Game {
 		introScreen.dispose();
 		menuScreen.dispose();
 		gameScreen.dispose();
+		GameSingleton.getInstance().dispose();
 	}
 }

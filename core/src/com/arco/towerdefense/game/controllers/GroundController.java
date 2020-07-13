@@ -1,10 +1,9 @@
 
 package com.arco.towerdefense.game.controllers;
 
-import static com.arco.towerdefense.game.TowerDefenseGame.V_HEIGHT;
-
 import com.arco.towerdefense.game.drawer.GroundDrawer;
 import com.arco.towerdefense.game.entities.TowerEntity;
+import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -56,7 +55,7 @@ public class GroundController {
 
     private void updateCursor() {
         cursorLocation.x = Gdx.input.getX();
-        cursorLocation.y = V_HEIGHT - Gdx.input.getY();
+        cursorLocation.y = Consts.V_HEIGHT - Gdx.input.getY();
     }
 
     public void dispose() {
