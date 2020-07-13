@@ -4,17 +4,15 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.controllers.GroundController;
 import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.utils.Consts;
+import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {
     final TowerDefenseGame game;
     private GroundController groundController;
     private Texture homeButton;
-
-    Vector2 cursorLocation = new Vector2(0, 0);
 
     public GameScreen(TowerDefenseGame game) {
         this.game = game;
@@ -34,12 +32,9 @@ public class GameScreen implements Screen {
     }
 
     public void homeButtonUpdate() {
-        cursorLocation.x = Gdx.input.getX();
-        cursorLocation.y = Consts.V_HEIGHT - Gdx.input.getY();
-
         game.batch.draw(homeButton, Consts.V_WIDTH - 32, Consts.V_HEIGHT - 32, 32, 32);
 
-        if(cursorLocation.x >= Consts.V_WIDTH - 32 && cursorLocation.y >= Consts.V_HEIGHT - 32) {
+        if(Utils.isCursorInside(Consts.V_WIDTH - 32, Consts.V_HEIGHT - 32, 32, 32)) {
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.menuScreen);
             }

@@ -1,16 +1,20 @@
 package com.arco.towerdefense.game;
 
 import com.arco.towerdefense.game.utils.Consts;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameSingleton {
     private static GameSingleton instance = null;
 
+    private Vector2 cursorLocation;
     public AssetManager assetManager;
 
     private GameSingleton() {
         assetManager = new AssetManager();
+        cursorLocation = new Vector2(0, 0);
 
         initAssetManager();
     }
@@ -41,6 +45,13 @@ public class GameSingleton {
 
     public Texture getTexture(String internalPath) {
         return assetManager.get(internalPath, Texture.class);
+    }
+
+    public Vector2 getCursorLocation() {
+        cursorLocation.x = Gdx.input.getX();
+        cursorLocation.y = Consts.V_HEIGHT - Gdx.input.getY();
+
+        return cursorLocation;
     }
 
     public void dispose() {
