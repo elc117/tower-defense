@@ -33,6 +33,8 @@ public class GameSingleton {
         assetManager.load(Consts.QUIT_BUTTON_HIGHLIGHT, Texture.class);
         assetManager.load(Consts.HELP_BUTTON, Texture.class);
         assetManager.load(Consts.HELP_BUTTON_HIGHLIGHT, Texture.class);
+        assetManager.load(Consts.GROUND_GRASS, Texture.class);
+        assetManager.load(Consts.GROUND_DIRT, Texture.class);
 
         while(!assetManager.update()); // Load all queued assets
     }

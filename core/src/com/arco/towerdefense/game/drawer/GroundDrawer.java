@@ -1,5 +1,9 @@
 package com.arco.towerdefense.game.drawer;
 
+import com.arco.towerdefense.game.GameSingleton;
+import com.arco.towerdefense.game.TowerDefenseGame;
+import com.arco.towerdefense.game.entities.TowerEntity;
+import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
+import java.util.ArrayList;
 
 public class GroundDrawer{
     private  SpriteBatch batch;
@@ -24,8 +30,8 @@ public class GroundDrawer{
 
     public GroundDrawer(SpriteBatch batch, int gridBlockSize, Rectangle viewRectangle) {
         this.batch = batch;
-        grassImg = new Texture("ground/grasstop.png");
-        laneImg = new Texture("ground/dirt.png");
+        grassImg = GameSingleton.getInstance().getTexture(Consts.GROUND_GRASS);
+        laneImg = GameSingleton.getInstance().getTexture(Consts.GROUND_DIRT);
 
         groundSize = grassImg.getHeight();
         this.gridBlockSize = gridBlockSize;
@@ -60,6 +66,12 @@ public class GroundDrawer{
     public void drawGroundSelection(int gridX, int gridY) {
         shapeDrawer.setColor(Color.RED);
         shapeDrawer.rectangle(gridX*scale, gridY*scale, scale, scale);
+    }
+
+    public void drawTowers(ArrayList<TowerEntity> towers) {
+        for(TowerEntity tower : towers) {
+            batch.draw(tower.getTexture(), tower.getX()*scale, tower.getY()*scale, scale, scale);
+        }
     }
 
     public int getGridWidth() {

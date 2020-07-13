@@ -6,9 +6,21 @@ import com.badlogic.gdx.graphics.Texture;
 
 
 public class TowerEntity {
-    public Texture texture;
-    public int x;
-    public int y;
+    private Texture texture;
+    private int x;
+    private int y;
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     public TowerEntity(int x, int y) {
         texture = GameSingleton.getInstance().getTexture(Consts.TOWER_GLOBULO_BRANCO);

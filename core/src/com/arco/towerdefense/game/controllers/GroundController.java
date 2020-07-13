@@ -11,10 +11,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+
 public class GroundController {
     private GroundDrawer groundDrawer;
     private Vector2 cursorLocation;
-    private Array<TowerEntity> towers;
+    private ArrayList<TowerEntity> towers;
 
     private Rectangle viewRectangle;
 
@@ -22,7 +24,7 @@ public class GroundController {
         viewRectangle = new Rectangle(0, 0, viewWidth, viewHeight);
         groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle);
         cursorLocation = new Vector2(0, 0);
-        towers = new Array<>();
+        towers = new ArrayList<>();
     }
 
     private void addTower(int x, int y) {
@@ -31,10 +33,7 @@ public class GroundController {
 
     public void update() {
         groundDrawer.drawGround();
-        // TODO: Criar a função que desenha a torre. Obs.: N pode usar o groundDrawer.drawGridBlock
-        //  pq ele so serve pra desenhar os blocos do chão. Tem q criar a função pra isso. Acho que
-        //  a torre que coloquei la ta mto grande (64x64) redimensiona pra 32x32 e ver. Seria assim:
-        // groundDrawer.drawTowers(towers);
+        groundDrawer.drawTowers(towers);
         this.handleCursor();
     }
 
@@ -46,7 +45,7 @@ public class GroundController {
             int gridY = (int) Math.ceil(cursorLocation.y / groundDrawer.getScale());
 
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                this.addTower(gridX, gridY);
+                this.addTower(gridX - 1, gridY - 1);
             }
 
             groundDrawer.drawGroundSelection(gridX - 1 , gridY - 1);
