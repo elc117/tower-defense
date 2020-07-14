@@ -12,11 +12,8 @@ public class Consts {
     public static final String TOWER_GLOBULO_BRANCO_SELECTION = "towers_selection/globuloBranco.png";
     public static final String HOME_BUTTON = "menu/HomeButton.png";
     public static final String PLAY_BUTTON = "menu/PlayButton.png";
-    public static final String PLAY_BUTTON_HIGHLIGHT = "menu/PlayButtonHighlight.png";
     public static final String QUIT_BUTTON = "menu/QuitButton.png";
-    public static final String QUIT_BUTTON_HIGHLIGHT = "menu/QuitButtonHighlight.png";
     public static final String HELP_BUTTON = "menu/HelpButton.png";
-    public static final String HELP_BUTTON_HIGHLIGHT = "menu/HelpButtonHighlight.png";
     public static final String GROUND_GRASS = "ground/grasstop.png";
     public static final String GROUND_DIRT = "ground/dirt.png";
 

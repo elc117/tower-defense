@@ -1,6 +1,7 @@
 package com.arco.towerdefense.game;
 
 import com.arco.towerdefense.game.screens.GameScreen;
+import com.arco.towerdefense.game.screens.HelpScreen;
 import com.arco.towerdefense.game.screens.IntroScreen;
 import com.arco.towerdefense.game.screens.MenuScreen;
 import com.arco.towerdefense.game.utils.Consts;
@@ -19,6 +20,7 @@ public class TowerDefenseGame extends Game {
 	public IntroScreen introScreen;
 	public MenuScreen menuScreen;
 	public GameScreen gameScreen;
+	public HelpScreen helpScreen;
 
 	private boolean hasLoadedAssets;
 
@@ -31,6 +33,7 @@ public class TowerDefenseGame extends Game {
 		introScreen = new IntroScreen(this);
 		menuScreen = new MenuScreen(this);
 		gameScreen = new GameScreen(this);
+		helpScreen = new HelpScreen(this);
 
 		this.setScreen(menuScreen);
 	}
@@ -50,6 +53,7 @@ public class TowerDefenseGame extends Game {
 		introScreen.dispose();
 		menuScreen.dispose();
 		gameScreen.dispose();
+		helpScreen.dispose();
 		GameSingleton.getInstance().dispose();
 	}
 }
