@@ -3,10 +3,8 @@ package com.arco.towerdefense.game;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.org.apache.bcel.internal.Const;
 
 public class GameSingleton {
     private static GameSingleton instance = null;

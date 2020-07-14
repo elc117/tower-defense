@@ -19,9 +19,21 @@ public class MenuScreen implements Screen {
     Texture quitButton;
     Texture helpButton;
     Sound selectionSound;
+    int buttonNormalSize;
+    int buttonFocusedSize;
+    int buttonFocusWidth;
+    int buttonFocusHeight;
+    int cutBorder; //Variavel responsavel por aumentar Y para que a area transparente da imagem dos botões sejam desconsiderada
+    int posY;//botões alinhados
 
     public MenuScreen(TowerDefenseGame game) {
         this.game = game;
+        buttonNormalSize = 200;
+        buttonFocusedSize = 220;
+        buttonFocusWidth = 200;
+        buttonFocusHeight = 80;
+        cutBorder = 70;
+        posY = 30;
         initButtons();
     }
 
@@ -42,39 +54,46 @@ public class MenuScreen implements Screen {
     }
 
     public void playButtonUpdate() {
-        if (Utils.isCursorInside(30, 50, 200, 145)) {
-            game.batch.draw(playButton, 30, 30,220,220);
+        int posX = 30;
+
+
+        if (Utils.isCursorInside(posX, posY + cutBorder, buttonFocusWidth, buttonFocusHeight)) {
+            game.batch.draw(playButton, posX, posY,buttonFocusedSize,buttonFocusedSize);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.gameScreen);
                 selectionSound.play(1.0f);
             }
         }
         else {
-            game.batch.draw(playButton, 30, 30,200,200);
+            game.batch.draw(playButton, posX, posY,buttonNormalSize,buttonNormalSize);
         }
     }
 
     public void helpButtonUpdate() {
-        if (Utils.isCursorInside(300, 50, 200, 145)) {
-            game.batch.draw(helpButton, 300, 30,220,220);
+        int posX = 300;
+
+        if (Utils.isCursorInside(posX, posY + cutBorder, buttonFocusWidth, buttonFocusHeight)) {
+            game.batch.draw(helpButton, posX, posY, buttonFocusedSize,buttonFocusedSize);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.helpScreen);
                 selectionSound.play(1.0f);
             }
         } else {
-            game.batch.draw(helpButton, 300, 30,200,200);
+            game.batch.draw(helpButton, posX, posY,buttonNormalSize,buttonNormalSize);
         }
     }
 
     public void quitButtonUpdate() {
-        if (Utils.isCursorInside(570, 50, 200, 145)) {
-            game.batch.draw(quitButton, 570, 30,220,220);
+        int posX = 570;
+
+        if (Utils.isCursorInside(posX, posY + cutBorder, buttonFocusWidth, buttonFocusHeight)) {
+            game.batch.draw(quitButton, posX, posY,buttonFocusedSize,buttonFocusedSize);
             if (Gdx.input.isTouched()) {
                 selectionSound.play(1.0f);
                 Gdx.app.exit();
             }
         } else {
-            game.batch.draw(quitButton, 570, 30,200,200);
+            game.batch.draw(quitButton, posX, posY,buttonNormalSize,buttonNormalSize);
         }
     }
 
