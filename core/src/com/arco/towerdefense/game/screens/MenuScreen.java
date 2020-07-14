@@ -23,17 +23,11 @@ public class MenuScreen implements Screen {
     int buttonFocusedSize;
     int buttonFocusWidth;
     int buttonFocusHeight;
-    int cutBorder; //Variavel responsavel por aumentar Y para que a area transparente da imagem dos botões sejam desconsiderada
-    int posY;//botões alinhados
+    int buttonY;
+    int posY;
 
     public MenuScreen(TowerDefenseGame game) {
         this.game = game;
-        buttonNormalSize = 200;
-        buttonFocusedSize = 220;
-        buttonFocusWidth = 200;
-        buttonFocusHeight = 80;
-        cutBorder = 70;
-        posY = 30;
         initButtons();
     }
 
@@ -57,7 +51,7 @@ public class MenuScreen implements Screen {
         int posX = 30;
 
 
-        if (Utils.isCursorInside(posX, posY + cutBorder, buttonFocusWidth, buttonFocusHeight)) {
+        if (Utils.isCursorInside(posX, buttonY, buttonFocusWidth, buttonFocusHeight)) {
             game.batch.draw(playButton, posX, posY,buttonFocusedSize,buttonFocusedSize);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.gameScreen);
@@ -72,7 +66,7 @@ public class MenuScreen implements Screen {
     public void helpButtonUpdate() {
         int posX = 300;
 
-        if (Utils.isCursorInside(posX, posY + cutBorder, buttonFocusWidth, buttonFocusHeight)) {
+        if (Utils.isCursorInside(posX, buttonY, buttonFocusWidth, buttonFocusHeight)) {
             game.batch.draw(helpButton, posX, posY, buttonFocusedSize,buttonFocusedSize);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.helpScreen);
@@ -86,7 +80,7 @@ public class MenuScreen implements Screen {
     public void quitButtonUpdate() {
         int posX = 570;
 
-        if (Utils.isCursorInside(posX, posY + cutBorder, buttonFocusWidth, buttonFocusHeight)) {
+        if (Utils.isCursorInside(posX, buttonY, buttonFocusWidth, buttonFocusHeight)) {
             game.batch.draw(quitButton, posX, posY,buttonFocusedSize,buttonFocusedSize);
             if (Gdx.input.isTouched()) {
                 selectionSound.play(1.0f);
@@ -103,6 +97,13 @@ public class MenuScreen implements Screen {
     }
 
     public void initButtons() {
+        buttonNormalSize = 200;
+        buttonFocusedSize = 220;
+        buttonFocusWidth = 200;
+        buttonFocusHeight = 80;
+        buttonY = 100;//Imagem é desenhada com areas transparentes, essa variavel desloca Y para a posição onde o desenho do botão começa
+        posY = 30;//botões alinhados em Y
+
         playButton =  GameSingleton.getInstance().getTexture(Consts.PLAY_BUTTON);
         quitButton = GameSingleton.getInstance().getTexture(Consts.QUIT_BUTTON);
         helpButton = GameSingleton.getInstance().getTexture(Consts.HELP_BUTTON);
