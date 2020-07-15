@@ -38,7 +38,7 @@ public class GameSingleton {
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
         assetManager.load(Consts.ENEMY, Texture.class);
 
-        while(!assetManager.update()); // Load all queued assets
+        assetManager.finishLoading(); // Load all queued assets
     }
 
     public Texture getTexture(String internalPath) {

@@ -22,8 +22,6 @@ public class TowerDefenseGame extends Game {
 	public GameScreen gameScreen;
 	public HelpScreen helpScreen;
 
-	private boolean hasLoadedAssets;
-
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();

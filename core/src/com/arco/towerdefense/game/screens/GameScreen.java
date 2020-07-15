@@ -3,6 +3,7 @@ package com.arco.towerdefense.game.screens;
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.controllers.GroundController;
 import com.arco.towerdefense.game.TowerDefenseGame;
+import com.arco.towerdefense.game.controllers.InteractionZoneController;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
@@ -12,11 +13,15 @@ import com.badlogic.gdx.graphics.*;
 public class GameScreen implements Screen {
     final TowerDefenseGame game;
     private GroundController groundController;
+    private InteractionZoneController interactionZoneController;
     private Texture homeButton;
 
     public GameScreen(TowerDefenseGame game) {
         this.game = game;
+
         groundController = new GroundController(game.batch,2, Consts.V_WIDTH, Consts.V_HEIGHT);
+        interactionZoneController = new InteractionZoneController(game.batch);
+
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);
     }
 
@@ -27,6 +32,7 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
             groundController.update(delta);
+            interactionZoneController.update();
             homeButtonUpdate();
         game.batch.end();
     }

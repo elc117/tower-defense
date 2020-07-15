@@ -1,12 +1,17 @@
 package com.arco.towerdefense.game.utils;
 
 import com.arco.towerdefense.game.GameSingleton;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Utils {
     public static boolean isCursorInside(float x, float y, float width, float height) {
         return (new Rectangle(x, y, width, height)).contains(GameSingleton.getInstance().getCursorLocation());
+    }
+
+    public static boolean isCursorInside(Sprite sprite) {
+        return isCursorInside(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
     }
 
     public static float getScreenCenterX() {
