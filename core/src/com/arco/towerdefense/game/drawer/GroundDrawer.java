@@ -2,6 +2,7 @@ package com.arco.towerdefense.game.drawer;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.TowerDefenseGame;
+import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.graphics.Color;
@@ -70,7 +71,13 @@ public class GroundDrawer{
 
     public void drawTowers(ArrayList<TowerEntity> towers) {
         for(TowerEntity tower : towers) {
-            batch.draw(tower.getTexture(), tower.getX()*scale, tower.getY()*scale, scale, scale);
+            tower.draw(batch, scale);
+        }
+    }
+
+    public void drawEnemies(ArrayList<EnemyEntity> enemies) {
+        for(EnemyEntity enemy : enemies) {
+            enemy.draw(batch, scale);
         }
     }
 
