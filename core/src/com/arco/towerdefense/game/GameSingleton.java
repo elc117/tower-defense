@@ -32,13 +32,11 @@ public class GameSingleton {
         assetManager.load(Consts.TOWER_GLOBULO_BRANCO_SELECTION, Texture.class);
         assetManager.load(Consts.HOME_BUTTON, Texture.class);
         assetManager.load(Consts.PLAY_BUTTON, Texture.class);
-        assetManager.load(Consts.PLAY_BUTTON_HIGHLIGHT, Texture.class);
         assetManager.load(Consts.QUIT_BUTTON, Texture.class);
-        assetManager.load(Consts.QUIT_BUTTON_HIGHLIGHT, Texture.class);
         assetManager.load(Consts.HELP_BUTTON, Texture.class);
-        assetManager.load(Consts.HELP_BUTTON_HIGHLIGHT, Texture.class);
         assetManager.load(Consts.GROUND_GRASS, Texture.class);
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
+        assetManager.load(Consts.ENEMY, Texture.class);
 
         assetManager.finishLoading(); // Load all queued assets
     }
