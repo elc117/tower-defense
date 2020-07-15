@@ -16,6 +16,7 @@ public class Consts {
     public static final String HELP_BUTTON = "menu/HelpButton.png";
     public static final String GROUND_GRASS = "ground/grasstop.png";
     public static final String GROUND_DIRT = "ground/dirt.png";
+    public static final String ENEMY = "enemies/enemy.png";
 
 
     private Consts(){
