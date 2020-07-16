@@ -29,7 +29,9 @@ public class GameSingleton {
 
     private void initAssetManager() {
         assetManager.load(Consts.TOWER_GLOBULO_BRANCO, Texture.class);
+        assetManager.load(Consts.TOWER_GLOBULO_BRANCO2, Texture.class);
         assetManager.load(Consts.TOWER_GLOBULO_BRANCO_SELECTION, Texture.class);
+        assetManager.load(Consts.TOWER_GLOBULO_BRANCO_SELECTION2, Texture.class);
         assetManager.load(Consts.HOME_BUTTON, Texture.class);
         assetManager.load(Consts.PLAY_BUTTON, Texture.class);
         assetManager.load(Consts.QUIT_BUTTON, Texture.class);

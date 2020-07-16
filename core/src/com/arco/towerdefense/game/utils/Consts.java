@@ -9,7 +9,9 @@ public class Consts {
 
     //Assets
     public static final String TOWER_GLOBULO_BRANCO = "towers/globuloBranco.png";
+    public static final String TOWER_GLOBULO_BRANCO2 = "towers/globuloBranco2.png";
     public static final String TOWER_GLOBULO_BRANCO_SELECTION = "towers_selection/globuloBranco.png";
+    public static final String TOWER_GLOBULO_BRANCO_SELECTION2 = "towers_selection/globuloBranco2.png";
     public static final String HOME_BUTTON = "menu/HomeButton.png";
     public static final String PLAY_BUTTON = "menu/PlayButton.png";
     public static final String QUIT_BUTTON = "menu/QuitButton.png";

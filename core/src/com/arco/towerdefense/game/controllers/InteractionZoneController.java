@@ -31,31 +31,43 @@ public class InteractionZoneController {
     }
 
     private void initSelectionTowers() {
-        String[] selectionTowers = {
-                Consts.TOWER_GLOBULO_BRANCO_SELECTION,
-                Consts.TOWER_GLOBULO_BRANCO_SELECTION,
-                Consts.TOWER_GLOBULO_BRANCO_SELECTION,
-                Consts.TOWER_GLOBULO_BRANCO_SELECTION
-        };
-
-        for (String selectionTower: selectionTowers) {
-            stackSelectionTowers.addWrapper(
+        stackSelectionTowers.addWrapper(
                 new LayoutWrapper(
-                    new Sprite(GameSingleton.getInstance().getTexture(selectionTower)),
-                    new LayoutListener() {
-                        @Override
-                        public void onClick(LayoutWrapper layoutWrapper) {
-                            System.out.printf("CLICADO EM\n");
-                        }
+                        new Sprite(GameSingleton.getInstance().getTexture(
+                                Consts.TOWER_GLOBULO_BRANCO_SELECTION
+                        )),
+                        new LayoutListener() {
+                            @Override
+                            public void onClick(LayoutWrapper layoutWrapper) {
+                                System.out.printf("CLICADO EM 1\n");
+                            }
 
-                        @Override
-                        public void onHover(LayoutWrapper layoutWrapper) {
-                            System.out.printf("ON HOVER EM\n");
+                            @Override
+                            public void onHover(LayoutWrapper layoutWrapper) {
+                                System.out.printf("ON HOVER EM 1\n");
+                            }
                         }
-                    }
                 )
-            );
-        }
+        );
+
+        stackSelectionTowers.addWrapper(
+                new LayoutWrapper(
+                        new Sprite(GameSingleton.getInstance().getTexture(
+                                Consts.TOWER_GLOBULO_BRANCO_SELECTION2
+                        )),
+                        new LayoutListener() {
+                            @Override
+                            public void onClick(LayoutWrapper layoutWrapper) {
+                                System.out.printf("CLICADO EM 2\n");
+                            }
+
+                            @Override
+                            public void onHover(LayoutWrapper layoutWrapper) {
+                                System.out.printf("ON HOVER EM 2\n");
+                            }
+                        }
+                )
+        );
     }
 
     private void handleMouse() {
