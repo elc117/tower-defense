@@ -22,7 +22,7 @@ public class EnemyEntity {
     }
 
     public EnemyEntity(float x, float y) {
-        this.texture = GameSingleton.getInstance().getTexture(Consts.ENEMY);;
+        this.texture = GameSingleton.getInstance().getTexture(Consts.ENEMY);
         this.x = x;
         this.y = y;
         speed = 5;
