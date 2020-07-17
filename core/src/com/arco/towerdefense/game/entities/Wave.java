@@ -23,7 +23,7 @@ public class Wave {
 
     private void spawn() {
         timeSinceLastSpawn = 0;
-        enemies.add(new EnemyEntity(enemy.getX(), enemy.getY()));
+        //enemies.add(new EnemyEntity(enemy.getX(), enemy.getY()));
     }
 
     public void update(float delta) {
@@ -37,14 +37,8 @@ public class Wave {
             enemy.update(delta);
         }
 
-        //Update and remove enemies positions
-        ArrayList<EnemyEntity> enemiesToRemove = new ArrayList<>();
         for(EnemyEntity enemy : enemies) {
             enemy.update(delta);
-            if(enemy.remove) {
-                enemiesToRemove.add(enemy);
-            }
         }
-        enemies.removeAll(enemiesToRemove);
     }
 }
