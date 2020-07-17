@@ -7,6 +7,7 @@ import com.arco.towerdefense.game.controllers.InteractionZoneController;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 
@@ -59,7 +60,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(interactionZoneController);
+        multiplexer.addProcessor(groundController);
+        GameSingleton.getInstance().setInputProcessor(Gdx.input.getInputProcessor());
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -74,6 +79,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(GameSingleton.getInstance().getInputProcessor());
     }
 }

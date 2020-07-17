@@ -169,17 +169,27 @@ public class StackLayout {
         return Utils.isCursorInside(stackPosX, stackPosY, getWidth(), getHeight());
     }
 
-    public void handleMouse() {
-        // This function should be called only if we are sure that the cursor is inside
+    public boolean handleMouseMoved() {
+        // This function (handleTouchUp also) should be called only if we are sure that the cursor is inside
         // the StackLayout bounds for performance reasons.
         for(LayoutWrapper wrapper: wrappers) {
             if (Utils.isCursorInside(wrapper.sprite)) {
                 wrapper.triggerOnHover();
-
-                if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                    wrapper.triggerOnClick();
-                }
+                return true;
             }
         }
+
+        return false;
+    }
+
+    public boolean handleTouchUp() {
+        for(LayoutWrapper wrapper: wrappers) {
+            if (Utils.isCursorInside(wrapper.sprite)) {
+                wrapper.triggerOnClick();
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package com.arco.towerdefense.game;
 
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +12,7 @@ public class GameSingleton {
 
     private Vector2 cursorLocation;
     public AssetManager assetManager;
+    private InputProcessor inputProcessor;
 
     private GameSingleton() {
         assetManager = new AssetManager();
@@ -52,6 +54,15 @@ public class GameSingleton {
         cursorLocation.y = Consts.V_HEIGHT - Gdx.input.getY();
 
         return cursorLocation;
+    }
+
+
+    public InputProcessor getInputProcessor() {
+        return inputProcessor;
+    }
+
+    public void setInputProcessor(InputProcessor inputProcessor) {
+        this.inputProcessor = inputProcessor;
     }
 
     public void dispose() {
