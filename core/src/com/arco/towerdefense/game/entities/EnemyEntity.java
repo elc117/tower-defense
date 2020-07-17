@@ -89,6 +89,7 @@ public class EnemyEntity {
         }
     }
 
+
     public boolean isCheckPoint() {
             return (Math.floor(x) == nextCheckPoint.x && Math.floor(y) == nextCheckPoint.y);
     }
