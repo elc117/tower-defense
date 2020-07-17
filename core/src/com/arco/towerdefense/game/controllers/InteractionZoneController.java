@@ -8,10 +8,11 @@ import com.arco.towerdefense.game.layouts.enums.Position;
 import com.arco.towerdefense.game.layouts.interfaces.LayoutListener;
 import com.arco.towerdefense.game.layouts.wrappers.LayoutWrapper;
 import com.arco.towerdefense.game.utils.Consts;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class InteractionZoneController {
+public class InteractionZoneController extends InputAdapter {
     InteractionZoneDrawer interactionZoneDrawer;
     StackLayout stackSelectionTowers;
 
@@ -27,7 +28,6 @@ public class InteractionZoneController {
 
     public void update() {
         stackSelectionTowers.drawAtPos(Position.BOTTOM_LEFT);
-        handleMouse();
     }
 
     private void initSelectionTowers() {
@@ -70,9 +70,21 @@ public class InteractionZoneController {
         );
     }
 
-    private void handleMouse() {
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (stackSelectionTowers.isCursorInside()) {
-            stackSelectionTowers.handleMouse();
+            return stackSelectionTowers.handleTouchUp();
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        if (stackSelectionTowers.isCursorInside()) {
+            return stackSelectionTowers.handleMouseMoved();
+        }
+
+        return false;
     }
 }

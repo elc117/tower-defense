@@ -1,7 +1,6 @@
 package com.arco.towerdefense.game.drawer;
 
 import com.arco.towerdefense.game.GameSingleton;
-import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
@@ -11,9 +10,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GroundDrawer{
     private  SpriteBatch batch;
@@ -29,6 +31,9 @@ public class GroundDrawer{
     private TextureRegion regionShapeDrawer;
     private ShapeDrawer shapeDrawer;
 
+    private enum QueueKey { DRAW_GROUND_SELECTION };
+    private Map<QueueKey, Vector2> scheduledDrawingPositions;
+
     public GroundDrawer(SpriteBatch batch, int gridBlockSize, Rectangle viewRectangle) {
         this.batch = batch;
         grassImg = GameSingleton.getInstance().getTexture(Consts.GROUND_GRASS);
@@ -38,6 +43,8 @@ public class GroundDrawer{
         this.gridBlockSize = gridBlockSize;
         this.scale = gridBlockSize*groundSize;
         this.viewRectangle = viewRectangle;
+
+        scheduledDrawingPositions = new HashMap<>();
 
         initShapeDrawer();
     }
@@ -53,6 +60,13 @@ public class GroundDrawer{
         shapeDrawer = new ShapeDrawer(batch, regionShapeDrawer);
     }
 
+    public void drawScheduledItems() {
+        if (scheduledDrawingPositions.containsKey(QueueKey.DRAW_GROUND_SELECTION)) {
+            Vector2 gridPos = scheduledDrawingPositions.get(QueueKey.DRAW_GROUND_SELECTION);
+            drawGroundSelection((int) gridPos.x, (int) gridPos.y);
+        }
+    }
+
     public void drawGround() {
         batch.disableBlending();
         for(int x = 0; x <= this.getGridWidth(); x++) {
@@ -62,6 +76,14 @@ public class GroundDrawer{
         }
         drawLane(0, 1, 12, 1);
         batch.enableBlending();
+    }
+
+    public void scheduleDrawGroundSelectionAt(int gridX, int gridY) {
+        // This method is called by the InputProcessor indirectly
+        // and this happens before the render() method baing called
+        // therefore we can draw using a SpriteBatch#begin/end but it will
+        // stay under all the other drawings.
+        scheduledDrawingPositions.put(QueueKey.DRAW_GROUND_SELECTION, new Vector2(gridX, gridY));
     }
 
     public void drawGroundSelection(int gridX, int gridY) {

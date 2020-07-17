@@ -6,18 +6,16 @@ import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.entities.Wave;
 import com.arco.towerdefense.game.utils.Consts;
-import com.badlogic.gdx.Gdx;
+import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
-public class GroundController {
+public class GroundController extends InputAdapter {
     private GroundDrawer groundDrawer;
-    private Vector2 cursorLocation;
     private ArrayList<TowerEntity> towers;
     private Wave wave;
 
@@ -27,7 +25,6 @@ public class GroundController {
     public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight) {
         viewRectangle = new Rectangle(0, 0, viewWidth, viewHeight);
         groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle);
-        cursorLocation = new Vector2(0, 0);
 
         towers = new ArrayList<>();
 
@@ -43,33 +40,11 @@ public class GroundController {
     //update call in game screen (call all the update methods to run the game)
     public void update(float delta) {
         groundDrawer.drawGround();
-        handleCursor();
         updateTowers(delta);
         wave.update(delta);
         groundDrawer.drawTowers(towers);
         groundDrawer.drawEnemies(wave.getEnemies());
-    }
-
-    //cursor location to set towers
-    private void handleCursor() {
-        updateCursor();
-
-        if (viewRectangle.contains(cursorLocation)) {
-            int gridX = (int) Math.ceil(cursorLocation.x / groundDrawer.getScale());
-            int gridY = (int) Math.ceil(cursorLocation.y / groundDrawer.getScale());
-
-            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                addTower(gridX - 1, gridY - 1);
-            }
-
-            groundDrawer.drawGroundSelection(gridX - 1 , gridY - 1);
-        }
-    }
-
-    //update cursor location
-    private void updateCursor() {
-        cursorLocation.x = Gdx.input.getX();
-        cursorLocation.y = Consts.V_HEIGHT - Gdx.input.getY();
+        groundDrawer.drawScheduledItems();
     }
 
     //update tower and bullets movements
@@ -84,5 +59,34 @@ public class GroundController {
         this.groundDrawer.dispose();
     }
 
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        screenY = Consts.V_HEIGHT - screenY;
+        if (Utils.isInsideRectangle(viewRectangle, screenX, screenY) && button == Input.Buttons.LEFT) {
+            int gridX = screenX / groundDrawer.getScale();
+            int gridY = screenY / groundDrawer.getScale();
 
+            addTower(gridX, gridY);
+
+            return true;
+        }
+
+        return false; // Meaning that we have not handled the touch
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        screenY = Consts.V_HEIGHT - screenY;
+
+        if (Utils.isInsideRectangle(viewRectangle, screenX, screenY)) {
+            int gridX = screenX / groundDrawer.getScale();
+            int gridY = screenY / groundDrawer.getScale();
+
+            groundDrawer.scheduleDrawGroundSelectionAt(gridX , gridY);
+
+            return true;
+        }
+
+        return false;
+    }
 }
