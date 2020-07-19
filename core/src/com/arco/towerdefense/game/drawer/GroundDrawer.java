@@ -86,6 +86,10 @@ public class GroundDrawer{
         scheduledDrawingPositions.put(QueueKey.DRAW_GROUND_SELECTION, new Vector2(gridX, gridY));
     }
 
+    public void removeScheduleOfGroundSelection() {
+        scheduledDrawingPositions.remove(QueueKey.DRAW_GROUND_SELECTION);
+    }
+
     public void drawGroundSelection(int gridX, int gridY) {
         shapeDrawer.setColor(Color.RED);
         shapeDrawer.rectangle(gridX*scale, gridY*scale, scale, scale);

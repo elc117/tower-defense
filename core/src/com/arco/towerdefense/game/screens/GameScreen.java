@@ -21,7 +21,7 @@ public class GameScreen implements Screen {
         this.game = game;
 
         groundController = new GroundController(game.batch,2, Consts.V_WIDTH, Consts.V_HEIGHT);
-        interactionZoneController = new InteractionZoneController(game.batch);
+        interactionZoneController = new InteractionZoneController(game.batch, groundController);
 
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);
     }

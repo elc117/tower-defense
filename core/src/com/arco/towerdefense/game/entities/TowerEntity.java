@@ -14,11 +14,11 @@ public class TowerEntity{
     private Texture texture;
     private float x;
     private float y;
-    private int damage;
+    private float damage;
     private float timeSinceLastShoot;
     private float firingSpeed;
     private ArrayList<Bullet> bullets;
-    private Random random;
+    private int id;
 
     public TowerEntity(float x, float y) {
         texture = GameSingleton.getInstance().getTexture(Consts.TOWER_GLOBULO_BRANCO);
@@ -28,7 +28,6 @@ public class TowerEntity{
         this.timeSinceLastShoot = 0;
         //this.damage = ??
         bullets = new ArrayList<>();
-        Random random;
     }
 
     private void shoot() {
@@ -60,5 +59,38 @@ public class TowerEntity{
         for(Bullet bullet : bullets) {
             bullet.draw(batch, scale);
         }
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setTexture(String texturePath) {
+        // If this throw an error means that we have not loaded the texture in our AssetManager.
+        this.texture = GameSingleton.getInstance().getTexture(texturePath);
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setDamage(float damage) {
+        this.damage = damage;
+    }
+
+    public void setFiringSpeed(float firingSpeed) {
+        this.firingSpeed = firingSpeed;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

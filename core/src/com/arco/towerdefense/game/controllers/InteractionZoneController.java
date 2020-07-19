@@ -2,26 +2,33 @@ package com.arco.towerdefense.game.controllers;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.drawer.InteractionZoneDrawer;
+import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.layouts.StackLayout;
 import com.arco.towerdefense.game.layouts.enums.Orientation;
 import com.arco.towerdefense.game.layouts.enums.Position;
 import com.arco.towerdefense.game.layouts.interfaces.LayoutListener;
 import com.arco.towerdefense.game.layouts.wrappers.LayoutWrapper;
 import com.arco.towerdefense.game.utils.Consts;
+import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class InteractionZoneController extends InputAdapter {
     InteractionZoneDrawer interactionZoneDrawer;
     StackLayout stackSelectionTowers;
+    GroundController groundController;
 
-    public InteractionZoneController(SpriteBatch batch) {
+    public InteractionZoneController(SpriteBatch batch, GroundController groundController) {
         interactionZoneDrawer = new InteractionZoneDrawer(batch);
 
         stackSelectionTowers = new StackLayout(batch, Orientation.HORIZONTAL);
         stackSelectionTowers.setMarginBetween(3);
         stackSelectionTowers.setPadding(3);
+
+        this.groundController = groundController;
 
         initSelectionTowers();
     }
@@ -30,44 +37,44 @@ public class InteractionZoneController extends InputAdapter {
         stackSelectionTowers.drawAtPos(Position.BOTTOM_LEFT);
     }
 
+    private void setTowerEntityToHolder(TowerEntity t) {
+        groundController.setTowerEntityHolder(t);
+    }
+
     private void initSelectionTowers() {
-        stackSelectionTowers.addWrapper(
-                new LayoutWrapper(
-                        new Sprite(GameSingleton.getInstance().getTexture(
-                                Consts.TOWER_GLOBULO_BRANCO_SELECTION
-                        )),
-                        new LayoutListener() {
-                            @Override
-                            public void onClick(LayoutWrapper layoutWrapper) {
-                                System.out.printf("CLICADO EM 1\n");
-                            }
+        String towersJSON = Utils.getStringFromFile(Consts.TOWERS_JSON);
+        JsonValue allTowersDescription = new JsonReader().parse(towersJSON);
 
-                            @Override
-                            public void onHover(LayoutWrapper layoutWrapper) {
-                                System.out.printf("ON HOVER EM 1\n");
-                            }
-                        }
-                )
-        );
+        for (int i = 0; i < allTowersDescription.size; i++) {
+            JsonValue towerDescription = allTowersDescription.get(i);
 
-        stackSelectionTowers.addWrapper(
-                new LayoutWrapper(
-                        new Sprite(GameSingleton.getInstance().getTexture(
-                                Consts.TOWER_GLOBULO_BRANCO_SELECTION2
-                        )),
-                        new LayoutListener() {
-                            @Override
-                            public void onClick(LayoutWrapper layoutWrapper) {
-                                System.out.printf("CLICADO EM 2\n");
-                            }
+            final TowerEntity towerEntity = new TowerEntity(0, 0); //Create tower at generic point
+            towerEntity.setDamage(towerDescription.getFloat("damage"));
+            towerEntity.setFiringSpeed(towerDescription.getFloat("firing_speed"));
+            towerEntity.setId(towerDescription.getInt("id"));
+            towerEntity.setTexture(towerDescription.getString("skinPath"));
 
-                            @Override
-                            public void onHover(LayoutWrapper layoutWrapper) {
-                                System.out.printf("ON HOVER EM 2\n");
+            stackSelectionTowers.addWrapper(
+                    new LayoutWrapper(
+                            new Sprite(GameSingleton.getInstance().getTexture(
+                                    towerDescription.getString("selectionPath")
+                            )),
+                            new LayoutListener() {
+                                @Override
+                                public void onClick(LayoutWrapper layoutWrapper) {
+                                    groundController.setHasSelectedTower(true);
+
+                                    setTowerEntityToHolder(towerEntity);
+                                }
+
+                                @Override
+                                public void onHover(LayoutWrapper layoutWrapper) {
+                                    System.out.printf("ON HOVER EM 1\n");
+                                }
                             }
-                        }
-                )
-        );
+                    )
+            );
+        }
     }
 
     @Override

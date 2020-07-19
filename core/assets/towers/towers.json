@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Globulo Branco",
+    "firing_speed": 3,
+    "damage": 20,
+    "skinPath": "towers/globuloBranco.png",
+    "selectionPath": "towers_selection/globuloBranco.png",
+    "bulletPath": "badlogic.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Globulo Branco",
+    "firing_speed": 3,
+    "damage": 20,
+    "skinPath": "towers/globuloBranco2.png",
+    "selectionPath": "towers_selection/globuloBranco2.png",
+    "bulletPath": "badlogic.jpg"
+  }
+]
