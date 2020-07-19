@@ -4,6 +4,7 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
+import com.arco.towerdefense.game.utils.Lane;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,7 +35,9 @@ public class GroundDrawer{
     private enum QueueKey { DRAW_GROUND_SELECTION };
     private Map<QueueKey, Vector2> scheduledDrawingPositions;
 
-    public GroundDrawer(SpriteBatch batch, int gridBlockSize, Rectangle viewRectangle) {
+    private ArrayList<Lane> lanes;
+
+    public GroundDrawer(SpriteBatch batch, int gridBlockSize, Rectangle viewRectangle, ArrayList<Lane> lanes) {
         this.batch = batch;
         grassImg = GameSingleton.getInstance().getTexture(Consts.GROUND_GRASS);
         laneImg = GameSingleton.getInstance().getTexture(Consts.GROUND_DIRT);
@@ -47,6 +50,8 @@ public class GroundDrawer{
         scheduledDrawingPositions = new HashMap<>();
 
         initShapeDrawer();
+
+        this.lanes = lanes;
     }
 
     private void initShapeDrawer() {
@@ -74,7 +79,13 @@ public class GroundDrawer{
                 drawGridBlock(x, y, grassImg);
             }
         }
-        drawLane(0, 1, 12, 1);
+
+        //drawLane(0, 5, 12, 5);
+        //drawLane(12, 5, 12, 2);
+        //drawLane(12, 2, 12, 5);
+        //drawLane(12, 2, 15, 2);
+
+        drawLane(lanes);
         batch.enableBlending();
     }
 
@@ -139,17 +150,53 @@ public class GroundDrawer{
         }
     }
 
+    /*
     private void drawLane(int startX, int startY, int finalX, int finalY) {
         if(startX == finalX) {
-            for(int y = startY; y < finalY; y++) {
+            for(int y = startY; y <= finalY; y++) {
                 drawGridBlock(startX, y, laneImg);
             }
         }
 
         if(startY == finalY) {
-            for(int x = startX; x < finalX; x++) {
+            for(int x = startX; x <= finalX; x++) {
                 drawGridBlock(x, startY, laneImg);
             }
         }
+    }
+    */
+
+    private void drawLane(ArrayList<Lane> lanes) {
+        for(Lane lane : lanes) {
+            if(lane.getStartX() == lane.getFinalX()) {
+                if(lane.getStartY() < lane.getFinalY()) {
+                    for (int y = lane.getStartY(); y <= lane.getFinalY(); y++) {
+                        drawGridBlock(lane.getStartX(), y, laneImg);
+                    }
+                }
+
+                if(lane.getStartY() > lane.getFinalY()) {
+                    for (int y = lane.getFinalY(); y <= lane.getStartY(); y++) {
+                        drawGridBlock(lane.getStartX(), y, laneImg);
+                    }
+                }
+            }
+
+            if(lane.getStartY() == lane.getFinalY()) {
+                if(lane.getStartX() < lane.getFinalX()) {
+                    for (int x = lane.getStartX(); x <= lane.getFinalX(); x++) {
+                        drawGridBlock(x, lane.getStartY(), laneImg);
+                    }
+                }
+
+                if(lane.getStartX() > lane.getFinalX()) {
+                    for (int x = lane.getFinalX(); x <= lane.getStartX(); x++) {
+                        drawGridBlock(x, lane.getStartY(), laneImg);
+                    }
+                }
+            }
+        }
+
+
     }
 }
