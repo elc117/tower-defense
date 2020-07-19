@@ -10,9 +10,14 @@ import com.arco.towerdefense.game.layouts.interfaces.LayoutListener;
 import com.arco.towerdefense.game.layouts.wrappers.LayoutWrapper;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.Utils;
+import com.arco.towerdefense.game.utils.json.TowerJson;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -42,37 +47,36 @@ public class InteractionZoneController extends InputAdapter {
     }
 
     private void initSelectionTowers() {
-        String towersJSON = Utils.getStringFromFile(Consts.TOWERS_JSON);
-        JsonValue allTowersDescription = new JsonReader().parse(towersJSON);
+        Json json = new Json();
 
-        for (int i = 0; i < allTowersDescription.size; i++) {
-            JsonValue towerDescription = allTowersDescription.get(i);
+        Array<TowerJson> towersJson = json.fromJson(Array.class, TowerJson.class, Gdx.files.internal(Consts.TOWERS_JSON));
 
+        for (TowerJson towerJson: towersJson) {
             final TowerEntity towerEntity = new TowerEntity(0, 0); //Create tower at generic point
-            towerEntity.setDamage(towerDescription.getFloat("damage"));
-            towerEntity.setFiringSpeed(towerDescription.getFloat("firing_speed"));
-            towerEntity.setId(towerDescription.getInt("id"));
-            towerEntity.setTexture(towerDescription.getString("skinPath"));
+            towerEntity.setDamage(towerJson.damage);
+            towerEntity.setFiringSpeed(towerJson.firing_speed);
+            towerEntity.setId(towerJson.id);
+            towerEntity.setTexture(towerJson.skinPath);
 
             stackSelectionTowers.addWrapper(
-                    new LayoutWrapper(
-                            new Sprite(GameSingleton.getInstance().getTexture(
-                                    towerDescription.getString("selectionPath")
-                            )),
-                            new LayoutListener() {
-                                @Override
-                                public void onClick(LayoutWrapper layoutWrapper) {
-                                    groundController.setHasSelectedTower(true);
+                new LayoutWrapper(
+                    new Sprite(GameSingleton.getInstance().getTexture(
+                            towerJson.selectionPath
+                    )),
+                    new LayoutListener() {
+                        @Override
+                        public void onClick(LayoutWrapper layoutWrapper) {
+                            groundController.setHasSelectedTower(true);
 
-                                    setTowerEntityToHolder(towerEntity);
-                                }
+                            setTowerEntityToHolder(towerEntity);
+                        }
 
-                                @Override
-                                public void onHover(LayoutWrapper layoutWrapper) {
-                                    System.out.printf("ON HOVER EM 1\n");
-                                }
-                            }
-                    )
+                        @Override
+                        public void onHover(LayoutWrapper layoutWrapper) {
+                            System.out.printf("ON HOVER EM 1\n");
+                        }
+                    }
+                )
             );
         }
     }
