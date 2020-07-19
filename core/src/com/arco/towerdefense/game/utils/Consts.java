@@ -20,6 +20,8 @@ public class Consts {
     public static final String GROUND_DIRT = "ground/dirt.png";
     public static final String ENEMY = "enemies/enemy.png";
 
+    public static final String TOWERS_JSON = "towers/towers.json";
+
 
     private Consts(){
         //this prevents even the native class from

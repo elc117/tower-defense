@@ -5,11 +5,9 @@ import com.arco.towerdefense.game.screens.HelpScreen;
 import com.arco.towerdefense.game.screens.IntroScreen;
 import com.arco.towerdefense.game.screens.MenuScreen;
 import com.arco.towerdefense.game.utils.Consts;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

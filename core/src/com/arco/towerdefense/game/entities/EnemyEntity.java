@@ -42,7 +42,7 @@ public class EnemyEntity {
     public float getY() {
         return y;
     }
-
+  
     public void setNextCheckPoint(Vector2 nextCheckPoint) {
         this.nextCheckPoint = nextCheckPoint;
     }
