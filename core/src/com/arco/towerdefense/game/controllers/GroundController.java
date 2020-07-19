@@ -21,20 +21,40 @@ public class GroundController extends InputAdapter {
 
     private Rectangle viewRectangle;
 
-    //constructor
+    private boolean hasSelectedTower;
+    private TowerEntity towerEntityHolder;
+
     public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight) {
         viewRectangle = new Rectangle(0, 0, viewWidth, viewHeight);
         groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle);
 
         towers = new ArrayList<>();
+        towerEntityHolder = null;
 
         EnemyEntity enemy = new EnemyEntity(5, 5);
         wave = new Wave(1f, enemy, 5);
+        hasSelectedTower = false;
     }
 
-    //add tower to tower list
+    private boolean existsTowerAt(float x, float y) {
+        for (TowerEntity tower: towers) {
+            if (tower.getX() == x && tower.getY() == y) return true;
+        }
+
+        return false;
+    }
+
     private void addTower(int x, int y) {
-        towers.add(new TowerEntity(x, y));
+        if (towerEntityHolder == null) return;
+
+        towerEntityHolder.setX(x);
+        towerEntityHolder.setY(y);
+
+        towers.add(towerEntityHolder);
+
+        groundDrawer.removeScheduleOfGroundSelection();
+        hasSelectedTower = false;
+        towerEntityHolder = null;
     }
 
     //update call in game screen (call all the update methods to run the game)
@@ -66,7 +86,9 @@ public class GroundController extends InputAdapter {
             int gridX = screenX / groundDrawer.getScale();
             int gridY = screenY / groundDrawer.getScale();
 
-            addTower(gridX, gridY);
+            if (!existsTowerAt(gridX, gridY)) {
+                addTower(gridX, gridY);
+            }
 
             return true;
         }
@@ -74,11 +96,20 @@ public class GroundController extends InputAdapter {
         return false; // Meaning that we have not handled the touch
     }
 
+    public void setHasSelectedTower(boolean hasSelectedTower) {
+        this.hasSelectedTower = hasSelectedTower;
+    }
+
+    public void setTowerEntityHolder(TowerEntity towerEntity) {
+        this.towerEntityHolder = towerEntity;
+
+    }
+
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         screenY = Consts.V_HEIGHT - screenY;
 
-        if (Utils.isInsideRectangle(viewRectangle, screenX, screenY)) {
+        if (Utils.isInsideRectangle(viewRectangle, screenX, screenY) && hasSelectedTower) {
             int gridX = screenX / groundDrawer.getScale();
             int gridY = screenY / groundDrawer.getScale();
 
