@@ -4,6 +4,7 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.Utils;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -11,10 +12,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import org.w3c.dom.Text;
 
 public class MenuScreen implements Screen {
 
     final TowerDefenseGame game;
+    Texture configButton;
+    Texture highConfigButton;
     Texture playButton;
     Texture quitButton;
     Texture helpButton;
@@ -40,6 +44,22 @@ public class MenuScreen implements Screen {
         playButtonUpdate();
         helpButtonUpdate();
         quitButtonUpdate();
+        configButtonUpdate();
+    }
+
+    private void configButtonUpdate() {
+        int posX = 730;
+        int posY = 420;
+        if (Utils.isCursorInside(posX, posY, configButton.getWidth()/11, configButton.getHeight()/11)) {
+            game.batch.draw(highConfigButton, posX, posY,highConfigButton.getWidth()/11,highConfigButton.getHeight()/11);
+            if (Gdx.input.isTouched()) {
+                //CONFIG SCREEN
+                selectionSound.play(1.0f);
+            }
+        }
+        else {
+            game.batch.draw(configButton, posX, posY,configButton.getWidth()/11,configButton.getHeight()/11);
+        }
     }
 
     public void playButtonUpdate() {
@@ -94,6 +114,8 @@ public class MenuScreen implements Screen {
     public void initButtons() {
         posY = 100;//botões alinhados em Y
 
+        configButton = GameSingleton.getInstance().getTexture(Consts.CONFIG_BUTTON);
+        highConfigButton = GameSingleton.getInstance().getTexture(Consts.HIGH_CONFIG_BUTTON);
         playButton =  GameSingleton.getInstance().getTexture(Consts.PLAY_BUTTON);
         quitButton = GameSingleton.getInstance().getTexture(Consts.QUIT_BUTTON);
         helpButton = GameSingleton.getInstance().getTexture(Consts.HELP_BUTTON);

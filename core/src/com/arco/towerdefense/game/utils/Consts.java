@@ -13,6 +13,8 @@ public class Consts {
     public static final String TOWER_GLOBULO_BRANCO_SELECTION = "towers_selection/globuloBranco.png";
     public static final String TOWER_GLOBULO_BRANCO_SELECTION2 = "towers_selection/globuloBranco2.png";
     public static final String HOME_BUTTON = "menu/HomeButton.png";
+    public static final String CONFIG_BUTTON = "menu/config.png";
+    public static final String HIGH_CONFIG_BUTTON = "menu/configSelected.png";
     public static final String PLAY_BUTTON = "menu/PlayButton.png";
     public static final String QUIT_BUTTON = "menu/QuitButton.png";
     public static final String HELP_BUTTON = "menu/HelpButton.png";
