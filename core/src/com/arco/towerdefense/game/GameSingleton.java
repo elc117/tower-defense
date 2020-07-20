@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.audio.Music;
 
 public class GameSingleton {
     private static GameSingleton instance = null;
@@ -14,10 +15,15 @@ public class GameSingleton {
     public AssetManager assetManager;
     private InputProcessor inputProcessor;
 
+    //Volume settings
+    float effectsVolume;
+    float musicVolume;
+
     private GameSingleton() {
         assetManager = new AssetManager();
         cursorLocation = new Vector2(0, 0);
 
+        setVolume();
         initAssetManager();
     }
 
@@ -35,6 +41,8 @@ public class GameSingleton {
         assetManager.load(Consts.TOWER_GLOBULO_BRANCO_SELECTION, Texture.class);
         assetManager.load(Consts.TOWER_GLOBULO_BRANCO_SELECTION2, Texture.class);
         assetManager.load(Consts.HOME_BUTTON, Texture.class);
+        assetManager.load(Consts.CONFIG_BUTTON, Texture.class);
+        assetManager.load(Consts.HIGH_CONFIG_BUTTON, Texture.class);
         assetManager.load(Consts.PLAY_BUTTON, Texture.class);
         assetManager.load(Consts.QUIT_BUTTON, Texture.class);
         assetManager.load(Consts.HELP_BUTTON, Texture.class);
@@ -63,6 +71,37 @@ public class GameSingleton {
 
     public void setInputProcessor(InputProcessor inputProcessor) {
         this.inputProcessor = inputProcessor;
+    }
+
+    public float getEffectsVolume() {
+        return effectsVolume;
+    }
+
+    private void setEffectsVolume(float volume) {
+        this.effectsVolume = volume;
+    }
+
+    public float getMusicVolume() {
+        return musicVolume;
+    }
+
+    private void setMusicVolume(float volume) {
+        this.musicVolume = volume;
+    }
+
+    public void turnUpVolume(Music music){
+        GameSingleton.getInstance().setMusicVolume(GameSingleton.getInstance().getMusicVolume() + 0.1f);
+        music.setVolume(GameSingleton.getInstance().getMusicVolume());
+    }
+
+    public void turnDownVolume(Music music){
+        GameSingleton.getInstance().setMusicVolume(GameSingleton.getInstance().getMusicVolume() - 0.1f);
+        music.setVolume(GameSingleton.getInstance().getMusicVolume());
+    }
+
+    private void setVolume() {
+        setEffectsVolume(0.5f);
+        setMusicVolume(0.5f);
     }
 
     public void dispose() {
