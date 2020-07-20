@@ -11,6 +11,7 @@ import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -90,10 +91,7 @@ public class GroundController extends InputAdapter {
     private void updateEnemies(float delta) {
         ArrayList<EnemyEntity> enemiesToRemove = new ArrayList<>();
         for(EnemyEntity enemy : enemies) {
-            //System.out.println("X POSITION: " + (int) enemy.getX() + "  Y POSITION: " + (int) enemy.getY());
-            //System.out.println(enemy.getNextCheckPoint().x + "  " + enemy.getNextCheckPoint().y );
             if(enemy.isCheckPoint()) {
-                //System.out.println("entrei ak");
                 if(enemy.isFinalCheckPoint()) {
                     enemy.remove = true;
                 } else {

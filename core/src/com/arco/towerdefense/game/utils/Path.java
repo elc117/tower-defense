@@ -27,22 +27,16 @@ public class Path {
 
     public void setCheckPoints() {
 
-        //checkPoints.add(new Vector2(0, 14));
-        //checkPoints.add(new Vector2(0, 9));
-        //checkPoints.add(new Vector2(5, 9));
-
-        checkPoints.add(new Vector2(0,5));
-        checkPoints.add(new Vector2(10,5));
-        checkPoints.add(new Vector2(10,7));
-        checkPoints.add(new Vector2(12,7));
-        checkPoints.add(new Vector2(12,12));
-        //checkPoints.add(new Vector2(15,12));
-        checkPoints.add(new Vector2(9,12));
-        checkPoints.add(new Vector2(9,10));
-        //checkPoints.add(new Vector2(12,2));
-        //checkPoints.add(new Vector2(20,2));
-        //checkPoints.add(new Vector2(10,2));
-        //checkPoints.add(new Vector2(10,0));
+        checkPoints.add(new Vector2(0, 6));
+        checkPoints.add(new Vector2(6, 6));
+        checkPoints.add(new Vector2(6, 12));
+        checkPoints.add(new Vector2(14, 12));
+        checkPoints.add(new Vector2(14, 10));
+        checkPoints.add(new Vector2(10, 10));
+        checkPoints.add(new Vector2(10, 6));
+        checkPoints.add(new Vector2(18, 6));
+        checkPoints.add(new Vector2(18, 12));
+        checkPoints.add(new Vector2(25, 12));
 
         setLanes();
     }

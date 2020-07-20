@@ -36,9 +36,5 @@ public class Wave {
         for(EnemyEntity enemy : enemies) {
             enemy.update(delta);
         }
-
-        for(EnemyEntity enemy : enemies) {
-            enemy.update(delta);
-        }
     }
 }

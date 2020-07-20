@@ -4,9 +4,13 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class EnemyEntity {
@@ -14,12 +18,14 @@ public class EnemyEntity {
     private float x;
     private float y;
     private float speed;
+
     private Vector2 nextCheckPoint;
     private Vector2 finalCheckPoint;
 
-    private Rectangle rectangle;
+    private DecimalFormat df;
 
     private int direction;
+
 
     public boolean remove = false;
 
@@ -27,7 +33,12 @@ public class EnemyEntity {
         this.texture = GameSingleton.getInstance().getTexture(Consts.ENEMY);
         this.x = start.x;
         this.y = start.y;
-        speed = 5;
+
+        //rectangle = new Rectangle(start.x * scale, start.y * scale, scale, scale);
+
+        df = new DecimalFormat("0.0");
+
+        speed = 3;
 
         this.nextCheckPoint = nextCheckPoint;
         this.finalCheckPoint = finalCheckPoint;
@@ -63,24 +74,25 @@ public class EnemyEntity {
 
         if(direction == 3)
             x += delta * speed;
+
     }
 
     public void selectDirection() {
         if (nextCheckPoint != null) {
 
-            if (Math.floor(x) == nextCheckPoint.x && Math.floor(y) > nextCheckPoint.y) {
+            if (y > nextCheckPoint.y) {
                 //baixo
                 direction = 0;
             }
-            if (Math.floor(x) == nextCheckPoint.x && Math.floor(y) < nextCheckPoint.y) {
+            if (y < nextCheckPoint.y) {
                 //cima
                 direction = 1;
             }
-            if (Math.floor(x) > nextCheckPoint.x && Math.floor(y) == nextCheckPoint.y) {
+            if (x > nextCheckPoint.x) {
                 //esquerda
                 direction = 2;
             }
-            if (Math.floor(x) < nextCheckPoint.x && Math.floor(y) == nextCheckPoint.y) {
+            if (x < nextCheckPoint.x) {
                 //direita
                 direction = 3;
             }
@@ -89,9 +101,14 @@ public class EnemyEntity {
         }
     }
 
-
     public boolean isCheckPoint() {
-            return (Math.floor(x) == nextCheckPoint.x && Math.floor(y) == nextCheckPoint.y);
+        if(x > nextCheckPoint.x - 0.05 && x < nextCheckPoint.x + 0.05 && y > nextCheckPoint.y - 0.05 && y < nextCheckPoint.y + 0.05) {
+            x = nextCheckPoint.x;
+            y = nextCheckPoint.y;
+            return true;
+        }
+
+        return false;
     }
 
     public boolean isFinalCheckPoint() {
