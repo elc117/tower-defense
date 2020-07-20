@@ -6,8 +6,8 @@ import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -59,6 +59,7 @@ public class MenuScreen implements Screen {
             if (Gdx.input.isTouched()) {
                 //CONFIG SCREEN
                 selectionSound.play(GameSingleton.getInstance().getEffectsVolume());
+
             }
         }
         else {
@@ -116,6 +117,7 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         selectionSound.dispose();
+        music.dispose();
     }
 
     public void initButtons() {

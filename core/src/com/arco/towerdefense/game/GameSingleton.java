@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.audio.Music;
 
 public class GameSingleton {
     private static GameSingleton instance = null;
@@ -76,7 +77,7 @@ public class GameSingleton {
         return effectsVolume;
     }
 
-    public void setEffectsVolume(float volume) {
+    private void setEffectsVolume(float volume) {
         this.effectsVolume = volume;
     }
 
@@ -84,8 +85,18 @@ public class GameSingleton {
         return musicVolume;
     }
 
-    public void setMusicVolume(float volume) {
+    private void setMusicVolume(float volume) {
         this.musicVolume = volume;
+    }
+
+    public void turnUpVolume(Music music){
+        GameSingleton.getInstance().setMusicVolume(GameSingleton.getInstance().getMusicVolume() + 0.1f);
+        music.setVolume(GameSingleton.getInstance().getMusicVolume());
+    }
+
+    public void turnDownVolume(Music music){
+        GameSingleton.getInstance().setMusicVolume(GameSingleton.getInstance().getMusicVolume() - 0.1f);
+        music.setVolume(GameSingleton.getInstance().getMusicVolume());
     }
 
     private void setVolume() {
