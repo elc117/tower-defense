@@ -14,10 +14,15 @@ public class GameSingleton {
     public AssetManager assetManager;
     private InputProcessor inputProcessor;
 
+    //Volume settings
+    float effectsVolume;
+    float musicVolume;
+
     private GameSingleton() {
         assetManager = new AssetManager();
         cursorLocation = new Vector2(0, 0);
 
+        setVolume();
         initAssetManager();
     }
 
@@ -65,6 +70,27 @@ public class GameSingleton {
 
     public void setInputProcessor(InputProcessor inputProcessor) {
         this.inputProcessor = inputProcessor;
+    }
+
+    public float getEffectsVolume() {
+        return effectsVolume;
+    }
+
+    public void setEffectsVolume(float volume) {
+        this.effectsVolume = volume;
+    }
+
+    public float getMusicVolume() {
+        return musicVolume;
+    }
+
+    public void setMusicVolume(float volume) {
+        this.musicVolume = volume;
+    }
+
+    private void setVolume() {
+        setEffectsVolume(0.5f);
+        setMusicVolume(0.5f);
     }
 
     public void dispose() {
