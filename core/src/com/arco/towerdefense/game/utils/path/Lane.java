@@ -1,4 +1,4 @@
-package com.arco.towerdefense.game.utils;
+package com.arco.towerdefense.game.utils.path;
 
 public class Lane {
     private int startX;

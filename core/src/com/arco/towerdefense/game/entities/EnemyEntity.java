@@ -18,33 +18,26 @@ public class EnemyEntity {
     private float x;
     private float y;
     private float speed;
-
     private Vector2 nextCheckPoint;
     private Vector2 finalCheckPoint;
-
-    private DecimalFormat df;
-
     private int direction;
-
-
-    public boolean remove = false;
+    public boolean alive;
 
     public EnemyEntity(Vector2 start, Vector2 nextCheckPoint, Vector2 finalCheckPoint) {
         this.texture = GameSingleton.getInstance().getTexture(Consts.ENEMY);
         this.x = start.x;
         this.y = start.y;
 
-        //rectangle = new Rectangle(start.x * scale, start.y * scale, scale, scale);
-
-        df = new DecimalFormat("0.0");
-
-        speed = 3;
+        speed = 5;
 
         this.nextCheckPoint = nextCheckPoint;
         this.finalCheckPoint = finalCheckPoint;
 
+        alive = true;
+
         selectDirection();
     }
+
 
     public float getX() {
         return x;
@@ -53,13 +46,15 @@ public class EnemyEntity {
     public float getY() {
         return y;
     }
-  
-    public void setNextCheckPoint(Vector2 nextCheckPoint) {
-        this.nextCheckPoint = nextCheckPoint;
-    }
+
+    public boolean isAlive() { return alive; }
 
     public Vector2 getNextCheckPoint() {
         return nextCheckPoint;
+    }
+
+    public void setNextCheckPoint(Vector2 nextCheckPoint) {
+        this.nextCheckPoint = nextCheckPoint;
     }
 
     public void update(float delta) {
@@ -102,7 +97,7 @@ public class EnemyEntity {
     }
 
     public boolean isCheckPoint() {
-        if(x > nextCheckPoint.x - 0.05 && x < nextCheckPoint.x + 0.05 && y > nextCheckPoint.y - 0.05 && y < nextCheckPoint.y + 0.05) {
+        if(x > nextCheckPoint.x - 0.1 && x < nextCheckPoint.x + 0.1 && y > nextCheckPoint.y - 0.1 && y < nextCheckPoint.y + 0.1) {
             x = nextCheckPoint.x;
             y = nextCheckPoint.y;
             return true;
