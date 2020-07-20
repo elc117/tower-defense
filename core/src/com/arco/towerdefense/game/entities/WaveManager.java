@@ -45,4 +45,5 @@ public class WaveManager {
         currentWave = new Wave(timeBetweenEnemies, enemiesPerWave, checkPoints);
         System.out.println("COMECANDO UMA NOVA WAVE :O, WAVE NUMERO: " + waveNumber);
     }
+
 }

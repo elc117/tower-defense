@@ -89,4 +89,5 @@ public class Wave {
     public boolean isCompleted() {
         return waveCompleted;
     }
+
 }
