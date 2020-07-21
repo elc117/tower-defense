@@ -65,6 +65,9 @@ public class GameSingleton {
         return cursorLocation;
     }
 
+    public TowerFactory getTowerFactory() {
+        return towerFactory;
+    }
 
     public InputProcessor getInputProcessor() {
         return inputProcessor;
