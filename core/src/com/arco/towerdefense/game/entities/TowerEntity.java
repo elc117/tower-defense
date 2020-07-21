@@ -2,82 +2,61 @@ package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.Consts;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
 
-public class TowerEntity{
-    private Texture texture;
-    private float x;
-    private float y;
+public class TowerEntity extends Entity {
+
     private float damage;
     private float timeSinceLastShoot;
     private float firingSpeed;
-    private ArrayList<Bullet> bullets;
+    private ArrayList<BulletEntity> bullets;
     private int id;
 
     public TowerEntity(float x, float y) {
-        texture = GameSingleton.getInstance().getTexture(Consts.TOWER_GLOBULO_BRANCO);
-        this.x = x;
-        this.y = y;
+        super(GameSingleton.getInstance().getTexture(Consts.TOWER_GLOBULO_BRANCO), x, y);
+
         this.firingSpeed = 3f;
         this.timeSinceLastShoot = 0;
-        //this.damage = ??
-        bullets = new ArrayList<>();
+        this.bullets = new ArrayList<>();
     }
 
     private void shoot() {
         timeSinceLastShoot = 0;
-        bullets.add(new Bullet("badlogic.jpg", x, y, 10, 10));
+        bullets.add(new BulletEntity("badlogic.jpg", x, y, 10, 10));
 
     }
 
     public void update(float delta) {
-       timeSinceLastShoot += delta;
-       if(timeSinceLastShoot > firingSpeed) {
-           shoot();
-       }
+        timeSinceLastShoot += delta;
+        if(timeSinceLastShoot > firingSpeed) {
+            shoot();
+        }
 
-       //Update and remove bullets positions
-       ArrayList<Bullet> bulletsToRemove = new ArrayList<>();
-       for(Bullet bullet : bullets) {
+        //Update and remove bullets positions
+        ArrayList<BulletEntity> bulletsToRemove = new ArrayList<>();
+        for(BulletEntity bullet : bullets) {
             bullet.update(delta);
             if(bullet.remove) {
                 bulletsToRemove.add(bullet);
             }
-       }
-       bullets.removeAll(bulletsToRemove);
+        }
+        bullets.removeAll(bulletsToRemove);
     }
 
     public void draw(SpriteBatch batch, int scale) {
-        batch.draw(texture, x*scale, y*scale, scale, scale);
+        batch.draw(txt, x*scale, y*scale, scale, scale);
 
-        for(Bullet bullet : bullets) {
+        for(BulletEntity bullet : bullets) {
             bullet.draw(batch, scale);
         }
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
     public void setTexture(String texturePath) {
         // If this throw an error means that we have not loaded the texture in our AssetManager.
-        this.texture = GameSingleton.getInstance().getTexture(texturePath);
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
+        this.txt = GameSingleton.getInstance().getTexture(texturePath);
     }
 
     public void setDamage(float damage) {
@@ -90,9 +69,5 @@ public class TowerEntity{
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Texture getTexture() {
-        return texture;
     }
 }
