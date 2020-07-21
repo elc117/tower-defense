@@ -58,10 +58,8 @@ public class MenuScreen implements Screen {
             game.batch.draw(highConfigButton, posX, posY,highConfigButton.getWidth()/11,highConfigButton.getHeight()/11);
             if (Gdx.input.isTouched()) {
                 //CONFIG SCREEN
-                selectionSound.play(0.5f);
                 float volume = GameSingleton.getInstance().soundControler.getEffectsVolume();
-                System.out.println(volume);
-
+                selectionSound.play(volume);
             }
         }
         else {
