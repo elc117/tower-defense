@@ -2,49 +2,43 @@ package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.Consts;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
+public class EnemyEntity extends Entity {
 
-public class EnemyEntity {
-    private Texture texture;
-    private float x;
-    private float y;
+    private enum direction{DOWN, UP, LEFT, RIGHT}
     private float speed;
     private Vector2 nextCheckPoint;
     private Vector2 finalCheckPoint;
-    private int direction;
+    private direction dir;
     public boolean alive;
 
     public EnemyEntity(Vector2 start, Vector2 nextCheckPoint, Vector2 finalCheckPoint) {
-        this.texture = GameSingleton.getInstance().getTexture(Consts.ENEMY);
-        this.x = start.x;
-        this.y = start.y;
-
-        speed = 5;
-
+        super(GameSingleton.getInstance().getTexture(Consts.ENEMY), start.x, start.y);
+        this.speed = 5;
         this.nextCheckPoint = nextCheckPoint;
         this.finalCheckPoint = finalCheckPoint;
-
-        alive = true;
-
-        selectDirection();
+        this.alive = true;
+        this.selectDirection();
     }
 
+    public void update(float delta) {
+        if(dir == direction.DOWN)
+            y -= delta * speed;
 
-    public float getX() {
-        return x;
+        if(dir == direction.UP)
+            y += delta * speed;
+
+        if(dir == direction.LEFT)
+            x -= delta * speed;
+
+        if(dir == direction.RIGHT)
+            x += delta * speed;
     }
 
-    public float getY() {
-        return y;
+    public void draw(SpriteBatch batch, int scale) {
+        batch.draw(txt, x*scale, y*scale, scale, scale);
     }
 
     public boolean isAlive() { return alive; }
@@ -57,39 +51,24 @@ public class EnemyEntity {
         this.nextCheckPoint = nextCheckPoint;
     }
 
-    public void update(float delta) {
-        if(direction == 0)
-            y -= delta * speed;
-
-        if(direction == 1)
-            y += delta * speed;
-
-        if(direction == 2)
-            x -= delta * speed;
-
-        if(direction == 3)
-            x += delta * speed;
-
-    }
-
     public void selectDirection() {
         if (nextCheckPoint != null) {
 
             if (y > nextCheckPoint.y) {
                 //baixo
-                direction = 0;
+                dir = direction.DOWN;
             }
             if (y < nextCheckPoint.y) {
                 //cima
-                direction = 1;
+                dir = direction.UP;
             }
             if (x > nextCheckPoint.x) {
                 //esquerda
-                direction = 2;
+                dir = direction.LEFT;
             }
             if (x < nextCheckPoint.x) {
                 //direita
-                direction = 3;
+                dir = direction.RIGHT;
             }
 
             return;
@@ -108,9 +87,5 @@ public class EnemyEntity {
 
     public boolean isFinalCheckPoint() {
         return nextCheckPoint == finalCheckPoint;
-    }
-
-    public void draw(SpriteBatch batch, int scale) {
-        batch.draw(texture, x*scale, y*scale, scale, scale);
     }
 }

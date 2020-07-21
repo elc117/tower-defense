@@ -1,11 +1,13 @@
-package com.arco.towerdefense.game.entities;
+package com.arco.towerdefense.game.controllers;
 
+import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-public class Wave {
+public class WaveController {
+    private int waveNumber;
     private float timeSinceLastSpawn;
     private float timeBetweenEnemies;
     private int enemiesPerWave;
@@ -16,20 +18,17 @@ public class Wave {
     private boolean first;
     //private EnemyEntity enemy;
 
-    public Wave(float timeBetweenEnemies, int enemiesPerWave, ArrayList<Vector2> checkPoints) {
+    public WaveController(int waveNumber, float timeBetweenEnemies, int enemiesPerWave, ArrayList<Vector2> checkPoints) {
         this.timeBetweenEnemies = timeBetweenEnemies;
         this.enemiesPerWave = enemiesPerWave;
         this.checkPoints = checkPoints;
+        this.waveNumber = waveNumber;
 
         timeSinceLastSpawn = 0;
         enemiesPerWaveCounter = 0;
         enemies = new ArrayList<>();
         waveCompleted = false;
         first = true;
-    }
-
-    public ArrayList<EnemyEntity> getEnemies() {
-        return enemies;
     }
 
     private void spawn() {
@@ -90,4 +89,43 @@ public class Wave {
         return waveCompleted;
     }
 
+    public int getWaveNumber() {
+        return waveNumber;
+    }
+
+    public void setWaveNumber(int waveNumber) {
+        this.waveNumber = waveNumber;
+    }
+
+    public float getTimeBetweenEnemies() {
+        return timeBetweenEnemies;
+    }
+
+    public void setTimeBetweenEnemies(float timeBetweenEnemies) {
+        this.timeBetweenEnemies = timeBetweenEnemies;
+    }
+
+    public int getEnemiesPerWave() {
+        return enemiesPerWave;
+    }
+
+    public void setEnemiesPerWave(int enemiesPerWave) {
+        this.enemiesPerWave = enemiesPerWave;
+    }
+
+    public int getEnemiesPerWaveCounter() {
+        return enemiesPerWaveCounter;
+    }
+
+    public void setEnemiesPerWaveCounter(int enemiesPerWaveCounter) {
+        this.enemiesPerWaveCounter = enemiesPerWaveCounter;
+    }
+
+    public ArrayList<EnemyEntity> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(ArrayList<EnemyEntity> enemies) {
+        this.enemies = enemies;
+    }
 }

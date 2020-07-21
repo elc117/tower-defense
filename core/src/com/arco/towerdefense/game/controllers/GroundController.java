@@ -3,8 +3,6 @@ package com.arco.towerdefense.game.controllers;
 
 import com.arco.towerdefense.game.drawer.GroundDrawer;
 import com.arco.towerdefense.game.entities.TowerEntity;
-import com.arco.towerdefense.game.entities.Wave;
-import com.arco.towerdefense.game.entities.WaveManager;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.path.Path;
 import com.arco.towerdefense.game.utils.Utils;
@@ -26,8 +24,7 @@ public class GroundController extends InputAdapter {
     private boolean hasSelectedTower;
     private TowerEntity towerEntityHolder;
 
-    private WaveManager waveManager;
-    private Wave wave;
+    private WaveController currentWave;
 
     public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight) {
 
@@ -39,10 +36,10 @@ public class GroundController extends InputAdapter {
 
         towers = new ArrayList<>();
 
-        waveManager = new WaveManager(path.getCheckPoints());
-
         towerEntityHolder = null;
         hasSelectedTower = false;
+
+        currentWave = null;
     }
 
     private boolean existsTowerAt(float x, float y) {
@@ -70,9 +67,9 @@ public class GroundController extends InputAdapter {
     public void update(float delta) {
         groundDrawer.drawGround();
         updateTowers(delta);
-        waveManager.update(delta);
+        updateWaves(delta);
         groundDrawer.drawTowers(towers);
-        groundDrawer.drawEnemies(waveManager.getEnemiesList());
+        groundDrawer.drawEnemies(currentWave.getEnemies());
         groundDrawer.drawScheduledItems();
         drawSelectedTowerUnderCursor();
     }
@@ -82,6 +79,32 @@ public class GroundController extends InputAdapter {
         for(TowerEntity tower : towers) {
             tower.update(delta);
         }
+    }
+
+    private void updateWaves(float delta) {
+        if(currentWave == null)
+            newWave();
+
+        if (!currentWave.isCompleted())
+            currentWave.update(delta);
+        else {
+            if(currentWave.getWaveNumber() < 4)
+                newWave();
+        }
+    }
+
+    private void newWave() {
+        if(currentWave == null) {
+            currentWave = new WaveController(1, 2f, 4, path.getCheckPoints());
+            return;
+        }
+
+        int waveNumber = currentWave.getWaveNumber()+1;
+        float timeBetweenEnemies = currentWave.getEnemiesPerWave() - 1f;
+        int enemiesPerWave = currentWave.getEnemiesPerWave() + 1;
+
+        currentWave = new WaveController(waveNumber, timeBetweenEnemies, enemiesPerWave, path.getCheckPoints());
+        System.out.println("COMECANDO UMA NOVA WAVE :O, WAVE NUMERO: " + currentWave.getWaveNumber());
     }
 
     @Override
