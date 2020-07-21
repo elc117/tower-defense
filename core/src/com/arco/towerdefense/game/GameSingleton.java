@@ -1,5 +1,6 @@
 package com.arco.towerdefense.game;
 
+import com.arco.towerdefense.game.factories.TowerFactory;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -14,6 +15,7 @@ public class GameSingleton {
     private Vector2 cursorLocation;
     public AssetManager assetManager;
     private InputProcessor inputProcessor;
+    private TowerFactory towerFactory;
 
     //Volume settings
     float effectsVolume;
@@ -22,6 +24,7 @@ public class GameSingleton {
     private GameSingleton() {
         assetManager = new AssetManager();
         cursorLocation = new Vector2(0, 0);
+        towerFactory = new TowerFactory();
 
         setVolume();
         initAssetManager();
@@ -102,6 +105,11 @@ public class GameSingleton {
     private void setVolume() {
         setEffectsVolume(0.5f);
         setMusicVolume(0.5f);
+    }
+
+
+    public TowerFactory getTowerFactory() {
+        return towerFactory;
     }
 
     public void dispose() {

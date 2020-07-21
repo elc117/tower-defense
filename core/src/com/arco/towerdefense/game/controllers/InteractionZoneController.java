@@ -9,17 +9,13 @@ import com.arco.towerdefense.game.layouts.enums.Position;
 import com.arco.towerdefense.game.layouts.interfaces.LayoutListener;
 import com.arco.towerdefense.game.layouts.wrappers.LayoutWrapper;
 import com.arco.towerdefense.game.utils.Consts;
-import com.arco.towerdefense.game.utils.Utils;
 import com.arco.towerdefense.game.utils.json.TowerJson;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 
 public class InteractionZoneController extends InputAdapter {
     InteractionZoneDrawer interactionZoneDrawer;
@@ -44,6 +40,7 @@ public class InteractionZoneController extends InputAdapter {
 
     private void setTowerEntityToHolder(TowerEntity t) {
         groundController.setTowerEntityHolder(t);
+        groundController.setSelectedTowerSprite(t.getTexture());
     }
 
     private void initSelectionTowers() {
@@ -51,13 +48,7 @@ public class InteractionZoneController extends InputAdapter {
 
         Array<TowerJson> towersJson = json.fromJson(Array.class, TowerJson.class, Gdx.files.internal(Consts.TOWERS_JSON));
 
-        for (TowerJson towerJson: towersJson) {
-            final TowerEntity towerEntity = new TowerEntity(0, 0); //Create tower at generic point
-            towerEntity.setDamage(towerJson.damage);
-            towerEntity.setFiringSpeed(towerJson.firing_speed);
-            towerEntity.setId(towerJson.id);
-            towerEntity.setTexture(towerJson.skinPath);
-
+        for (final TowerJson towerJson: towersJson) {
             stackSelectionTowers.addWrapper(
                 new LayoutWrapper(
                     new Sprite(GameSingleton.getInstance().getTexture(
@@ -67,14 +58,12 @@ public class InteractionZoneController extends InputAdapter {
                         @Override
                         public void onClick(LayoutWrapper layoutWrapper) {
                             groundController.setHasSelectedTower(true);
-
+                            TowerEntity towerEntity = GameSingleton.getInstance().getTowerFactory().create(towerJson);
                             setTowerEntityToHolder(towerEntity);
                         }
 
                         @Override
-                        public void onHover(LayoutWrapper layoutWrapper) {
-                            System.out.printf("ON HOVER EM 1\n");
-                        }
+                        public void onHover(LayoutWrapper layoutWrapper) {}
                     }
                 )
             );

@@ -2,7 +2,6 @@
 package com.arco.towerdefense.game.controllers;
 
 import com.arco.towerdefense.game.drawer.GroundDrawer;
-import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.entities.Wave;
 import com.arco.towerdefense.game.entities.WaveManager;
@@ -11,9 +10,9 @@ import com.arco.towerdefense.game.utils.path.Path;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
@@ -75,6 +74,7 @@ public class GroundController extends InputAdapter {
         groundDrawer.drawTowers(towers);
         groundDrawer.drawEnemies(waveManager.getEnemiesList());
         groundDrawer.drawScheduledItems();
+        drawSelectedTowerUnderCursor();
     }
 
     //update tower and bullets movements
@@ -82,11 +82,6 @@ public class GroundController extends InputAdapter {
         for(TowerEntity tower : towers) {
             tower.update(delta);
         }
-    }
-
-    //dispose game drawer
-    public void dispose() {
-        this.groundDrawer.dispose();
     }
 
     @Override
@@ -123,6 +118,7 @@ public class GroundController extends InputAdapter {
             int gridX = screenX / groundDrawer.getScale();
             int gridY = screenY / groundDrawer.getScale();
 
+            groundDrawer.setPositionSelectedTower(screenX, screenY);
             groundDrawer.scheduleDrawGroundSelectionAt(gridX , gridY);
 
             return true;
@@ -131,4 +127,18 @@ public class GroundController extends InputAdapter {
         return false;
     }
 
+
+    public void setSelectedTowerSprite(Texture texture) {
+        groundDrawer.setSelectedTowerSprite(texture);
+    }
+
+    private void drawSelectedTowerUnderCursor() {
+        if (hasSelectedTower) {
+            groundDrawer.drawSelectedTowerUnderCursor();
+        }
+    }
+
+    public void dispose() {
+        this.groundDrawer.dispose();
+    }
 }

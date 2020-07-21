@@ -8,6 +8,7 @@ import com.arco.towerdefense.game.utils.path.Lane;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -32,6 +33,8 @@ public class GroundDrawer{
     private TextureRegion regionShapeDrawer;
     private ShapeDrawer shapeDrawer;
 
+    private Sprite selectedTower;
+
     private enum QueueKey { DRAW_GROUND_SELECTION };
     private Map<QueueKey, Vector2> scheduledDrawingPositions;
 
@@ -48,6 +51,8 @@ public class GroundDrawer{
         this.viewRectangle = viewRectangle;
 
         scheduledDrawingPositions = new HashMap<>();
+
+        selectedTower = null;
 
         initShapeDrawer();
 
@@ -79,11 +84,6 @@ public class GroundDrawer{
                 drawGridBlock(x, y, grassImg);
             }
         }
-
-        //drawLane(0, 5, 12, 5);
-        //drawLane(12, 5, 12, 2);
-        //drawLane(12, 2, 12, 5);
-        //drawLane(12, 2, 15, 2);
 
         drawLane(lanes);
         batch.enableBlending();
@@ -130,12 +130,6 @@ public class GroundDrawer{
         return scale;
     }
 
-    public void dispose() {
-        grassImg.dispose();
-        laneImg.dispose();
-        textureShapeDrawer.dispose();
-    }
-
     private void drawGridBlock(int x, int y, Texture texture) {
         for (int i = 0; i < gridBlockSize; i++) {
             int realX = x*scale;
@@ -149,22 +143,6 @@ public class GroundDrawer{
             }
         }
     }
-
-    /*
-    private void drawLane(int startX, int startY, int finalX, int finalY) {
-        if(startX == finalX) {
-            for(int y = startY; y <= finalY; y++) {
-                drawGridBlock(startX, y, laneImg);
-            }
-        }
-
-        if(startY == finalY) {
-            for(int x = startX; x <= finalX; x++) {
-                drawGridBlock(x, startY, laneImg);
-            }
-        }
-    }
-    */
 
     private void drawLane(ArrayList<Lane> lanes) {
         for(Lane lane : lanes) {
@@ -198,5 +176,27 @@ public class GroundDrawer{
         }
 
 
+    }
+
+    public void setPositionSelectedTower(float x, float y) {
+        selectedTower.setPosition(x, y);
+    }
+
+    public void setSelectedTowerSprite(Texture texture) {
+        selectedTower = new Sprite(texture, 0, 0, texture.getWidth(), texture.getHeight());
+        selectedTower.setScale(0.8f);
+        selectedTower.setAlpha(0.5f);
+    }
+
+    public void drawSelectedTowerUnderCursor() {
+        if (selectedTower == null) return;
+
+        selectedTower.draw(batch);
+    }
+
+    public void dispose() {
+        grassImg.dispose();
+        laneImg.dispose();
+        textureShapeDrawer.dispose();
     }
 }
