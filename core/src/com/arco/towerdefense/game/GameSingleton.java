@@ -1,12 +1,12 @@
 package com.arco.towerdefense.game;
 
+import com.arco.towerdefense.game.controllers.SoundControler;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.audio.Music;
 
 public class GameSingleton {
     private static GameSingleton instance = null;
@@ -14,16 +14,14 @@ public class GameSingleton {
     private Vector2 cursorLocation;
     public AssetManager assetManager;
     private InputProcessor inputProcessor;
+    public SoundControler soundControler;
 
-    //Volume settings
-    float effectsVolume;
-    float musicVolume;
 
     private GameSingleton() {
         assetManager = new AssetManager();
         cursorLocation = new Vector2(0, 0);
+        soundControler = new SoundControler();
 
-        setVolume();
         initAssetManager();
     }
 
@@ -71,37 +69,6 @@ public class GameSingleton {
 
     public void setInputProcessor(InputProcessor inputProcessor) {
         this.inputProcessor = inputProcessor;
-    }
-
-    public float getEffectsVolume() {
-        return effectsVolume;
-    }
-
-    private void setEffectsVolume(float volume) {
-        this.effectsVolume = volume;
-    }
-
-    public float getMusicVolume() {
-        return musicVolume;
-    }
-
-    private void setMusicVolume(float volume) {
-        this.musicVolume = volume;
-    }
-
-    public void turnUpVolume(Music music){
-        GameSingleton.getInstance().setMusicVolume(GameSingleton.getInstance().getMusicVolume() + 0.1f);
-        music.setVolume(GameSingleton.getInstance().getMusicVolume());
-    }
-
-    public void turnDownVolume(Music music){
-        GameSingleton.getInstance().setMusicVolume(GameSingleton.getInstance().getMusicVolume() - 0.1f);
-        music.setVolume(GameSingleton.getInstance().getMusicVolume());
-    }
-
-    private void setVolume() {
-        setEffectsVolume(0.5f);
-        setMusicVolume(0.5f);
     }
 
     public void dispose() {
