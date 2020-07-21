@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 public class Utils {
     private static Vector2 utilVector = new Vector2();
 
@@ -28,5 +30,24 @@ public class Utils {
 
     public static float getScreenCenterY() {
         return Consts.V_HEIGHT / 2;
+    }
+
+    public static Vector2 returnNextV2FromList(ArrayList<Vector2> array, Vector2 current) {
+        int next = array.indexOf(current) + 1;
+
+        if(array.get(next) == null)
+            return null;
+
+        return array.get(next);
+    }
+
+    public static Vector2 returnFirstV2FromList(ArrayList<Vector2> array) {
+        return array.get(0);
+    }
+
+    public static Vector2 returnLastV2FromList(ArrayList<Vector2> array) {
+        int last = array.size() -1;
+
+        return array.get(last);
     }
 }

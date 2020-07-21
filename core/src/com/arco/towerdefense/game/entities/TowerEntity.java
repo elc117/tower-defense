@@ -2,12 +2,10 @@ package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.Consts;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class TowerEntity{
@@ -92,5 +90,9 @@ public class TowerEntity{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Texture getTexture() {
+        return texture;
     }
 }
