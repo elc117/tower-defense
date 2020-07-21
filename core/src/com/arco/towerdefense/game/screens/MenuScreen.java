@@ -58,8 +58,8 @@ public class MenuScreen implements Screen {
             game.batch.draw(highConfigButton, posX, posY,highConfigButton.getWidth()/11,highConfigButton.getHeight()/11);
             if (Gdx.input.isTouched()) {
                 //CONFIG SCREEN
-                selectionSound.play(GameSingleton.getInstance().getEffectsVolume());
-
+                float volume = GameSingleton.getInstance().soundControler.getEffectsVolume();
+                selectionSound.play(volume);
             }
         }
         else {
@@ -75,7 +75,8 @@ public class MenuScreen implements Screen {
             game.batch.draw(playButton, posX, posY,playButton.getWidth()/5 + 20,playButton.getHeight()/5 + 20);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.gameScreen);
-                selectionSound.play(GameSingleton.getInstance().getEffectsVolume());
+                float volume = GameSingleton.getInstance().soundControler.getEffectsVolume();
+                selectionSound.play(volume);
                 music.stop();
 
             }
@@ -92,8 +93,8 @@ public class MenuScreen implements Screen {
             game.batch.draw(helpButton, posX, posY, helpButton.getWidth()/5 + 20,helpButton.getHeight()/5 + 20);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.helpScreen);
-                selectionSound.play(GameSingleton.getInstance().getEffectsVolume());
-
+                float volume = GameSingleton.getInstance().soundControler.getEffectsVolume();
+                selectionSound.play(volume);
             }
         } else {
             game.batch.draw(helpButton, posX, posY,helpButton.getWidth()/5,helpButton.getHeight()/5);
@@ -106,7 +107,8 @@ public class MenuScreen implements Screen {
         if (Utils.isCursorInside(posX, posY, quitButton.getWidth()/5, quitButton.getHeight()/5)) {
             game.batch.draw(quitButton, posX, posY,quitButton.getWidth()/5 + 20,quitButton.getHeight()/5 + 20);
             if (Gdx.input.isTouched()) {
-                selectionSound.play(1.0f);
+                float volume = GameSingleton.getInstance().soundControler.getEffectsVolume();
+                selectionSound.play(volume);
                 Gdx.app.exit();
             }
         } else {
@@ -134,7 +136,8 @@ public class MenuScreen implements Screen {
     private void initSounds() {
         selectionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/MainMenuSelection.mp3"));
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/musics/mainMenu.mp3"));
-        music.setVolume(GameSingleton.getInstance().getMusicVolume());
+        float volume = GameSingleton.getInstance().soundControler.getMusicVolume();
+        music.setVolume(volume);
         music.setLooping(true);
         music.play();
     }
