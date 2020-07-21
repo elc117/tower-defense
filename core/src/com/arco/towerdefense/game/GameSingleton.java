@@ -1,6 +1,6 @@
 package com.arco.towerdefense.game;
 
-import com.arco.towerdefense.game.controllers.SoundControler;
+import com.arco.towerdefense.game.controllers.SoundController;
 import com.arco.towerdefense.game.factories.TowerFactory;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
@@ -15,14 +15,14 @@ public class GameSingleton {
     private Vector2 cursorLocation;
     public AssetManager assetManager;
     private InputProcessor inputProcessor;
-    public SoundControler soundControler;
+    public SoundController soundController;
     private TowerFactory towerFactory;
 
 
     private GameSingleton() {
         assetManager = new AssetManager();
         cursorLocation = new Vector2(0, 0);
-        soundControler = new SoundControler();
+        soundController = new SoundController();
         towerFactory = new TowerFactory();
 
         initAssetManager();

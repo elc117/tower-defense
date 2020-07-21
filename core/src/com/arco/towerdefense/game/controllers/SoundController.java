@@ -3,11 +3,11 @@ package com.arco.towerdefense.game.controllers;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-public class SoundControler {
+public class SoundController {
     float effectsVolume;
     float musicVolume;
 
-    public SoundControler() {
+    public SoundController() {
         this.effectsVolume = 0.5f;
         this.musicVolume = 0.5f;
     }
