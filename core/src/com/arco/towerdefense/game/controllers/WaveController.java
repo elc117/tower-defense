@@ -1,13 +1,17 @@
 package com.arco.towerdefense.game.controllers;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 public class WaveController {
-    private int waveNumber;
+
+    private int currentWaveNumber;
     private float timeSinceLastSpawn;
     private float timeBetweenEnemies;
     private int enemiesPerWave;
@@ -16,19 +20,21 @@ public class WaveController {
     private ArrayList<Vector2> checkPoints;
     private boolean waveCompleted;
     private boolean first;
-    //private EnemyEntity enemy;
+    private int[] enemyTypes;
 
-    public WaveController(int waveNumber, float timeBetweenEnemies, int enemiesPerWave, ArrayList<Vector2> checkPoints) {
+    public WaveController(int currentWaveNumber, float timeBetweenEnemies, int enemiesPerWave, ArrayList<Vector2> checkPoints, int[] enemyTypes) {
         this.timeBetweenEnemies = timeBetweenEnemies;
         this.enemiesPerWave = enemiesPerWave;
         this.checkPoints = checkPoints;
-        this.waveNumber = waveNumber;
+        this.currentWaveNumber = currentWaveNumber;
 
         timeSinceLastSpawn = 0;
         enemiesPerWaveCounter = 0;
         enemies = new ArrayList<>();
         waveCompleted = false;
         first = true;
+
+        initTypes(enemyTypes);
     }
 
     private void spawn() {
@@ -37,11 +43,43 @@ public class WaveController {
         addEnemy();
     }
 
+    private void initTypes(int[] enemyTypes) {
+
+        this.enemyTypes = new int[enemyTypes.length];
+
+        for(int i = 0; i < enemyTypes.length; i++) {
+            this.enemyTypes[i] = enemyTypes[i];
+        }
+    }
+
+    private int selectTypeToSpawn() {
+        Random random = new Random();
+
+        int type = random.nextInt(2);
+
+        if(enemyTypes[type] == 0) {
+            if(type == 0)
+                type = 1;
+            else
+                type = 0;
+        }
+
+        enemyTypes[type]--;
+        return type + 1;
+    }
+
     private void addEnemy() {
         Vector2 startCheckPoint = Utils.returnFirstV2FromList(checkPoints);
         Vector2 nextCheckPoint = Utils.returnNextV2FromList(checkPoints, startCheckPoint);
-        Vector2 finalCheckPoint = Utils.returnLastV2FromList(checkPoints);
-        EnemyEntity enemyEntity = new EnemyEntity(startCheckPoint, nextCheckPoint, finalCheckPoint);
+
+        Random random = new Random();
+        int type = random.nextInt(2);
+
+        EnemyEntity enemyEntity = GameSingleton.getInstance().getEnemyFactory().createById(type+1);
+        enemyEntity.setNextCheckPoint(nextCheckPoint);
+        enemyEntity.setX(startCheckPoint.x);
+        enemyEntity.setY(startCheckPoint.y);
+        enemyEntity.selectDirection();
         enemies.add(enemyEntity);
         first = false;
     }
@@ -53,7 +91,6 @@ public class WaveController {
                 spawn();
             }
         }
-
         updateEnemies(delta);
     }
 
@@ -62,8 +99,9 @@ public class WaveController {
         boolean allEnemiesDead = true;
 
         for(EnemyEntity enemy : enemies) {
+            //System.out.println("ID : " + enemy.getTargetID());
             if (enemy.isCheckPoint()) {
-                if (enemy.isFinalCheckPoint()) {
+                if (isFinalCheckPoint(enemy.getNextCheckPoint())) {
                     enemy.alive = false;
                 } else {
                     Vector2 next = Utils.returnNextV2FromList(checkPoints, enemy.getNextCheckPoint());
@@ -85,47 +123,27 @@ public class WaveController {
            waveCompleted = true;
     }
 
+    public boolean isFinalCheckPoint(Vector2 nextCheckPoint) {
+        return nextCheckPoint == Utils.returnLastV2FromList(checkPoints);
+    }
+
     public boolean isCompleted() {
         return waveCompleted;
     }
 
-    public int getWaveNumber() {
-        return waveNumber;
-    }
-
-    public void setWaveNumber(int waveNumber) {
-        this.waveNumber = waveNumber;
-    }
-
-    public float getTimeBetweenEnemies() {
-        return timeBetweenEnemies;
-    }
-
-    public void setTimeBetweenEnemies(float timeBetweenEnemies) {
-        this.timeBetweenEnemies = timeBetweenEnemies;
+    public int getCurrentWaveNumber() {
+        return currentWaveNumber;
     }
 
     public int getEnemiesPerWave() {
         return enemiesPerWave;
     }
 
-    public void setEnemiesPerWave(int enemiesPerWave) {
-        this.enemiesPerWave = enemiesPerWave;
-    }
-
-    public int getEnemiesPerWaveCounter() {
-        return enemiesPerWaveCounter;
-    }
-
-    public void setEnemiesPerWaveCounter(int enemiesPerWaveCounter) {
-        this.enemiesPerWaveCounter = enemiesPerWaveCounter;
-    }
-
     public ArrayList<EnemyEntity> getEnemies() {
         return enemies;
     }
 
-    public void setEnemies(ArrayList<EnemyEntity> enemies) {
-        this.enemies = enemies;
+    public float getTimeBetweenEnemies() {
+        return timeBetweenEnemies;
     }
 }

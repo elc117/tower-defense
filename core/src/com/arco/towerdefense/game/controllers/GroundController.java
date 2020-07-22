@@ -23,10 +23,9 @@ public class GroundController extends InputAdapter {
 
     private boolean hasSelectedTower;
     private TowerEntity towerEntityHolder;
+    private LevelController levelController;
 
-    private WaveController currentWave;
-
-    public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight) {
+    public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight, LevelController levelController) {
 
         path = new Path();
         path.setCheckPoints();
@@ -39,7 +38,8 @@ public class GroundController extends InputAdapter {
         towerEntityHolder = null;
         hasSelectedTower = false;
 
-        currentWave = null;
+        this.levelController = levelController;
+        levelController.setCheckPoints(path.getCheckPoints());
     }
 
     private boolean existsTowerAt(float x, float y) {
@@ -67,9 +67,9 @@ public class GroundController extends InputAdapter {
     public void update(float delta) {
         groundDrawer.drawGround();
         updateTowers(delta);
-        updateWaves(delta);
+        levelController.update(delta);
         groundDrawer.drawTowers(towers);
-        groundDrawer.drawEnemies(currentWave.getEnemies());
+        groundDrawer.drawEnemies(levelController.getCurrentWave().getEnemies());
         groundDrawer.drawScheduledItems();
         drawSelectedTowerUnderCursor();
     }
@@ -79,32 +79,6 @@ public class GroundController extends InputAdapter {
         for(TowerEntity tower : towers) {
             tower.update(delta);
         }
-    }
-
-    private void updateWaves(float delta) {
-        if(currentWave == null)
-            newWave();
-
-        if (!currentWave.isCompleted())
-            currentWave.update(delta);
-        else {
-            if(currentWave.getWaveNumber() < 4)
-                newWave();
-        }
-    }
-
-    private void newWave() {
-        if(currentWave == null) {
-            currentWave = new WaveController(1, 2f, 4, path.getCheckPoints());
-            return;
-        }
-
-        int waveNumber = currentWave.getWaveNumber()+1;
-        float timeBetweenEnemies = currentWave.getEnemiesPerWave() - 1f;
-        int enemiesPerWave = currentWave.getEnemiesPerWave() + 1;
-
-        currentWave = new WaveController(waveNumber, timeBetweenEnemies, enemiesPerWave, path.getCheckPoints());
-        System.out.println("COMECANDO UMA NOVA WAVE :O, WAVE NUMERO: " + currentWave.getWaveNumber());
     }
 
     @Override
@@ -149,7 +123,6 @@ public class GroundController extends InputAdapter {
 
         return false;
     }
-
 
     public void setSelectedTowerSprite(Texture texture) {
         groundDrawer.setSelectedTowerSprite(texture);

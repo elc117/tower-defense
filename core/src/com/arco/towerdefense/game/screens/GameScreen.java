@@ -4,6 +4,8 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.controllers.GroundController;
 import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.controllers.InteractionZoneController;
+import com.arco.towerdefense.game.controllers.LevelController;
+import com.arco.towerdefense.game.factories.LevelGenerator;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
@@ -16,11 +18,13 @@ public class GameScreen implements Screen {
     private GroundController groundController;
     private InteractionZoneController interactionZoneController;
     private Texture homeButton;
+    private LevelController levelController;
 
-    public GameScreen(TowerDefenseGame game) {
+    public GameScreen(TowerDefenseGame game, int level) {
         this.game = game;
 
-        groundController = new GroundController(game.batch,2, Consts.V_WIDTH, Consts.V_HEIGHT);
+        this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(1);
+        groundController = new GroundController(game.batch,2, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
         interactionZoneController = new InteractionZoneController(game.batch, groundController);
 
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);

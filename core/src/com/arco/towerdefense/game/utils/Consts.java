@@ -21,8 +21,11 @@ public class Consts {
     public static final String GROUND_GRASS = "ground/grasstop.png";
     public static final String GROUND_DIRT = "ground/dirt.png";
     public static final String ENEMY = "enemies/enemy.png";
+    public static final String ENEMY2 = "enemies/enemy2.png";
 
     public static final String TOWERS_JSON = "towers/towers.json";
+    public static final String LEVELS_JSON = "levels/levels.json";
+    public static final String ENEMIES_JSON = "enemies/enemies.json";
 
 
     private Consts(){

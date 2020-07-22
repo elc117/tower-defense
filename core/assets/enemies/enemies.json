@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Virus Verde",
+    "speed": 5,
+    "skinPath": "enemies/enemy.png"
+  },
+  {
+    "id": 2,
+    "name": "Virus Vermelho",
+    "speed": 5.5,
+    "skinPath": "enemies/enemy2.png"
+  }
+]
