@@ -26,7 +26,7 @@ public class TowerDefenseGame extends Game {
 
 		introScreen = new IntroScreen(this);
 		menuScreen = new MenuScreen(this);
-		//gameScreen = new GameScreen(this);
+		gameScreen = new GameScreen(this);
 		helpScreen = new HelpScreen(this);
 		levelSelectScreen = new LevelSelectScreen(this);
 
