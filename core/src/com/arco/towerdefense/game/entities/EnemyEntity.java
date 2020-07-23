@@ -1,27 +1,36 @@
 package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
+import com.arco.towerdefense.game.entities.Entity;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.UUID;
+
 public class EnemyEntity extends Entity {
 
     private enum direction{DOWN, UP, LEFT, RIGHT}
+    private int id;
     private float speed;
     private Vector2 nextCheckPoint;
-    private Vector2 finalCheckPoint;
     private direction dir;
     public boolean alive;
+    private UUID targetID;
 
-    public EnemyEntity(Vector2 start, Vector2 nextCheckPoint, Vector2 finalCheckPoint) {
-        super(GameSingleton.getInstance().getTexture(Consts.ENEMY), start.x, start.y);
-        this.speed = 5;
-        this.nextCheckPoint = nextCheckPoint;
-        this.finalCheckPoint = finalCheckPoint;
+    public EnemyEntity(int id, float speed, String txt, UUID targetID) {
+        super(GameSingleton.getInstance().getTexture(txt), 0, 0);
+        this.id = id;
+        this.speed = speed;
         this.alive = true;
-        this.selectDirection();
+        this.targetID = targetID;
     }
+
+    //public EnemyEntity(float x, float y, Vector2 nextCheckPoint, UUID targetID) {
+      //  this.nextCheckPoint = nextCheckPoint;
+        //this.targetID = targetID;
+        //this.selectDirection();
+    //}
 
     public void update(float delta) {
         if(dir == direction.DOWN)
@@ -85,7 +94,11 @@ public class EnemyEntity extends Entity {
         return false;
     }
 
-    public boolean isFinalCheckPoint() {
-        return nextCheckPoint == finalCheckPoint;
+    public UUID getTargetID() {
+        return targetID;
+    }
+
+    public void setTargetID(UUID targetID) {
+        this.targetID = targetID;
     }
 }

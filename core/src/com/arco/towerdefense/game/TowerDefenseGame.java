@@ -1,9 +1,6 @@
 package com.arco.towerdefense.game;
 
-import com.arco.towerdefense.game.screens.GameScreen;
-import com.arco.towerdefense.game.screens.HelpScreen;
-import com.arco.towerdefense.game.screens.IntroScreen;
-import com.arco.towerdefense.game.screens.MenuScreen;
+import com.arco.towerdefense.game.screens.*;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -19,6 +16,7 @@ public class TowerDefenseGame extends Game {
 	public MenuScreen menuScreen;
 	public GameScreen gameScreen;
 	public HelpScreen helpScreen;
+	public LevelSelectScreen levelSelectScreen;
 
 	@Override
 	public void create () {
@@ -28,8 +26,9 @@ public class TowerDefenseGame extends Game {
 
 		introScreen = new IntroScreen(this);
 		menuScreen = new MenuScreen(this);
-		gameScreen = new GameScreen(this);
+		//gameScreen = new GameScreen(this);
 		helpScreen = new HelpScreen(this);
+		levelSelectScreen = new LevelSelectScreen(this);
 
 		this.setScreen(menuScreen);
 	}
@@ -50,6 +49,7 @@ public class TowerDefenseGame extends Game {
 		menuScreen.dispose();
 		gameScreen.dispose();
 		helpScreen.dispose();
+		levelSelectScreen.dispose();
 		GameSingleton.getInstance().dispose();
 	}
 }

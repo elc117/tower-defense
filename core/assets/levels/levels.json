@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "dificulty": 2,
+    "monstersPerWave": 5,
+    "waveNumber": 3,
+    "enemyTypes": [2,3]
+  },
+  {
+    "id": 2,
+    "dificulty": 3,
+    "monstersPerWave": 6,
+    "waveNumber": 6,
+    "enemyTypes": [3,3]
+  }
+]

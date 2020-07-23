@@ -1,6 +1,8 @@
 package com.arco.towerdefense.game;
 
 import com.arco.towerdefense.game.controllers.SoundController;
+import com.arco.towerdefense.game.factories.EnemyFactory;
+import com.arco.towerdefense.game.factories.LevelGenerator;
 import com.arco.towerdefense.game.factories.TowerFactory;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
@@ -17,6 +19,8 @@ public class GameSingleton {
     private InputProcessor inputProcessor;
     public SoundController soundController;
     private TowerFactory towerFactory;
+    private LevelGenerator levelGenerator;
+    private EnemyFactory enemyFactory;
 
 
     private GameSingleton() {
@@ -24,6 +28,9 @@ public class GameSingleton {
         cursorLocation = new Vector2(0, 0);
         soundController = new SoundController();
         towerFactory = new TowerFactory();
+        levelGenerator = new LevelGenerator();
+        enemyFactory = new EnemyFactory();
+
 
         initAssetManager();
     }
@@ -50,6 +57,7 @@ public class GameSingleton {
         assetManager.load(Consts.GROUND_GRASS, Texture.class);
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
         assetManager.load(Consts.ENEMY, Texture.class);
+        assetManager.load(Consts.ENEMY2, Texture.class);
 
         assetManager.finishLoading(); // Load all queued assets
     }
@@ -67,6 +75,14 @@ public class GameSingleton {
 
     public TowerFactory getTowerFactory() {
         return towerFactory;
+    }
+
+    public EnemyFactory getEnemyFactory() {
+        return enemyFactory;
+    }
+
+    public LevelGenerator getLevelGenerator() {
+        return levelGenerator;
     }
 
     public InputProcessor getInputProcessor() {

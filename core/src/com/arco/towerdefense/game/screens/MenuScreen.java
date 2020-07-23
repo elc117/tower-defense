@@ -69,7 +69,7 @@ public class MenuScreen implements Screen {
         if (Utils.isCursorInside(posX, posY, playButton.getWidth()/5, playButton.getHeight()/5)) {
             game.batch.draw(playButton, posX, posY,playButton.getWidth()/5 + 20,playButton.getHeight()/5 + 20);
             if (Gdx.input.isTouched()) {
-                game.setScreen(game.gameScreen);
+                game.setScreen(game.levelSelectScreen);
                 float volume = GameSingleton.getInstance().soundController.getEffectsVolume();
                 selectionSound.play(volume);
                 music.stop();
