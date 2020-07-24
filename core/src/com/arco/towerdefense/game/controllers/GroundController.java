@@ -4,20 +4,21 @@ package com.arco.towerdefense.game.controllers;
 import com.arco.towerdefense.game.drawer.GroundDrawer;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
-import com.arco.towerdefense.game.utils.path.Path;
+import com.arco.towerdefense.game.utils.path.Lane;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
 public class GroundController extends InputAdapter {
     private GroundDrawer groundDrawer;
     private ArrayList<TowerEntity> towers;
-    private Path path;
+    private ArrayList<Lane> lanes;
 
     private Rectangle viewRectangle;
 
@@ -26,20 +27,19 @@ public class GroundController extends InputAdapter {
     private LevelController levelController;
 
     public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight, LevelController levelController) {
+        this.levelController = levelController;
 
-        path = new Path();
-        path.setCheckPoints();
+        lanes = new ArrayList<>();
+        setLanes();
 
         viewRectangle = new Rectangle(0, 0, viewWidth, viewHeight);
-        groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle, path.getLanes());
+        groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle, lanes);
 
         towers = new ArrayList<>();
 
         towerEntityHolder = null;
         hasSelectedTower = false;
 
-        this.levelController = levelController;
-        levelController.setCheckPoints(path.getCheckPoints());
     }
 
     private boolean existsTowerAt(float x, float y) {
@@ -131,6 +131,15 @@ public class GroundController extends InputAdapter {
     private void drawSelectedTowerUnderCursor() {
         if (hasSelectedTower) {
             groundDrawer.drawSelectedTowerUnderCursor();
+        }
+    }
+
+    private void setLanes() {
+        for (int i = 0; i < levelController.getCheckPoints().size() - 1; i++) {
+            Vector2 checkPoint = levelController.getCheckPoints().get(i);
+            Vector2 nextPoint = levelController.getCheckPoints().get(i+1);
+
+            lanes.add(new Lane((int) checkPoint.x, (int) checkPoint.y, (int) nextPoint.x, (int) nextPoint.y));
         }
     }
 

@@ -37,12 +37,6 @@ public class WaveController {
         initTypes(enemyTypes);
     }
 
-    private void spawn() {
-        timeSinceLastSpawn = 0;
-        enemiesPerWaveCounter++;
-        addEnemy();
-    }
-
     private void initTypes(int[] enemyTypes) {
 
         this.enemyTypes = new int[enemyTypes.length];
@@ -75,13 +69,19 @@ public class WaveController {
         Random random = new Random();
         int type = random.nextInt(2);
 
-        EnemyEntity enemyEntity = GameSingleton.getInstance().getEnemyFactory().createById(type+1);
+        EnemyEntity enemyEntity = GameSingleton.getInstance().getEnemyFactory().createById(1);
         enemyEntity.setNextCheckPoint(nextCheckPoint);
         enemyEntity.setX(startCheckPoint.x);
         enemyEntity.setY(startCheckPoint.y);
         enemyEntity.selectDirection();
         enemies.add(enemyEntity);
         first = false;
+    }
+
+    private void spawn() {
+        timeSinceLastSpawn = 0;
+        enemiesPerWaveCounter++;
+        addEnemy();
     }
 
     public void update(float delta) {

@@ -25,8 +25,10 @@ public class LevelSelectScreen implements Screen {
 
         game.batch.begin();
             testFont.draw(game.batch, "HELLO WORLD, PRESS ENTER TO START LEVEL 1", 120, 120);
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER))
-                game.setScreen(new GameScreen(game, 1));
+            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                game.gameScreen.setLevel(1);
+                game.setScreen(game.gameScreen);
+            }
         game.batch.end();
     }
 

@@ -3,7 +3,10 @@ package com.arco.towerdefense.game.entities;
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.Entity;
 import com.arco.towerdefense.game.utils.Consts;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.UUID;
@@ -17,13 +20,17 @@ public class EnemyEntity extends Entity {
     private direction dir;
     public boolean alive;
     private UUID targetID;
+    private Animation<TextureRegion> animation;
+    private float stateTime;
 
-    public EnemyEntity(int id, float speed, String txt, UUID targetID) {
+    public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
         super(GameSingleton.getInstance().getTexture(txt), 0, 0);
         this.id = id;
         this.speed = speed;
         this.alive = true;
         this.targetID = targetID;
+        this.animation = animation;
+        this.stateTime = 0f;
     }
 
     //public EnemyEntity(float x, float y, Vector2 nextCheckPoint, UUID targetID) {
@@ -31,6 +38,15 @@ public class EnemyEntity extends Entity {
         //this.targetID = targetID;
         //this.selectDirection();
     //}
+
+
+    public Animation<TextureRegion> getAnimation() {
+        return animation;
+    }
+
+    public void setAnimation(Animation<TextureRegion> animation) {
+        this.animation = animation;
+    }
 
     public void update(float delta) {
         if(dir == direction.DOWN)
@@ -47,7 +63,9 @@ public class EnemyEntity extends Entity {
     }
 
     public void draw(SpriteBatch batch, int scale) {
-        batch.draw(txt, x*scale, y*scale, scale, scale);
+        stateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+        batch.draw(currentFrame,x*scale, y*scale, scale, scale);
     }
 
     public boolean isAlive() { return alive; }

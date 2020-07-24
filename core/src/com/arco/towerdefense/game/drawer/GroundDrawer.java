@@ -5,7 +5,9 @@ import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.path.Lane;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -57,6 +59,7 @@ public class GroundDrawer{
         initShapeDrawer();
 
         this.lanes = lanes;
+
     }
 
     private void initShapeDrawer() {

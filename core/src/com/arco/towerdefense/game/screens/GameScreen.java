@@ -19,8 +19,9 @@ public class GameScreen implements Screen {
     private InteractionZoneController interactionZoneController;
     private Texture homeButton;
     private LevelController levelController;
+    private int level;
 
-    public GameScreen(TowerDefenseGame game, int level) {
+    public GameScreen(TowerDefenseGame game) {
         this.game = game;
 
         this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(1);
@@ -83,5 +84,9 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(GameSingleton.getInstance().getInputProcessor());
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
