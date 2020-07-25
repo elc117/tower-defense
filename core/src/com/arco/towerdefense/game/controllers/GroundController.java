@@ -77,7 +77,7 @@ public class GroundController extends InputAdapter {
     //update tower and bullets movements
     private void updateTowers(float delta) {
         for(TowerEntity tower : towers) {
-            tower.update(delta);
+            tower.update(delta, levelController.getCurrentWave().getEnemies());
         }
     }
 

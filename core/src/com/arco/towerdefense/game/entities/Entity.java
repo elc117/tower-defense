@@ -2,6 +2,7 @@ package com.arco.towerdefense.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class Entity {
 
@@ -39,6 +40,5 @@ public abstract class Entity {
         this.y = y;
     }
 
-    public abstract void update(float delta);
     public abstract void draw(SpriteBatch batch, int scale);
 }
