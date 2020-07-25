@@ -21,6 +21,7 @@ public class GameSingleton {
     private TowerFactory towerFactory;
     private LevelGenerator levelGenerator;
     private EnemyFactory enemyFactory;
+    private int groundScale;
 
 
     private GameSingleton() {
@@ -30,6 +31,7 @@ public class GameSingleton {
         towerFactory = new TowerFactory();
         levelGenerator = new LevelGenerator();
         enemyFactory = new EnemyFactory();
+        groundScale = 1; // Default
 
 
         initAssetManager();
@@ -83,6 +85,14 @@ public class GameSingleton {
 
     public LevelGenerator getLevelGenerator() {
         return levelGenerator;
+    }
+
+    public int getGroundScale() {
+        return groundScale;
+    }
+
+    public void setGroundScale(int groundScale) {
+        this.groundScale = groundScale;
     }
 
     public InputProcessor getInputProcessor() {

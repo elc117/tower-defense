@@ -1,6 +1,7 @@
 
 package com.arco.towerdefense.game.controllers;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.drawer.GroundDrawer;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
@@ -35,6 +36,8 @@ public class GroundController extends InputAdapter {
         viewRectangle = new Rectangle(0, 0, viewWidth, viewHeight);
         groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle, lanes);
 
+        GameSingleton.getInstance().setGroundScale(groundDrawer.getScale());
+
         towers = new ArrayList<>();
 
         towerEntityHolder = null;
@@ -50,12 +53,11 @@ public class GroundController extends InputAdapter {
         return false;
     }
 
-    private void addTower(int x, int y) {
+    private void addTower(int gridX, int gridY) {
         if (towerEntityHolder == null) return;
 
-        towerEntityHolder.setX(x);
-        towerEntityHolder.setY(y);
-        towerEntityHolder.setScale(groundDrawer.getScale());
+        towerEntityHolder.setX(gridX);
+        towerEntityHolder.setY(gridY);
 
         towers.add(towerEntityHolder);
 
@@ -106,7 +108,7 @@ public class GroundController extends InputAdapter {
 
     public void setTowerEntityHolder(TowerEntity towerEntity) {
         this.towerEntityHolder = towerEntity;
-        groundDrawer.setSelectedTowerRange(towerEntity.getRange());
+        groundDrawer.setSelectedTowerEntity(towerEntity);
     }
 
     @Override

@@ -34,8 +34,8 @@ public class BulletEntity extends Entity {
         return shouldRemove;
     }
 
-    public void draw(SpriteBatch batch, int scale) {
-        batch.draw(txt, x*scale, y*scale, scale, scale);
+    public void draw(SpriteBatch batch) {
+        batch.draw(txt, getScaledX(), getScaledY(), scale, scale);
     }
 
     public void dispose() {

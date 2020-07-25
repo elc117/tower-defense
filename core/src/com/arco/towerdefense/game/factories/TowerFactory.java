@@ -1,5 +1,6 @@
 package com.arco.towerdefense.game.factories;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.json.TowerJson;
@@ -32,6 +33,8 @@ public class TowerFactory {
         towerEntity.setId(towerJson.id);
         towerEntity.setTexture(towerJson.skinPath);
         towerEntity.setRange(towerJson.range);
+        towerEntity.setHeight(GameSingleton.getInstance().getGroundScale());
+        towerEntity.setWidth(GameSingleton.getInstance().getGroundScale());
 
         return towerEntity;
     }

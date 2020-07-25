@@ -1,5 +1,6 @@
 package com.arco.towerdefense.game.factories;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
@@ -40,7 +41,8 @@ public class EnemyFactory {
     public EnemyEntity create(EnemyJson enemyJson) {
         UUID targetID = UUID.randomUUID();
         EnemyEntity enemyEntity = new EnemyEntity(enemyJson.id, enemyJson.speed, enemyJson.skinPath, targetID, monsterAnimation);
-
+        enemyEntity.setHeight(GameSingleton.getInstance().getGroundScale());
+        enemyEntity.setWidth(GameSingleton.getInstance().getGroundScale());
         return enemyEntity;
     }
 

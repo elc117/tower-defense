@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -33,8 +34,8 @@ public class GroundDrawer{
     private TextureRegion regionShapeDrawer;
     private ShapeDrawer shapeDrawer;
 
-    private Sprite selectedTower;
-    private float selectedTowerRange;
+    private Sprite selectedTowerSprite;
+    private TowerEntity selectedTowerEntity;
 
     private enum QueueKey { DRAW_GROUND_SELECTION };
     private Map<QueueKey, Vector2> scheduledDrawingPositions;
@@ -53,7 +54,8 @@ public class GroundDrawer{
 
         scheduledDrawingPositions = new HashMap<>();
 
-        selectedTower = null;
+        selectedTowerSprite = null;
+        selectedTowerEntity = null;
 
         initShapeDrawer();
 
@@ -109,19 +111,25 @@ public class GroundDrawer{
         int y = gridY*scale;
         shapeDrawer.rectangle(x, y, scale, scale);
 
+        if (selectedTowerEntity == null) return;
+
+        selectedTowerEntity.setX(gridX);
+        selectedTowerEntity.setY(gridY);
+
+        Circle circleTower = selectedTowerEntity.getCircleRange();
         shapeDrawer.setColor(Color.BLUE);
-        shapeDrawer.circle(x+(scale/2), y+(scale/2), selectedTowerRange*scale, 2);
+        shapeDrawer.circle(circleTower.x, circleTower.y, circleTower.radius, 2);
     }
 
     public void drawTowers(ArrayList<TowerEntity> towers) {
         for(TowerEntity tower : towers) {
-            tower.draw(batch, scale, shapeDrawer);
+            tower.draw(batch, shapeDrawer);
         }
     }
 
     public void drawEnemies(ArrayList<EnemyEntity> enemies) {
         for(EnemyEntity enemy : enemies) {
-            enemy.draw(batch, scale);
+            enemy.draw(batch);
         }
     }
 
@@ -186,23 +194,23 @@ public class GroundDrawer{
     }
 
     public void setPositionSelectedTower(float x, float y) {
-        selectedTower.setPosition(x, y);
+        selectedTowerSprite.setPosition(x, y);
     }
 
-    public void setSelectedTowerRange(float selectedTowerRange) {
-        this.selectedTowerRange = selectedTowerRange;
+    public void setSelectedTowerEntity(TowerEntity selectedTowerEntity) {
+        this.selectedTowerEntity = selectedTowerEntity;
     }
 
     public void setSelectedTowerSprite(Texture texture) {
-        selectedTower = new Sprite(texture, 0, 0, texture.getWidth(), texture.getHeight());
-        selectedTower.setScale(0.8f);
-        selectedTower.setAlpha(0.5f);
+        selectedTowerSprite = new Sprite(texture, 0, 0, texture.getWidth(), texture.getHeight());
+        selectedTowerSprite.setScale(0.8f);
+        selectedTowerSprite.setAlpha(0.5f);
     }
 
     public void drawSelectedTowerUnderCursor() {
-        if (selectedTower == null) return;
+        if (selectedTowerSprite == null) return;
 
-        selectedTower.draw(batch);
+        selectedTowerSprite.draw(batch);
     }
 
     public void dispose() {

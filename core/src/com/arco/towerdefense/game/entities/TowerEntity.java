@@ -4,6 +4,9 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.ArrayList;
@@ -11,30 +14,36 @@ import java.util.Iterator;
 
 
 public class TowerEntity extends Entity {
-
     private int damage;
     private float timeSinceLastShoot;
     private float firingSpeed;
     private ArrayList<BulletEntity> bullets;
     private int id;
     private float range;
-    private float rangePower2; // This is so that we store the pre-calculated value.
-    private int scale;
+    private Vector2 centerTower;
+    private float width;
+    private float height;
 
-    public TowerEntity(float x, float y) {
-        super(GameSingleton.getInstance().getTexture(Consts.TOWER_GLOBULO_BRANCO), x, y);
+    public TowerEntity(int gridX, int gridY) {
+        super(GameSingleton.getInstance().getTexture(Consts.TOWER_GLOBULO_BRANCO), gridX, gridY);
         this.bullets = new ArrayList<>();
-        this.scale = 1;
+
+        centerTower = new Vector2();
     }
 
 
     public void setRange(float range) {
         this.range = range * scale;
-        this.rangePower2 = this.range * this.range;
     }
 
-    public float getRange() {
-        return range / scale; // Here we normalize the range removing the scale
+    public Vector2 getCenterTower() {
+        centerTower.x = getScaledX() + width/2;
+        centerTower.y = getScaledY() + height/2;
+        return centerTower;
+    }
+
+    public Circle getCircleRange() {
+        return new Circle(getCenterTower(), range);
     }
 
     private void shoot(EnemyEntity enemyTarget) {
@@ -76,31 +85,17 @@ public class TowerEntity extends Entity {
         }
     }
 
-    public void draw(SpriteBatch batch, int scale, ShapeDrawer shapeDrawer) {
-        batch.draw(txt, x*scale, y*scale, scale, scale);
-
-        if (canShoot()) {
-            shapeDrawer.setColor(Color.GREEN);
-        } else {
-            shapeDrawer.setColor(Color.RED);
-        }
-
-        // Little circle indicating the ability to shoot again
-        int radius = 3;
-        shapeDrawer.filledCircle(this.x*scale + scale/2, this.y*scale - radius, radius); // scale == width and height
+    public void draw(SpriteBatch batch) {
+        batch.draw(txt, getScaledX(), getScaledY(), width, height);
 
         for (BulletEntity bullet : bullets) {
-            bullet.draw(batch, scale);
+            bullet.draw(batch);
         }
     }
 
     public void setTexture(String texturePath) {
         // If this throw an error means that we have not loaded the texture in our AssetManager.
         this.txt = GameSingleton.getInstance().getTexture(texturePath);
-    }
-
-    public void setScale(int scale) {
-        this.scale = scale;
     }
 
     public void setDamage(int damage) {
@@ -119,13 +114,28 @@ public class TowerEntity extends Entity {
     public EnemyEntity getEnemyInRange(ArrayList<EnemyEntity> enemies) {
         for (EnemyEntity enemy: enemies) {
             // Here I am thinking in optimization since this will happen lots of times
-            float distance = (enemy.x - this.x)*(enemy.x - this.x) + (enemy.y - this.y)*(enemy.y - this.y);
-
-            if (distance <= rangePower2) {
+//            System.out.printf("CIRCLE: %s", this.getCircleRange().toString());
+            if (Intersector.overlaps(this.getCircleRange(), enemy.getEnemyRect())) {
                 return enemy;
             }
         }
 
         return null; // We could not find any
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
     }
 }
