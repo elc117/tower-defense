@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "dificulty": 2,
-    "monstersPerWave": 5,
+    "difficulty": 2,
+    "monstersPerWave": 1,
     "waveNumber": 3,
     "enemyTypes": [2,3],
     "checkPoints":
@@ -15,8 +15,8 @@
   },
   {
     "id": 2,
-    "dificulty": 3,
-    "monstersPerWave": 6,
+    "difficulty": 3,
+    "monstersPerWave": 1,
     "waveNumber": 6,
     "enemyTypes": [3,3],
     "checkPoints":

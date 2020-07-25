@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class LevelJson {
     public int id;
-    public int dificulty;
+    public int difficulty;
     public int monstersPerWave;
     public int waveNumber;
     public int[] enemyTypes;

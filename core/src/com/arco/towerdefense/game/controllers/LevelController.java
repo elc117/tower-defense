@@ -1,7 +1,6 @@
 package com.arco.towerdefense.game.controllers;
 
 import com.arco.towerdefense.game.utils.json.LevelJson;
-import com.arco.towerdefense.game.utils.path.CheckPoint;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class LevelController {
 
     public LevelController(LevelJson levelJson) {
         this.id = levelJson.id;
-        this.dificulty = levelJson.dificulty;
+        this.dificulty = levelJson.difficulty;
         this.monstersPerWave = levelJson.monstersPerWave;
         this.waveNumber = levelJson.waveNumber;
         this.currentWave = null;
