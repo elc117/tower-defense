@@ -5,9 +5,7 @@ import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.path.Lane;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -36,6 +34,7 @@ public class GroundDrawer{
     private ShapeDrawer shapeDrawer;
 
     private Sprite selectedTower;
+    private float selectedTowerRange;
 
     private enum QueueKey { DRAW_GROUND_SELECTION };
     private Map<QueueKey, Vector2> scheduledDrawingPositions;
@@ -106,12 +105,17 @@ public class GroundDrawer{
 
     public void drawGroundSelection(int gridX, int gridY) {
         shapeDrawer.setColor(Color.RED);
-        shapeDrawer.rectangle(gridX*scale, gridY*scale, scale, scale);
+        int x = gridX*scale;
+        int y = gridY*scale;
+        shapeDrawer.rectangle(x, y, scale, scale);
+
+        shapeDrawer.setColor(Color.BLUE);
+        shapeDrawer.circle(x+(scale/2), y+(scale/2), selectedTowerRange*scale, 2);
     }
 
     public void drawTowers(ArrayList<TowerEntity> towers) {
         for(TowerEntity tower : towers) {
-            tower.draw(batch, scale);
+            tower.draw(batch, scale, shapeDrawer);
         }
     }
 
@@ -183,6 +187,10 @@ public class GroundDrawer{
 
     public void setPositionSelectedTower(float x, float y) {
         selectedTower.setPosition(x, y);
+    }
+
+    public void setSelectedTowerRange(float selectedTowerRange) {
+        this.selectedTowerRange = selectedTowerRange;
     }
 
     public void setSelectedTowerSprite(Texture texture) {

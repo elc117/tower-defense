@@ -31,6 +31,7 @@ public class TowerFactory {
         towerEntity.setFiringSpeed(towerJson.firing_speed);
         towerEntity.setId(towerJson.id);
         towerEntity.setTexture(towerJson.skinPath);
+        towerEntity.setRange(towerJson.range);
 
         return towerEntity;
     }

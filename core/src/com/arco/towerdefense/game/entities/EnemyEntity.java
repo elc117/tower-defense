@@ -66,6 +66,7 @@ public class EnemyEntity extends Entity {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
         batch.draw(currentFrame,x*scale, y*scale, scale, scale);
+        // Enemy Height and Width is equal to scale then
     }
 
     public boolean isAlive() { return alive; }

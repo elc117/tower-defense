@@ -55,6 +55,7 @@ public class GroundController extends InputAdapter {
 
         towerEntityHolder.setX(x);
         towerEntityHolder.setY(y);
+        towerEntityHolder.setScale(groundDrawer.getScale());
 
         towers.add(towerEntityHolder);
 
@@ -65,9 +66,10 @@ public class GroundController extends InputAdapter {
 
     //update call in game screen (call all the update methods to run the game)
     public void update(float delta) {
-        groundDrawer.drawGround();
         updateTowers(delta);
         levelController.update(delta);
+
+        groundDrawer.drawGround();
         groundDrawer.drawTowers(towers);
         groundDrawer.drawEnemies(levelController.getCurrentWave().getEnemies());
         groundDrawer.drawScheduledItems();
@@ -104,7 +106,7 @@ public class GroundController extends InputAdapter {
 
     public void setTowerEntityHolder(TowerEntity towerEntity) {
         this.towerEntityHolder = towerEntity;
-
+        groundDrawer.setSelectedTowerRange(towerEntity.getRange());
     }
 
     @Override
