@@ -48,7 +48,7 @@ public class TowerEntity extends Entity {
 
     private void shoot(EnemyEntity enemyTarget) {
         timeSinceLastShoot = 0;
-        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, x, y, 10, damage, enemyTarget));
+        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, x, y, 5, damage, enemyTarget));
 
     }
 
@@ -77,7 +77,7 @@ public class TowerEntity extends Entity {
         Iterator<BulletEntity> it = bullets.iterator();
         while (it.hasNext()) {
             BulletEntity bullet = it.next();
-            bullet.update(delta, scale);
+            bullet.update(delta);
             if (bullet.shouldRemove()) {
                 it.remove();
             }
@@ -112,7 +112,6 @@ public class TowerEntity extends Entity {
 
     public EnemyEntity getEnemyInRange(ArrayList<EnemyEntity> enemies) {
         for (EnemyEntity enemy: enemies) {
-            // Here I am thinking in optimization since this will happen lots of times
             if (Intersector.overlaps(this.getCircleRange(), enemy.getEntityRect())) {
                 return enemy;
             }

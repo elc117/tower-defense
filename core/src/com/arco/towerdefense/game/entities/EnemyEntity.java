@@ -18,10 +18,11 @@ public class EnemyEntity extends Entity {
     private float speed;
     private Vector2 nextCheckPoint;
     private direction dir;
-    public boolean alive;
+    private boolean alive;
     private UUID targetID;
     private Animation<TextureRegion> animation;
     private float stateTime;
+    private int healthPoints;
 
     public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
         super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
@@ -33,6 +34,7 @@ public class EnemyEntity extends Entity {
         this.targetID = targetID;
         this.animation = animation;
         this.stateTime = 0f;
+        this.healthPoints = 100;
     }
 
 
@@ -66,6 +68,18 @@ public class EnemyEntity extends Entity {
         // Enemy Height and Width is equal to scale then
     }
 
+    public void performHit(int damage) {
+        healthPoints -= damage;
+
+        if (healthPoints <= 0) {
+            alive = false;
+        }
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
     public boolean isAlive() { return alive; }
 
     public Vector2 getNextCheckPoint() {
@@ -77,23 +91,23 @@ public class EnemyEntity extends Entity {
     }
 
     public void selectDirection() {
-        if (nextCheckPoint != null) {
-            if (y > nextCheckPoint.y) {
-                //baixo
-                dir = direction.DOWN;
-            }
-            if (y < nextCheckPoint.y) {
-                //cima
-                dir = direction.UP;
-            }
-            if (x > nextCheckPoint.x) {
-                //esquerda
-                dir = direction.LEFT;
-            }
-            if (x < nextCheckPoint.x) {
-                //direita
-                dir = direction.RIGHT;
-            }
+        if (nextCheckPoint == null) return;
+
+        if (y > nextCheckPoint.y) {
+            //baixo
+            dir = direction.DOWN;
+        }
+        if (y < nextCheckPoint.y) {
+            //cima
+            dir = direction.UP;
+        }
+        if (x > nextCheckPoint.x) {
+            //esquerda
+            dir = direction.LEFT;
+        }
+        if (x < nextCheckPoint.x) {
+            //direita
+            dir = direction.RIGHT;
         }
     }
 

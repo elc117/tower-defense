@@ -98,10 +98,9 @@ public class WaveController {
         boolean allEnemiesDead = true;
 
         for(EnemyEntity enemy : enemies) {
-            //System.out.println("ID : " + enemy.getTargetID());
             if (enemy.isCheckPoint()) {
                 if (isFinalCheckPoint(enemy.getNextCheckPoint())) {
-                    enemy.alive = false;
+                    enemy.setAlive(false);
                 } else {
                     Vector2 next = Utils.returnNextV2FromList(checkPoints, enemy.getNextCheckPoint());
                     enemy.setNextCheckPoint(next);
