@@ -27,14 +27,11 @@ public class TowerFactory {
     }
 
     public TowerEntity create(TowerJson towerJson) {
-        TowerEntity towerEntity = new TowerEntity(0, 0); //Create tower at generic point
+        TowerEntity towerEntity = new TowerEntity(towerJson.skinPath, 0, 0); //Create tower at generic point
         towerEntity.setDamage(towerJson.damage);
         towerEntity.setFiringSpeed(towerJson.firing_speed);
         towerEntity.setId(towerJson.id);
-        towerEntity.setTexture(towerJson.skinPath);
         towerEntity.setRange(towerJson.range);
-        towerEntity.setHeight(GameSingleton.getInstance().getGroundScale());
-        towerEntity.setWidth(GameSingleton.getInstance().getGroundScale());
 
         return towerEntity;
     }

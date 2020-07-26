@@ -3,6 +3,7 @@ package com.arco.towerdefense.game.entities;
 import com.arco.towerdefense.game.GameSingleton;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -21,11 +22,11 @@ public class EnemyEntity extends Entity {
     private UUID targetID;
     private Animation<TextureRegion> animation;
     private float stateTime;
-    private int width;
-    private int height;
 
     public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
-        super(GameSingleton.getInstance().getTexture(txt), 0, 0);
+        super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
+        super.setSpriteSizeToScale();
+
         this.id = id;
         this.speed = speed;
         this.alive = true;
@@ -61,28 +62,8 @@ public class EnemyEntity extends Entity {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 
-        batch.draw(currentFrame, getScaledX(), getScaledY(), width, height);
+        batch.draw(currentFrame, getScaledX(), getScaledY(), getWidth(), getHeight());
         // Enemy Height and Width is equal to scale then
-    }
-
-    public Rectangle getEnemyRect() {
-        return new Rectangle(getScaledX(), getScaledY(), getWidth(), getHeight());
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public boolean isAlive() { return alive; }

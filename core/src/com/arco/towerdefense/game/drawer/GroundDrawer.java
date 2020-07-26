@@ -123,7 +123,7 @@ public class GroundDrawer{
 
     public void drawTowers(ArrayList<TowerEntity> towers) {
         for(TowerEntity tower : towers) {
-            tower.draw(batch, shapeDrawer);
+            tower.draw(batch);
         }
     }
 

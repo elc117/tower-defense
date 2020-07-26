@@ -41,8 +41,7 @@ public class EnemyFactory {
     public EnemyEntity create(EnemyJson enemyJson) {
         UUID targetID = UUID.randomUUID();
         EnemyEntity enemyEntity = new EnemyEntity(enemyJson.id, enemyJson.speed, enemyJson.skinPath, targetID, monsterAnimation);
-        enemyEntity.setHeight(GameSingleton.getInstance().getGroundScale());
-        enemyEntity.setWidth(GameSingleton.getInstance().getGroundScale());
+
         return enemyEntity;
     }
 
