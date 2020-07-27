@@ -22,6 +22,7 @@ public class EnemyEntity extends Entity {
     private UUID targetID;
     private Animation<TextureRegion> animation;
     private float stateTime;
+    private float spawnInterval;
 
     public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
         super(GameSingleton.getInstance().getTexture(txt), 0, 0);
@@ -63,9 +64,10 @@ public class EnemyEntity extends Entity {
     }
 
     public void draw(SpriteBatch batch, int scale) {
-        stateTime += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
-        batch.draw(currentFrame,x*scale, y*scale, scale, scale);
+        batch.draw(txt, x*scale, y*scale, scale, scale);
+        //stateTime += Gdx.graphics.getDeltaTime();
+        //TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+        //batch.draw(currentFrame,x*scale, y*scale, scale, scale);
     }
 
     public boolean isAlive() { return alive; }
@@ -118,5 +120,13 @@ public class EnemyEntity extends Entity {
 
     public void setTargetID(UUID targetID) {
         this.targetID = targetID;
+    }
+
+    public float getSpawnInterval() {
+        return spawnInterval;
+    }
+
+    public void setSpawnInterval(float spawnInterval) {
+        this.spawnInterval = spawnInterval;
     }
 }

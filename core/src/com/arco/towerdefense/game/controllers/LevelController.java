@@ -1,6 +1,7 @@
 package com.arco.towerdefense.game.controllers;
 
 import com.arco.towerdefense.game.utils.json.LevelJson;
+import com.arco.towerdefense.game.utils.json.Wave;
 import com.arco.towerdefense.game.utils.path.CheckPoint;
 import com.badlogic.gdx.math.Vector2;
 
@@ -9,32 +10,41 @@ import java.util.ArrayList;
 public class LevelController {
     private int id;
     private float dificulty;
-    private int monstersPerWave;
-    private int waveNumber;
+    private ArrayList<WaveController> waves;
     private WaveController currentWave;
     private ArrayList<Vector2> checkPoints;
-    private int[] enemyTypes;
-    private boolean completed;
+    public boolean completed = false;
 
-    public LevelController(LevelJson levelJson) {
+    public LevelController(LevelJson levelJson, ArrayList<WaveController> waves) {
         this.id = levelJson.id;
         this.dificulty = levelJson.dificulty;
-        this.monstersPerWave = levelJson.monstersPerWave;
-        this.waveNumber = levelJson.waveNumber;
+        this.waves = waves;
         this.currentWave = null;
         this.checkPoints = levelJson.checkPoints;
-        this.enemyTypes = levelJson.enemyTypes;
-        this.completed = false;
     }
 
     public ArrayList<Vector2> getCheckPoints() {
         return checkPoints;
     }
 
-    public void setCheckPoints(ArrayList<Vector2> checkPoints) {
-        this.checkPoints = checkPoints;
+    public WaveController getCurrentWave() {
+        return currentWave;
     }
 
+
+    private WaveController getNextWave(WaveController wave) {
+        int next = waves.indexOf(wave) + 1;
+
+        if(waves.get(next) == null)
+            return null;
+
+        return waves.get(next);
+    }
+
+    private WaveController getFirstWave() {
+        return this.waves.get(0);
+    }
+    
     public void update(float delta) {
         updateWaves(delta);
     }
@@ -43,34 +53,33 @@ public class LevelController {
         if(currentWave == null)
             newWave();
 
-        if (!currentWave.isCompleted())
+        if (!currentWave.completed) {
             currentWave.update(delta);
-        else {
-            if(currentWave.getCurrentWaveNumber() < waveNumber)
+        } else {
+            if(currentWave.getId() < waves.size())
                 newWave();
-            else
-                completed = true;
+        }
+
+        if(currentWave.getId() == waves.size() && currentWave.completed) {
+            completed = true;
+            System.out.println("PARABENS VC CONCLUIU O LEVEL");
         }
     }
+
 
     private void newWave() {
         if(currentWave == null) {
-            currentWave = new WaveController(1, 2f, monstersPerWave, checkPoints, enemyTypes);
-        } else {
-            int nextWaveNumber = currentWave.getCurrentWaveNumber() + 1;
-            float timeBetweenEnemies = currentWave.getTimeBetweenEnemies() - 0.5f;
-            int monsterPerWave = this.monstersPerWave + 1;
-            currentWave = new WaveController(nextWaveNumber, timeBetweenEnemies, monsterPerWave, checkPoints, enemyTypes);
+            currentWave = getFirstWave();
         }
 
-        System.out.println("WAVE NUMERO: " + currentWave.getCurrentWaveNumber());
+        else {
+            currentWave = waves.get(currentWave.getId());
+        }
+
+        System.out.println("COMEÇANDO A WAVE: " + currentWave.getId());
+
     }
 
-    public WaveController getCurrentWave() {
-        return currentWave;
-    }
 
-    public boolean isCompleted() {
-        return completed;
-    }
+
 }

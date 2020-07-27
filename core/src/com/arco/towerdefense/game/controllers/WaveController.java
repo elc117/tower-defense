@@ -3,6 +3,8 @@ package com.arco.towerdefense.game.controllers;
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.utils.Utils;
+import com.arco.towerdefense.game.utils.json.Spawn;
+import com.arco.towerdefense.game.utils.json.Wave;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -11,94 +13,76 @@ import java.util.UUID;
 
 public class WaveController {
 
-    private int currentWaveNumber;
-    private float timeSinceLastSpawn;
-    private float timeBetweenEnemies;
-    private int enemiesPerWave;
-    private int enemiesPerWaveCounter;
+    private int id;
     private ArrayList<EnemyEntity> enemies;
     private ArrayList<Vector2> checkPoints;
-    private boolean waveCompleted;
-    private boolean first;
-    private int[] enemyTypes;
+    private ArrayList<Spawn> spawns;
+    private int order;
+    private ArrayList<EnemyEntity> enemiesInGame;
+    private float timeSinceLastSpawn;
+    private boolean allEnemiesDead = true;
+    private boolean first = true;
+    public boolean completed = false;
 
-    public WaveController(int currentWaveNumber, float timeBetweenEnemies, int enemiesPerWave, ArrayList<Vector2> checkPoints, int[] enemyTypes) {
-        this.timeBetweenEnemies = timeBetweenEnemies;
-        this.enemiesPerWave = enemiesPerWave;
+
+    public WaveController(int id, ArrayList<Spawn> spawns, ArrayList<Vector2> checkPoints) {
+        this.spawns = spawns;
         this.checkPoints = checkPoints;
-        this.currentWaveNumber = currentWaveNumber;
-
-        timeSinceLastSpawn = 0;
-        enemiesPerWaveCounter = 0;
-        enemies = new ArrayList<>();
-        waveCompleted = false;
-        first = true;
-
-        initTypes(enemyTypes);
+        this.enemies = new ArrayList<>();
+        this.order = 0;
+        this.enemiesInGame = new ArrayList<>();
+        this.timeSinceLastSpawn = 0;
+        this.id = id;
+        selectionToSpawn();
     }
 
-    private void initTypes(int[] enemyTypes) {
-
-        this.enemyTypes = new int[enemyTypes.length];
-
-        for(int i = 0; i < enemyTypes.length; i++) {
-            this.enemyTypes[i] = enemyTypes[i];
+    private void selectionToSpawn() {
+        for(Spawn spawn : spawns) {
+            if(order == spawn.order) {
+                for(int i = 0; i < spawn.quantity; i++) {
+                    addEnemy(spawn.enemyId, spawn.spawnInterval);
+                }
+            }
         }
     }
 
-    private int selectTypeToSpawn() {
-        Random random = new Random();
-
-        int type = random.nextInt(2);
-
-        if(enemyTypes[type] == 0) {
-            if(type == 0)
-                type = 1;
-            else
-                type = 0;
-        }
-
-        enemyTypes[type]--;
-        return type + 1;
-    }
-
-    private void addEnemy() {
+    private void addEnemy(int id, float spawnInterval) {
         Vector2 startCheckPoint = Utils.returnFirstV2FromList(checkPoints);
         Vector2 nextCheckPoint = Utils.returnNextV2FromList(checkPoints, startCheckPoint);
 
-        Random random = new Random();
-        int type = random.nextInt(2);
-
-        EnemyEntity enemyEntity = GameSingleton.getInstance().getEnemyFactory().createById(1);
+        EnemyEntity enemyEntity = GameSingleton.getInstance().getEnemyFactory().createById(id);
         enemyEntity.setNextCheckPoint(nextCheckPoint);
         enemyEntity.setX(startCheckPoint.x);
         enemyEntity.setY(startCheckPoint.y);
+        enemyEntity.setSpawnInterval(spawnInterval);
         enemyEntity.selectDirection();
         enemies.add(enemyEntity);
+    }
+
+
+    private void spawn(EnemyEntity enemy) {
+        timeSinceLastSpawn = 0;
+        enemiesInGame.add(enemy);
         first = false;
     }
 
-    private void spawn() {
-        timeSinceLastSpawn = 0;
-        enemiesPerWaveCounter++;
-        addEnemy();
-    }
-
     public void update(float delta) {
-        if(enemiesPerWaveCounter < enemiesPerWave) {
-            timeSinceLastSpawn += delta;
-            if(timeSinceLastSpawn > timeBetweenEnemies) {
-                spawn();
+        timeSinceLastSpawn += delta;
+        ArrayList<EnemyEntity> enemiesToRemove = new ArrayList<>();
+        for(EnemyEntity enemy : enemies) {
+            if (timeSinceLastSpawn > enemy.getSpawnInterval()) {
+                spawn(enemy);
+                enemiesToRemove.add(enemy);
             }
         }
+        enemies.removeAll(enemiesToRemove);
         updateEnemies(delta);
     }
 
     private void updateEnemies(float delta) {
         ArrayList<EnemyEntity> enemiesToRemove = new ArrayList<>();
-        boolean allEnemiesDead = true;
 
-        for(EnemyEntity enemy : enemies) {
+        for(EnemyEntity enemy : enemiesInGame) {
             //System.out.println("ID : " + enemy.getTargetID());
             if (enemy.isCheckPoint()) {
                 if (isFinalCheckPoint(enemy.getNextCheckPoint())) {
@@ -118,32 +102,32 @@ public class WaveController {
 
             enemy.update(delta);
         }
-        enemies.removeAll(enemiesToRemove);
-        if(allEnemiesDead && !first)
-           waveCompleted = true;
+        enemiesInGame.removeAll(enemiesToRemove);
+        if(enemiesInGame.isEmpty() && order<2 && !first) {
+            order++;
+            selectionToSpawn();
+        } else if(order>=2 && enemiesInGame.isEmpty()){
+            completed = true;
+        }
     }
 
     public boolean isFinalCheckPoint(Vector2 nextCheckPoint) {
         return nextCheckPoint == Utils.returnLastV2FromList(checkPoints);
     }
 
-    public boolean isCompleted() {
-        return waveCompleted;
+    public ArrayList<EnemyEntity> getEnemiesInGame() {
+        return enemiesInGame;
     }
 
-    public int getCurrentWaveNumber() {
-        return currentWaveNumber;
+    public int getId() {
+        return id;
     }
 
-    public int getEnemiesPerWave() {
-        return enemiesPerWave;
+    public void setId() {
+        this.id ++;
     }
 
-    public ArrayList<EnemyEntity> getEnemies() {
-        return enemies;
-    }
-
-    public float getTimeBetweenEnemies() {
-        return timeBetweenEnemies;
+    public void setId(int id) {
+        this.id  = id;
     }
 }
