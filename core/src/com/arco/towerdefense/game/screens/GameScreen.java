@@ -21,10 +21,12 @@ public class GameScreen implements Screen {
     private LevelController levelController;
     private int level;
 
-    public GameScreen(TowerDefenseGame game) {
+    public GameScreen(TowerDefenseGame game, int level) {
         this.game = game;
 
-        this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(1);
+        this.level = level;
+        System.out.println("COMEÇANDO O NIVEL : " + level);
+        this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(level);
         groundController = new GroundController(game.batch,2, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
         interactionZoneController = new InteractionZoneController(game.batch, groundController);
 
