@@ -36,8 +36,6 @@ public class GroundController extends InputAdapter {
         viewRectangle = new Rectangle(0, 0, viewWidth, viewHeight);
         groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle, lanes);
 
-        GameSingleton.getInstance().setGroundScale(groundDrawer.getScale());
-
         towers = new ArrayList<>();
 
         towerEntityHolder = null;

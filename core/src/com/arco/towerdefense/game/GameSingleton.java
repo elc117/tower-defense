@@ -108,4 +108,12 @@ public class GameSingleton {
     public void dispose() {
         assetManager.clear();
     }
+
+    public int initGroundScale(int gridBlockSize) {
+        int groundSize = GameSingleton.getInstance().getTexture(Consts.GROUND_GRASS).getHeight();
+
+        setGroundScale(gridBlockSize*groundSize);
+
+        return getGroundScale();
+    }
 }

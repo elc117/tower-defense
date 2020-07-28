@@ -26,8 +26,13 @@ public class GameScreen implements Screen {
 
         this.level = level;
         System.out.println("COMEÇANDO O NIVEL : " + level);
+
+        int GRID_BLOCK_SIZE = 2;
+
+        GameSingleton.getInstance().initGroundScale(GRID_BLOCK_SIZE);
+
         this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(level);
-        groundController = new GroundController(game.batch,2, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
+        groundController = new GroundController(game.batch,GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
         interactionZoneController = new InteractionZoneController(game.batch, groundController);
 
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);
