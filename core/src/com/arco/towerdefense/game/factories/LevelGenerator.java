@@ -29,14 +29,14 @@ public class LevelGenerator {
         return null;
     }
 
-    public LevelController create(LevelJson level) {
+    public static LevelController create(LevelJson level) {
         ArrayList<WaveController> waves = generateWaves(level);
         LevelController levelController = new LevelController(level, waves);
 
         return levelController;
     }
 
-    private ArrayList<WaveController> generateWaves(LevelJson level) {
+    private static ArrayList<WaveController> generateWaves(LevelJson level) {
         ArrayList<WaveController> waveControllers = new ArrayList<>();
         for(Wave wave : level.waves) {
             waveControllers.add(new WaveController(wave.waveID, wave.spawns, level.checkPoints));
