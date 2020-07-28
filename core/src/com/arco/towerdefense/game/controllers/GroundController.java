@@ -73,7 +73,7 @@ public class GroundController extends InputAdapter {
 
         groundDrawer.drawGround();
         groundDrawer.drawTowers(towers);
-        groundDrawer.drawEnemies(levelController.getCurrentWave().getEnemies());
+        groundDrawer.drawEnemies(levelController.getCurrentWave().getEnemiesInGame());
         groundDrawer.drawScheduledItems();
         drawSelectedTowerUnderCursor();
     }

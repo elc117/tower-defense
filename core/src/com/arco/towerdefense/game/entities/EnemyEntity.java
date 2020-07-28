@@ -26,6 +26,7 @@ public class EnemyEntity extends Entity {
     private float stateTime;
     private int healthPoints;
     private int maxHealthPoints;
+    private float spawnInterval;
 
     public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
         super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
@@ -143,5 +144,13 @@ public class EnemyEntity extends Entity {
 
     public void setTargetID(UUID targetID) {
         this.targetID = targetID;
+    }
+
+    public float getSpawnInterval() {
+        return spawnInterval;
+    }
+
+    public void setSpawnInterval(float spawnInterval) {
+        this.spawnInterval = spawnInterval;
     }
 }

@@ -10,5 +10,17 @@
     "name": "Virus Vermelho",
     "speed": 5.5,
     "skinPath": "enemies/enemy2.png"
+  },
+  {
+    "id": 3,
+    "name": "Virus do mal",
+    "speed": 4,
+    "skinPath": "badlogic.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Virus do slime",
+    "speed": 4.5,
+    "skinPath": "slimecursor.png"
   }
 ]

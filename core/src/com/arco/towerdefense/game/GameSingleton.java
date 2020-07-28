@@ -60,7 +60,8 @@ public class GameSingleton {
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
         assetManager.load(Consts.ENEMY, Texture.class);
         assetManager.load(Consts.ENEMY2, Texture.class);
-        assetManager.load(Consts.ATTACK_BADLOGIC, Texture.class);
+        assetManager.load(Consts.BADLOGIC, Texture.class);
+        assetManager.load(Consts.SLIME, Texture.class);
 
         assetManager.finishLoading(); // Load all queued assets
     }
