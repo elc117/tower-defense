@@ -1,5 +1,6 @@
 package com.arco.towerdefense.game.factories;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.json.TowerJson;
@@ -26,11 +27,11 @@ public class TowerFactory {
     }
 
     public TowerEntity create(TowerJson towerJson) {
-        TowerEntity towerEntity = new TowerEntity(0, 0); //Create tower at generic point
+        TowerEntity towerEntity = new TowerEntity(towerJson.skinPath, 0, 0); //Create tower at generic point
         towerEntity.setDamage(towerJson.damage);
         towerEntity.setFiringSpeed(towerJson.firing_speed);
         towerEntity.setId(towerJson.id);
-        towerEntity.setTexture(towerJson.skinPath);
+        towerEntity.setRange(towerJson.range);
 
         return towerEntity;
     }

@@ -1,34 +1,75 @@
 package com.arco.towerdefense.game.entities;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.Consts;
+import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 
 import static com.arco.towerdefense.game.utils.Consts.V_WIDTH;
 
 public class BulletEntity extends Entity {
-
     private float speed;
     private int damage;
-    public boolean remove;
+    private boolean shouldRemove;
+    private EnemyEntity target;
 
-    public BulletEntity(String txt, float x, float y, float speed, int damage) {
-        super(new Texture(txt), x, y);
+    public BulletEntity(String texturePath, float x, float y, float speed, int damage, EnemyEntity target) {
+        super(new Sprite(GameSingleton.getInstance().getTexture(texturePath)), x, y);
+        super.setSpriteSizeToScale();
+
         this.speed = speed;
         this.damage = damage;
-        this.remove = false;
+        this.shouldRemove = false;
+        this.target = target;
     }
 
     public void update(float delta) {
-        x += delta * speed;
+        x += adjustDeltaXAxis(delta) * speed;
+        y += adjustDeltaYAxis(delta) * speed;
 
-        if(x > Consts.V_WIDTH) {
-            remove = true;
+        if (hasHitTarget()) {
+            performTargetHit();
+        }
+
+        if(!Utils.isInsideScreen(getScaledX(), getScaledY())) {
+            shouldRemove = true;
         }
     }
 
-    public void draw(SpriteBatch batch, int scale) {
-        batch.draw(txt, x*scale, y*scale, scale, scale);
+    private void performTargetHit() {
+        this.shouldRemove = true;
+        target.performHit(this.damage);
+    }
+
+    public boolean hasHitTarget() {
+        return Intersector.overlaps(super.getEntityRect(), target.getEntityRect());
+    }
+
+    private float adjustDeltaXAxis(float delta) {
+        if (x > target.x) {
+            return -delta;
+        }
+
+        return delta;
+    }
+
+    private float adjustDeltaYAxis(float delta) {
+        if (y > target.y) {
+            return -delta;
+        }
+
+        return delta;
+    }
+
+    public boolean shouldRemove() {
+        return shouldRemove;
+    }
+
+    public void draw(SpriteBatch batch) {
+        super.draw(batch);
     }
 }

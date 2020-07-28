@@ -1,5 +1,6 @@
 package com.arco.towerdefense.game.factories;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.entities.EnemyEntity;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;

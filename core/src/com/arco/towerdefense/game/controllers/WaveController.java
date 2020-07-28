@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.UUID;
 
 public class WaveController {
 
@@ -94,11 +93,11 @@ public class WaveController {
 
     private void updateEnemies(float delta) {
         ArrayList<EnemyEntity> enemiesToRemove = new ArrayList<>();
-
+      
         for(EnemyEntity enemy : enemiesInGame) {
             if (enemy.isCheckPoint()) {
                 if (isFinalCheckPoint(enemy.getNextCheckPoint())) {
-                    enemy.alive = false;
+                    enemy.setAlive(false);
                 } else {
                     Vector2 next = Utils.returnNextV2FromList(checkPoints, enemy.getNextCheckPoint());
                     enemy.setNextCheckPoint(next);

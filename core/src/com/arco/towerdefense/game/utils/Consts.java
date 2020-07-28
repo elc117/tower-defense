@@ -29,6 +29,8 @@ public class Consts {
     public static final String LEVELS_JSON = "levels/levels.json";
     public static final String ENEMIES_JSON = "enemies/enemies.json";
 
+    // Attacks
+    public static final String ATTACK_BADLOGIC = "badlogic.jpg";
 
     private Consts(){
         //this prevents even the native class from

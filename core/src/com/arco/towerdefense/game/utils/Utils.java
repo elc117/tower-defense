@@ -9,9 +9,14 @@ import java.util.ArrayList;
 
 public class Utils {
     private static Vector2 utilVector = new Vector2();
+    private static Rectangle utilRectangle = new Rectangle();
 
     public static boolean isCursorInside(float x, float y, float width, float height) {
-        return (new Rectangle(x, y, width, height)).contains(GameSingleton.getInstance().getCursorLocation());
+        utilRectangle.setX(x);
+        utilRectangle.setY(y);
+        utilRectangle.setWidth(width);
+        utilRectangle.setHeight(height);
+        return utilRectangle.contains(GameSingleton.getInstance().getCursorLocation());
     }
 
     public static boolean isCursorInside(Sprite sprite) {
@@ -30,6 +35,15 @@ public class Utils {
 
     public static float getScreenCenterY() {
         return Consts.V_HEIGHT / 2;
+    }
+
+    public static boolean isInsideScreen(float x, float y) {
+        utilRectangle.setX(0);
+        utilRectangle.setY(0);
+        utilRectangle.setWidth(Consts.V_WIDTH);
+        utilRectangle.setHeight(Consts.V_HEIGHT);
+
+        return isInsideRectangle(utilRectangle, x, y);
     }
 
     public static Vector2 returnNextV2FromList(ArrayList<Vector2> array, Vector2 current) {

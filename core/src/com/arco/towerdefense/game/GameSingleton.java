@@ -21,6 +21,7 @@ public class GameSingleton {
     private TowerFactory towerFactory;
     private LevelGenerator levelGenerator;
     private EnemyFactory enemyFactory;
+    private int groundScale;
 
 
     private GameSingleton() {
@@ -30,6 +31,7 @@ public class GameSingleton {
         towerFactory = new TowerFactory();
         levelGenerator = new LevelGenerator();
         enemyFactory = new EnemyFactory();
+        groundScale = 1; // Default
 
 
         initAssetManager();
@@ -87,6 +89,14 @@ public class GameSingleton {
         return levelGenerator;
     }
 
+    public int getGroundScale() {
+        return groundScale;
+    }
+
+    public void setGroundScale(int groundScale) {
+        this.groundScale = groundScale;
+    }
+
     public InputProcessor getInputProcessor() {
         return inputProcessor;
     }
@@ -97,5 +107,13 @@ public class GameSingleton {
 
     public void dispose() {
         assetManager.clear();
+    }
+
+    public int initGroundScale(int gridBlockSize) {
+        int groundSize = GameSingleton.getInstance().getTexture(Consts.GROUND_GRASS).getHeight();
+
+        setGroundScale(gridBlockSize*groundSize);
+
+        return getGroundScale();
     }
 }

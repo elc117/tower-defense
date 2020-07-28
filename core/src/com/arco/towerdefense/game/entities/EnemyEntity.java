@@ -1,13 +1,15 @@
 package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
-import com.arco.towerdefense.game.entities.Entity;
-import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.UUID;
 
@@ -18,28 +20,27 @@ public class EnemyEntity extends Entity {
     private float speed;
     private Vector2 nextCheckPoint;
     private direction dir;
-    public boolean alive;
+    private boolean alive;
     private UUID targetID;
     private Animation<TextureRegion> animation;
     private float stateTime;
+    private int healthPoints;
+    private int maxHealthPoints;
     private float spawnInterval;
 
     public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
-        super(GameSingleton.getInstance().getTexture(txt), 0, 0);
+        super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
+        super.setSpriteSizeToScale();
+
         this.id = id;
         this.speed = speed;
         this.alive = true;
         this.targetID = targetID;
         this.animation = animation;
         this.stateTime = 0f;
+        this.maxHealthPoints = 100;
+        this.healthPoints = 100;
     }
-
-    //public EnemyEntity(float x, float y, Vector2 nextCheckPoint, UUID targetID) {
-      //  this.nextCheckPoint = nextCheckPoint;
-        //this.targetID = targetID;
-        //this.selectDirection();
-    //}
-
 
     public Animation<TextureRegion> getAnimation() {
         return animation;
@@ -63,11 +64,37 @@ public class EnemyEntity extends Entity {
             x += delta * speed;
     }
 
-    public void draw(SpriteBatch batch, int scale) {
-        batch.draw(txt, x*scale, y*scale, scale, scale);
-        //stateTime += Gdx.graphics.getDeltaTime();
-        //TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
-        //batch.draw(currentFrame,x*scale, y*scale, scale, scale);
+    public void draw(SpriteBatch batch, ShapeDrawer shapeDrawer) {
+        stateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+
+        batch.draw(currentFrame, getScaledX(), getScaledY(), getWidth(), getHeight());
+
+        drawHealthBar(shapeDrawer);
+    }
+
+    private void drawHealthBar(ShapeDrawer shapeDrawer) {
+        float totalWidth = getWidth();
+        float height = 5;
+
+        float posY = getScaledY() + getHeight() + 3; // 5 is the margin
+
+        float percentHP = (float) healthPoints / maxHealthPoints;
+        float widthHP = percentHP*totalWidth;
+        shapeDrawer.filledRectangle(getScaledX(), posY, widthHP, height, Color.GREEN);
+        shapeDrawer.filledRectangle(getScaledX() + widthHP, posY, totalWidth - widthHP, height, Color.RED);
+    }
+
+    public void performHit(int damage) {
+        healthPoints -= damage;
+
+        if (healthPoints <= 0) {
+            alive = false;
+        }
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public boolean isAlive() { return alive; }
@@ -81,26 +108,23 @@ public class EnemyEntity extends Entity {
     }
 
     public void selectDirection() {
-        if (nextCheckPoint != null) {
+        if (nextCheckPoint == null) return;
 
-            if (y > nextCheckPoint.y) {
-                //baixo
-                dir = direction.DOWN;
-            }
-            if (y < nextCheckPoint.y) {
-                //cima
-                dir = direction.UP;
-            }
-            if (x > nextCheckPoint.x) {
-                //esquerda
-                dir = direction.LEFT;
-            }
-            if (x < nextCheckPoint.x) {
-                //direita
-                dir = direction.RIGHT;
-            }
-
-            return;
+        if (y > nextCheckPoint.y) {
+            //baixo
+            dir = direction.DOWN;
+        }
+        if (y < nextCheckPoint.y) {
+            //cima
+            dir = direction.UP;
+        }
+        if (x > nextCheckPoint.x) {
+            //esquerda
+            dir = direction.LEFT;
+        }
+        if (x < nextCheckPoint.x) {
+            //direita
+            dir = direction.RIGHT;
         }
     }
 
