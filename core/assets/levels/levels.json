@@ -2,23 +2,115 @@
   {
     "id": 1,
     "dificulty": 2,
-    "monstersPerWave": 5,
-    "waveNumber": 3,
-    "enemyTypes": [2,3],
+    "waves": [
+      {
+        "waveID": 1,
+        "spawns": [
+          {
+            "enemyId": 1,
+            "quantity": 3,
+            "spawnInterval": 1,
+            "order": 0
+          },
+          {
+            "enemyId": 3,
+            "quantity": 2,
+            "spawnInterval": 2,
+            "order": 0
+          },
+          {
+            "enemyId": 2,
+            "quantity": 1,
+            "spawnInterval": 2,
+            "order": 1
+          }
+        ]
+      },
+      {
+        "waveID": 2,
+        "spawns": [
+          {
+            "enemyId": 2,
+            "quantity": 3,
+            "spawnInterval": 1,
+            "order": 0
+          },
+          {
+            "enemyId": 1,
+            "quantity": 2,
+            "spawnInterval": 2,
+            "order": 0
+          },
+          {
+            "enemyId": 3,
+            "quantity": 1,
+            "spawnInterval": 2,
+            "order": 1
+          }
+        ]
+      }
+    ],
     "checkPoints":
-      [
-        {"x": 0, "y": 6},
-        {"x": 12, "y": 6},
-        {"x": 12, "y": 10},
-        {"x": 24, "y": 10}
-      ]
+    [
+      {"x": 0, "y": 6},
+      {"x": 12, "y": 6},
+      {"x": 12, "y": 10},
+      {"x": 24, "y": 10}
+    ]
   },
+
+
   {
     "id": 2,
-    "dificulty": 3,
-    "monstersPerWave": 6,
-    "waveNumber": 6,
-    "enemyTypes": [3,3],
+    "dificulty": 2,
+    "waves": [
+      {
+        "waveID": 1,
+        "spawns": [
+          {
+            "enemyId": 1,
+            "quantity": 5,
+            "spawnInterval": 1,
+            "order": 0
+          },
+          {
+            "enemyId": 3,
+            "quantity": 3,
+            "spawnInterval": 2,
+            "order": 0
+          },
+          {
+            "enemyId": 2,
+            "quantity": 1,
+            "spawnInterval": 2,
+            "order": 1
+          }
+        ]
+      },
+      {
+        "waveID": 2,
+        "spawns": [
+          {
+            "enemyId": 2,
+            "quantity": 3,
+            "spawnInterval": 1,
+            "order": 0
+          },
+          {
+            "enemyId": 1,
+            "quantity": 2,
+            "spawnInterval": 2,
+            "order": 0
+          },
+          {
+            "enemyId": 3,
+            "quantity": 1,
+            "spawnInterval": 2,
+            "order": 1
+          }
+        ]
+      }
+    ],
     "checkPoints":
     [
       {"x": 24, "y": 10},

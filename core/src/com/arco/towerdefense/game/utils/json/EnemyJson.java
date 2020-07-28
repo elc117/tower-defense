@@ -8,5 +8,6 @@ public class EnemyJson {
     public int id;
     public String name;
     public float speed;
+    public float spawnInterval;
     public String skinPath;
 }

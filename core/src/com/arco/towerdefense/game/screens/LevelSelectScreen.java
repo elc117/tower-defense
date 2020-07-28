@@ -16,6 +16,7 @@ public class LevelSelectScreen implements Screen {
         this.game = game;
 
         testFont = new BitmapFont();
+
     }
 
     @Override
@@ -24,11 +25,16 @@ public class LevelSelectScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-            testFont.draw(game.batch, "HELLO WORLD, PRESS ENTER TO START LEVEL 1", 120, 120);
+            testFont.draw(game.batch, "HELLO WORLD, PRESS ENTER TO START LEVEL 1 OR W TO LEVEL 2", 120, 120);
             if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-                game.gameScreen.setLevel(1);
+                game.gameScreen = new GameScreen(game, 1);
                 game.setScreen(game.gameScreen);
             }
+            if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+                game.gameScreen = new GameScreen(game, 2);
+                game.setScreen(game.gameScreen);
+            }
+
         game.batch.end();
     }
 
