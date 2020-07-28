@@ -129,7 +129,7 @@ public class GroundDrawer{
 
     public void drawEnemies(ArrayList<EnemyEntity> enemies) {
         for(EnemyEntity enemy : enemies) {
-            enemy.draw(batch);
+            enemy.draw(batch, shapeDrawer);
         }
     }
 

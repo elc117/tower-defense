@@ -2,12 +2,14 @@ package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.UUID;
 
@@ -23,6 +25,7 @@ public class EnemyEntity extends Entity {
     private Animation<TextureRegion> animation;
     private float stateTime;
     private int healthPoints;
+    private int maxHealthPoints;
 
     public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
         super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
@@ -34,9 +37,9 @@ public class EnemyEntity extends Entity {
         this.targetID = targetID;
         this.animation = animation;
         this.stateTime = 0f;
+        this.maxHealthPoints = 100;
         this.healthPoints = 100;
     }
-
 
     public Animation<TextureRegion> getAnimation() {
         return animation;
@@ -60,12 +63,25 @@ public class EnemyEntity extends Entity {
             x += delta * speed;
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, ShapeDrawer shapeDrawer) {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 
         batch.draw(currentFrame, getScaledX(), getScaledY(), getWidth(), getHeight());
-        // Enemy Height and Width is equal to scale then
+
+        drawHealthBar(shapeDrawer);
+    }
+
+    private void drawHealthBar(ShapeDrawer shapeDrawer) {
+        float totalWidth = getWidth();
+        float height = 5;
+
+        float posY = getScaledY() + getHeight() + 3; // 5 is the margin
+
+        float percentHP = (float) healthPoints / maxHealthPoints;
+        float widthHP = percentHP*totalWidth;
+        shapeDrawer.filledRectangle(getScaledX(), posY, widthHP, height, Color.GREEN);
+        shapeDrawer.filledRectangle(getScaledX() + widthHP, posY, totalWidth - widthHP, height, Color.RED);
     }
 
     public void performHit(int damage) {

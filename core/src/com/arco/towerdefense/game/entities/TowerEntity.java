@@ -48,7 +48,7 @@ public class TowerEntity extends Entity {
 
     private void shoot(EnemyEntity enemyTarget) {
         timeSinceLastShoot = 0;
-        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, x, y, 5, damage, enemyTarget));
+        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, x, y, 40, damage, enemyTarget));
 
     }
 
