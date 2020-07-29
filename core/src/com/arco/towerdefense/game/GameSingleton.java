@@ -58,6 +58,7 @@ public class GameSingleton {
         assetManager.load(Consts.HELP_BUTTON, Texture.class);
         assetManager.load(Consts.GROUND_GRASS, Texture.class);
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
+        assetManager.load(Consts.GROUND_VEINS, Texture.class);
         assetManager.load(Consts.ENEMY, Texture.class);
         assetManager.load(Consts.ENEMY2, Texture.class);
         assetManager.load(Consts.BADLOGIC, Texture.class);
