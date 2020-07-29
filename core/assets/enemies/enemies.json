@@ -1,26 +1,20 @@
 [
   {
     "id": 1,
-    "name": "Virus Verde",
-    "speed": 5,
-    "skinPath": "enemies/enemy.png"
+    "name": "Virus",
+    "speed": 3.0,
+    "skinPath": "enemies/generic/virus/virus_animation.png"
   },
   {
     "id": 2,
-    "name": "Virus Vermelho",
-    "speed": 5.5,
-    "skinPath": "enemies/enemy2.png"
+    "name": "Bacteria",
+    "speed": 1.5,
+    "skinPath": "enemies/generic/bacteria/bacteria_animation.png"
   },
   {
     "id": 3,
-    "name": "Virus do mal",
-    "speed": 4,
-    "skinPath": "badlogic.jpg"
-  },
-  {
-    "id": 4,
-    "name": "Virus do slime",
-    "speed": 4.5,
-    "skinPath": "slimecursor.png"
+    "name": "Fungo",
+    "speed": 2.0,
+    "skinPath": "enemies/generic/fungus/fungus_animation.png"
   }
 ]

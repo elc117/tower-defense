@@ -21,14 +21,16 @@ public class Consts {
     public static final String GROUND_GRASS = "ground/grasstop.png";
     public static final String GROUND_DIRT = "ground/dirt.png";
     public static final String GROUND_VEINS = "ground/veins.png";
-    public static final String ENEMY = "enemies/enemy.png";
-    public static final String ENEMY2 = "enemies/enemy2.png";
-    public static final String BADLOGIC = "badlogic.jpg";
-    public static final String SLIME = "slimecursor.png";
+
+    //ENEMIES
+    public static final String VIRUS_ENEMY = "enemies/generic/virus/virus_animation.png";
+    public static final String BACTERIA_ENEMY = "enemies/generic/bacteria/bacteria_animation.png";
+    public static final String FUNGUS_ENEMY = "enemies/generic/fungus/fungus_animation.png";
+    //public static final String PROTOZOA_ENEMY = "";
+    public static final String ENEMIES_JSON = "enemies/enemies.json";
 
     public static final String TOWERS_JSON = "towers/towers.json";
     public static final String LEVELS_JSON = "levels/levels.json";
-    public static final String ENEMIES_JSON = "enemies/enemies.json";
 
     // Attacks
     public static final String ATTACK_BADLOGIC = "badlogic.jpg";

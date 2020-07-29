@@ -15,7 +15,7 @@ public class GameSingleton {
     private static GameSingleton instance = null;
 
     private Vector2 cursorLocation;
-    public AssetManager assetManager;
+    private AssetManager assetManager;
     private InputProcessor inputProcessor;
     public SoundController soundController;
     private TowerFactory towerFactory;
@@ -59,10 +59,11 @@ public class GameSingleton {
         assetManager.load(Consts.GROUND_GRASS, Texture.class);
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
         assetManager.load(Consts.GROUND_VEINS, Texture.class);
-        assetManager.load(Consts.ENEMY, Texture.class);
-        assetManager.load(Consts.ENEMY2, Texture.class);
-        assetManager.load(Consts.BADLOGIC, Texture.class);
-        assetManager.load(Consts.SLIME, Texture.class);
+
+        assetManager.load(Consts.BACTERIA_ENEMY, Texture.class);
+        assetManager.load(Consts.FUNGUS_ENEMY, Texture.class);
+        assetManager.load(Consts.VIRUS_ENEMY, Texture.class);
+
 
         assetManager.finishLoading(); // Load all queued assets
     }
@@ -89,6 +90,8 @@ public class GameSingleton {
     public LevelGenerator getLevelGenerator() {
         return levelGenerator;
     }
+
+    public AssetManager getAssetManager() { return assetManager; }
 
     public int getGroundScale() {
         return groundScale;

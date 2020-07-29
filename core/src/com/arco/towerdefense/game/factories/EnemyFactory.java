@@ -20,13 +20,12 @@ import java.util.UUID;
 
 public class EnemyFactory {
     ArrayList<EnemyJson> enemiesJson;
-    private static final int FRAME_COLS = 1, FRAME_ROWS = 2;
+    private static final int FRAME_COLS = 3, FRAME_ROWS = 1;
     Animation<TextureRegion> monsterAnimation;
 
     public EnemyFactory() {
         Json json = new Json();
         enemiesJson = json.fromJson(ArrayList.class, EnemyJson.class, Gdx.files.internal(Consts.ENEMIES_JSON));
-        createAnimation();
     }
 
     public EnemyEntity createById(int id) {
@@ -40,15 +39,15 @@ public class EnemyFactory {
 
     public EnemyEntity create(EnemyJson enemyJson) {
         UUID targetID = UUID.randomUUID();
+        createAnimation(enemyJson);
         EnemyEntity enemyEntity = new EnemyEntity(enemyJson.id, enemyJson.speed, enemyJson.skinPath, targetID, monsterAnimation);
 
         return enemyEntity;
     }
 
-    public void createAnimation() {
+    public void createAnimation(EnemyJson enemyJson) {
 
-        // Load the sprite sheet as a Texture
-        Texture provideTxt = new Texture(Gdx.files.internal("enemies/animation_monster.png"));
+        Texture provideTxt = GameSingleton.getInstance().getTexture(enemyJson.skinPath);
 
         // Use the split utility method to create a 2D array of TextureRegions. This is
         // possible because this sprite sheet contains frames of equal size and they are
@@ -68,6 +67,6 @@ public class EnemyFactory {
         }
 
         // Initialize the Animation with the frame interval and array of frames
-        monsterAnimation = new Animation<TextureRegion>(0.5f, walkFrames);
+        monsterAnimation = new Animation<TextureRegion>(0.10f, walkFrames);
     }
 }
