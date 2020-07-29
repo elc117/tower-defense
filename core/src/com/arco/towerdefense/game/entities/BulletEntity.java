@@ -48,11 +48,11 @@ public class BulletEntity extends Entity {
         Array<TextureAtlas.AtlasRegion> shotRegions = animationAtlas.findRegions("shot");
         Array<TextureAtlas.AtlasRegion> hitRegions = animationAtlas.findRegions("hit");
 
-        this.spawnAnimations = spawnRegions == null ? null : new Animation<TextureAtlas.AtlasRegion>(0.2f / spawnRegions.size, spawnRegions);
+        this.spawnAnimations = spawnRegions == null ? null : new Animation<>(0.2f / spawnRegions.size, spawnRegions);
 
-        this.shotAnimations = shotRegions == null ? null : new Animation<TextureAtlas.AtlasRegion>(0.01f / shotRegions.size, shotRegions);
+        this.shotAnimations = shotRegions == null ? null : new Animation<>(0.01f / shotRegions.size, shotRegions);
 
-        this.hitAnimations = hitRegions == null ? null : new Animation<TextureAtlas.AtlasRegion>(0.3f/ hitRegions.size, hitRegions);
+        this.hitAnimations = hitRegions == null ? null : new Animation<>(0.3f/ hitRegions.size, hitRegions);
     }
 
     public void update(float delta) {
@@ -70,8 +70,7 @@ public class BulletEntity extends Entity {
 
     private void performTargetHit() {
         this.hasHitTarget = true;
-//        target.performHit(this.damage);
-        target.performHit(1);
+        target.performHit(this.damage);
     }
 
     public boolean isHittingTarget() {
@@ -106,8 +105,7 @@ public class BulletEntity extends Entity {
 
         // We do not use the super.sprite bacause we can have spawn-animation and shot-animation at the same time, so we need
         // another one
-
-        Sprite spawnBulletFrame = new Sprite(spawnAnimations.getKeyFrame(stateTime, true));
+        Sprite spawnBulletFrame = new Sprite(spawnAnimations.getKeyFrame(stateTime, false));
 
         spawnBulletFrame.setSize(super.scale, super.scale);
         spawnBulletFrame.setPosition(originPos.x, originPos.y);
