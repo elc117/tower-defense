@@ -1,7 +1,11 @@
 package com.arco.towerdefense.game.utils;
 
 import com.arco.towerdefense.game.GameSingleton;
+import com.arco.towerdefense.game.utils.json.EnemyJson;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -63,5 +67,23 @@ public class Utils {
         int last = array.size() -1;
 
         return array.get(last);
+    }
+
+    public static Animation<TextureRegion> createAnimation(String texture, int FRAME_COLS, int FRAME_ROWS) {
+        Texture provideTxt = GameSingleton.getInstance().getTexture(texture);
+
+        TextureRegion[][] tmp = TextureRegion.split(provideTxt,
+                provideTxt.getWidth() / FRAME_COLS,
+                provideTxt.getHeight() / FRAME_ROWS);
+
+        TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+        int index = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COLS; j++) {
+                walkFrames[index++] = tmp[i][j];
+            }
+        }
+
+        return (new Animation<TextureRegion>(0.10f, walkFrames));
     }
 }

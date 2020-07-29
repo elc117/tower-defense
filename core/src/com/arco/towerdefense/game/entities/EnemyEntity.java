@@ -1,6 +1,7 @@
 package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
+import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -16,10 +17,10 @@ import java.util.UUID;
 public class EnemyEntity extends Entity {
 
     private enum direction{DOWN, UP, LEFT, RIGHT}
+    private direction dir;
     private int id;
     private float speed;
     private Vector2 nextCheckPoint;
-    private direction dir;
     private boolean alive;
     private UUID targetID;
     private Animation<TextureRegion> animation;
@@ -28,7 +29,7 @@ public class EnemyEntity extends Entity {
     private int maxHealthPoints;
     private float spawnInterval;
 
-    public EnemyEntity(int id, float speed, String txt, UUID targetID, Animation<TextureRegion> animation) {
+    public EnemyEntity(int id, float speed, String txt, UUID targetID) {
         super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
         super.setSpriteSizeToScale();
 
@@ -36,18 +37,10 @@ public class EnemyEntity extends Entity {
         this.speed = speed;
         this.alive = true;
         this.targetID = targetID;
-        this.animation = animation;
+        this.animation = Utils.createAnimation(txt, 3, 1);
         this.stateTime = 0f;
         this.maxHealthPoints = 100;
         this.healthPoints = 100;
-    }
-
-    public Animation<TextureRegion> getAnimation() {
-        return animation;
-    }
-
-    public void setAnimation(Animation<TextureRegion> animation) {
-        this.animation = animation;
     }
 
     public void update(float delta) {
@@ -128,7 +121,7 @@ public class EnemyEntity extends Entity {
         }
     }
 
-    public boolean isCheckPoint() {
+    public boolean inCheckPoint() {
         if(x > nextCheckPoint.x - 0.1 && x < nextCheckPoint.x + 0.1 && y > nextCheckPoint.y - 0.1 && y < nextCheckPoint.y + 0.1) {
             x = nextCheckPoint.x;
             y = nextCheckPoint.y;
