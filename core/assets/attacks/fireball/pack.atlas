@@ -1,62 +1,62 @@
 
-texture.png
-size: 256,256
+pack.png
+size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 hit
   rotate: false
-  xy: 2, 134
-  size: 64, 64
-  orig: 64, 64
+  xy: 2, 62
+  size: 34, 60
+  orig: 34, 60
   offset: 0, 0
   index: 0
 hit
-  rotate: false
-  xy: 2, 68
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-hit
-  rotate: false
-  xy: 68, 134
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-shot
   rotate: false
   xy: 2, 2
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
-shot
-  rotate: false
-  xy: 68, 68
-  size: 64, 64
-  orig: 64, 64
+  size: 32, 58
+  orig: 32, 58
   offset: 0, 0
   index: 1
-shot
+hit
   rotate: false
-  xy: 134, 134
-  size: 64, 64
-  orig: 64, 64
+  xy: 38, 58
+  size: 28, 64
+  orig: 28, 64
   offset: 0, 0
   index: 2
 shot
   rotate: false
-  xy: 68, 2
-  size: 64, 64
-  orig: 64, 64
+  xy: 68, 82
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: 0
+shot
+  rotate: false
+  xy: 110, 82
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: 1
+shot
+  rotate: false
+  xy: 152, 84
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: 2
+shot
+  rotate: false
+  xy: 194, 84
+  size: 40, 38
+  orig: 40, 38
   offset: 0, 0
   index: 3
 shot
   rotate: false
-  xy: 134, 68
-  size: 64, 64
-  orig: 64, 64
+  xy: 36, 18
+  size: 40, 38
+  orig: 40, 38
   offset: 0, 0
   index: 4
