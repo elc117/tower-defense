@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.ArrayList;
 
-public class HudController extends InputAdapter{
+public class HudController{
     private Stage stage;
     private Skin skin;
     private GroundController groundController;
@@ -63,7 +63,6 @@ public class HudController extends InputAdapter{
     }
 
     public void update(float delta) {
-        Gdx.input.setInputProcessor(stage);
         stage.act(delta);
         stage.draw();
     }
@@ -101,6 +100,10 @@ public class HudController extends InputAdapter{
                 setTowerEntityToHolder(towerEntity);
             }
         });
+    }
+
+    public Stage getStage() {
+        return this.stage;
     }
 
     private void setTowerEntityToHolder(TowerEntity t) {

@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
         GameSingleton.getInstance().initGroundScale(GRID_BLOCK_SIZE);
 
         this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(level);
-        groundController = new GroundController(game.batch,GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
+        this.groundController = new GroundController(game.batch, GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
         this.hudController = new HudController(groundController, game.camera);
         //interactionZoneController = new InteractionZoneController(game.batch, groundController);
 
@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
     public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
         //multiplexer.addProcessor(interactionZoneController);
-        multiplexer.addProcessor(hudController);
+        multiplexer.addProcessor(hudController.getStage());
         multiplexer.addProcessor(groundController);
         GameSingleton.getInstance().setInputProcessor(Gdx.input.getInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
