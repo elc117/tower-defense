@@ -60,6 +60,7 @@ public class GameSingleton {
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
         assetManager.load(Consts.GROUND_VEINS, Texture.class);
         assetManager.load(Consts.BADLOGIC, Texture.class);
+        assetManager.load(Consts.MENU_BACKGROUND, Texture.class);
 
         assetManager.load(Consts.BACTERIA_ENEMY, Texture.class);
         assetManager.load(Consts.FUNGUS_ENEMY, Texture.class);

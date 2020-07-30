@@ -10,6 +10,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class MenuScreen implements Screen {
 
@@ -19,12 +20,14 @@ public class MenuScreen implements Screen {
     Texture playButton;
     Texture quitButton;
     Texture helpButton;
+    Texture background;
     Sound selectionSound;
     Music music;
     int posY;
 
     public MenuScreen(TowerDefenseGame game) {
         this.game = game;
+        background = GameSingleton.getInstance().getTexture(Consts.MENU_BACKGROUND);
         initButtons();
         initSounds();
     }
@@ -40,6 +43,7 @@ public class MenuScreen implements Screen {
     }
 
     public void update() {
+        game.batch.draw(background, 0,0,background.getWidth()/1.27f, background.getWidth()/2.12f);
         playButtonUpdate();
         helpButtonUpdate();
         quitButtonUpdate();
@@ -65,8 +69,8 @@ public class MenuScreen implements Screen {
     public void playButtonUpdate() {
         int posX = 30;
 
-        game.setScreen(game.levelSelectScreen);
-        music.stop();
+        //game.setScreen(game.levelSelectScreen);
+        //music.stop();
 
         if (Utils.isCursorInside(posX, posY, playButton.getWidth()/5, playButton.getHeight()/5)) {
             game.batch.draw(playButton, posX, posY,playButton.getWidth()/5 + 20,playButton.getHeight()/5 + 20);
