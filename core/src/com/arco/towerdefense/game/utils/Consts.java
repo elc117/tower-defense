@@ -31,6 +31,12 @@ public class Consts {
     //public static final String PROTOZOA_ENEMY = "";
     public static final String ENEMIES_JSON = "enemies/enemies.json";
 
+    //TOWERS
+    public static final String TOWER1 = "towers/tower1/tower1.png";
+    public static final String TOWER2 = "towers/tower2/tower2.png";
+    public static final String TOWER3 = "towers/tower3/tower3.png";
+    public static final String TOWER4 = "towers/tower4/tower4.png";
+
     public static final String TOWERS_JSON = "towers/towers.json";
     public static final String LEVELS_JSON = "levels/levels.json";
 

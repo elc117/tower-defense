@@ -67,6 +67,11 @@ public class GameSingleton {
         assetManager.load(Consts.FUNGUS_ENEMY, Texture.class);
         assetManager.load(Consts.VIRUS_ENEMY, Texture.class);
 
+        assetManager.load(Consts.TOWER1, Texture.class);
+        assetManager.load(Consts.TOWER2, Texture.class);
+        assetManager.load(Consts.TOWER3, Texture.class);
+        assetManager.load(Consts.TOWER4, Texture.class);
+
 
         assetManager.finishLoading(); // Load all queued assets
     }

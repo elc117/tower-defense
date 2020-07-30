@@ -23,6 +23,7 @@ public class BulletEntity extends Entity {
     private Animation<TextureAtlas.AtlasRegion> shotAnimations;
     private Animation<TextureAtlas.AtlasRegion> hitAnimations;
 
+
     public BulletEntity(String texturePath, String animationAtlasPath, float x, float y, float speed, int damage, EnemyEntity target) {
         super(new Sprite(GameSingleton.getInstance().getTexture(texturePath)), x, y);
 
