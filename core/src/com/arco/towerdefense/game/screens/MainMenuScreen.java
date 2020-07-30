@@ -32,10 +32,13 @@ public class MainMenuScreen implements Screen {
         this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, game.camera));
         stage.clear();
 
+        //used SkinComposer to generate menu.atlas/menu.json/menu.png
+        //https://github.com/raeleus/skin-composer
         this.skin = new Skin();
         this.skin.addRegions(GameSingleton.getInstance().getTextureAtlas("menu/menu.atlas"));
         this.skin.load(Gdx.files.internal("menu/menu.json"));
 
+        //table é uma espécie de stackLayout que o mineiro tinha feito
         this.table = new Table(skin);
 
         initButtons();
