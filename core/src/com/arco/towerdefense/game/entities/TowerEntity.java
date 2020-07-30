@@ -48,7 +48,8 @@ public class TowerEntity extends Entity {
 
     private void shoot(EnemyEntity enemyTarget) {
         timeSinceLastShoot = 0;
-        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, x, y, 40, damage, enemyTarget));
+        // TODO: THE ANIMATION PATH SHOULD BE INSIDE THE JSON, WITH THE TOWER CHARACTERISTICS
+        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, "attacks/ice_shard/pack.atlas", x, y, 20, damage, enemyTarget));
 
     }
 

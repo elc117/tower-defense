@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 public class GameSingleton {
@@ -73,6 +74,15 @@ public class GameSingleton {
         return assetManager.get(internalPath, Texture.class);
     }
 
+    public TextureAtlas getTextureAtlas(String internalPath) {
+        if (!assetManager.isLoaded(internalPath)) {
+            assetManager.load(internalPath, TextureAtlas.class);
+            assetManager.finishLoading();
+        }
+
+        return assetManager.get(internalPath, TextureAtlas.class);
+    }
+
     public Vector2 getCursorLocation() {
         cursorLocation.x = Gdx.input.getX();
         cursorLocation.y = Consts.V_HEIGHT - Gdx.input.getY();
@@ -97,6 +107,8 @@ public class GameSingleton {
     public int getGroundScale() {
         return groundScale;
     }
+
+    public AssetManager getAssetManager() { return assetManager; }
 
     public void setGroundScale(int groundScale) {
         this.groundScale = groundScale;

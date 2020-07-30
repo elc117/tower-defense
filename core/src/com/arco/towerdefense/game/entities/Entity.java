@@ -4,7 +4,9 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity {
 
@@ -12,7 +14,6 @@ public abstract class Entity {
     protected float x;
     protected float y;
     protected int scale;
-    protected Rectangle rect;
 
     public Entity(Sprite sprite, float x, float y) {
         this.x = x;
@@ -21,7 +22,6 @@ public abstract class Entity {
         this.sprite = sprite;
         this.sprite.setPosition(x*scale, y*scale);
 
-        this.rect = new Rectangle();
     }
 
     public Texture getTexture() {
@@ -77,15 +77,22 @@ public abstract class Entity {
     }
 
     public Rectangle getEntityRect() {
-        rect.setPosition(getScaledX(), getScaledY());
-        rect.setSize(getWidth(), getHeight());
+        return new Rectangle(getScaledX(), getScaledY(), getWidth(), getHeight());
+    }
 
-        return rect;
+    public Vector2 getCenter() {
+        return new Vector2(getScaledX() + getWidth()/2, getScaledY() + getHeight()/2);
     }
 
     public void draw(SpriteBatch batch) {
         updateSpritePositions();
 
         sprite.draw(batch);
+    }
+
+    protected void setTextureRegionToSprite(TextureRegion textureRegion) {
+        this.sprite = new Sprite(textureRegion);
+        this.updateSpritePositions();
+        this.setSpriteSizeToScale();
     }
 }
