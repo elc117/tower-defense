@@ -15,19 +15,21 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class MenuScreen implements Screen {
 
     final TowerDefenseGame game;
-    Texture configButton;
-    Texture highConfigButton;
-    Texture playButton;
-    Texture quitButton;
-    Texture helpButton;
-    Texture background;
+    Sprite configButton;
+    Sprite highConfigButton;
+    Sprite playButton;
+    Sprite quitButton;
+    Sprite helpButton;
+    Sprite background;
     Sound selectionSound;
     Music music;
-    int posY;
+    private int posY;
+    private int buttonWidth;
+    private int buttonsHeight;
 
     public MenuScreen(TowerDefenseGame game) {
         this.game = game;
-        background = GameSingleton.getInstance().getTexture(Consts.MENU_BACKGROUND);
+        backgroundConfig();
         initButtons();
         initSounds();
     }
@@ -43,18 +45,28 @@ public class MenuScreen implements Screen {
     }
 
     public void update() {
-        game.batch.draw(background, 0,0,background.getWidth()/1.27f, background.getWidth()/2.12f);
+        background.draw(game.batch);
         playButtonUpdate();
         helpButtonUpdate();
         quitButtonUpdate();
         configButtonUpdate();
     }
 
+    private void backgroundConfig() {
+        background = new Sprite(GameSingleton.getInstance().getTexture(Consts.MENU_BACKGROUND));
+        background.setPosition(0,0);
+        background.setSize(Consts.V_WIDTH,Consts.V_HEIGHT);
+    }
+
     private void configButtonUpdate() {
         int posX = 730;
         int posY = 420;
-        if (Utils.isCursorInside(posX, posY, configButton.getWidth()/11, configButton.getHeight()/11)) {
-            game.batch.draw(highConfigButton, posX, posY,highConfigButton.getWidth()/11,highConfigButton.getHeight()/11);
+
+        configButton.setPosition(posX,posY);
+        highConfigButton.setPosition(posX,posY);
+        if (Utils.isCursorInside(posX, posY, configButton.getWidth(), configButton.getHeight())) {
+            highConfigButton.setSize(50,50);
+            highConfigButton.draw(game.batch);
             if (Gdx.input.isTouched()) {
                 //CONFIG SCREEN
                 float volume = GameSingleton.getInstance().soundController.getEffectsVolume();
@@ -62,7 +74,8 @@ public class MenuScreen implements Screen {
             }
         }
         else {
-            game.batch.draw(configButton, posX, posY,configButton.getWidth()/11,configButton.getHeight()/11);
+            configButton.setSize(50,50);
+            configButton.draw(game.batch);
         }
     }
 
@@ -71,9 +84,10 @@ public class MenuScreen implements Screen {
 
         //game.setScreen(game.levelSelectScreen);
         //music.stop();
-
-        if (Utils.isCursorInside(posX, posY, playButton.getWidth()/5, playButton.getHeight()/5)) {
-            game.batch.draw(playButton, posX, posY,playButton.getWidth()/5 + 20,playButton.getHeight()/5 + 20);
+        playButton.setPosition(posX,posY);
+        if (Utils.isCursorInside(posX, posY, playButton.getWidth(), playButton.getHeight())) {
+            playButton.setSize(buttonWidth +20,buttonsHeight +20);
+            playButton.draw(game.batch);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.levelSelectScreen);
                 float volume = GameSingleton.getInstance().soundController.getEffectsVolume();
@@ -83,37 +97,45 @@ public class MenuScreen implements Screen {
             }
         }
         else {
-            game.batch.draw(playButton, posX, posY,playButton.getWidth()/5,playButton.getHeight()/5);
+            playButton.setSize(buttonWidth,buttonsHeight);
+            playButton.draw(game.batch);
         }
     }
 
     public void helpButtonUpdate() {
         int posX = 300;
 
-        if (Utils.isCursorInside(posX, posY, helpButton.getWidth()/5, helpButton.getHeight()/5)) {
-            game.batch.draw(helpButton, posX, posY, helpButton.getWidth()/5 + 20,helpButton.getHeight()/5 + 20);
+
+        helpButton.setPosition(posX,posY);
+        if (Utils.isCursorInside(posX, posY, helpButton.getWidth(), helpButton.getHeight())) {
+            helpButton.setSize(buttonWidth +20,buttonsHeight +20);
+            helpButton.draw(game.batch);
             if (Gdx.input.isTouched()) {
                 game.setScreen(game.helpScreen);
                 float volume = GameSingleton.getInstance().soundController.getEffectsVolume();
                 selectionSound.play(volume);
             }
         } else {
-            game.batch.draw(helpButton, posX, posY,helpButton.getWidth()/5,helpButton.getHeight()/5);
+            helpButton.setSize(buttonWidth,75);
+            helpButton.draw(game.batch);
         }
     }
 
     public void quitButtonUpdate() {
         int posX = 570;
 
-        if (Utils.isCursorInside(posX, posY, quitButton.getWidth()/5, quitButton.getHeight()/5)) {
-            game.batch.draw(quitButton, posX, posY,quitButton.getWidth()/5 + 20,quitButton.getHeight()/5 + 20);
+        quitButton.setPosition(posX,posY);
+        if (Utils.isCursorInside(posX, posY, quitButton.getWidth(), quitButton.getHeight())) {
+            quitButton.setSize(buttonWidth +20,buttonsHeight +20);
+            quitButton.draw(game.batch);
             if (Gdx.input.isTouched()) {
                 float volume = GameSingleton.getInstance().soundController.getEffectsVolume();
                 selectionSound.play(volume);
                 Gdx.app.exit();
             }
         } else {
-            game.batch.draw(quitButton, posX, posY,quitButton.getWidth()/5,quitButton.getHeight()/5);
+            quitButton.setSize(buttonWidth,buttonsHeight);
+            quitButton.draw(game.batch);
         }
     }
 
@@ -126,11 +148,14 @@ public class MenuScreen implements Screen {
     public void initButtons() {
         posY = 100;//botões alinhados em Y
 
-        configButton = GameSingleton.getInstance().getTexture(Consts.CONFIG_BUTTON);
-        highConfigButton = GameSingleton.getInstance().getTexture(Consts.HIGH_CONFIG_BUTTON);
-        playButton =  GameSingleton.getInstance().getTexture(Consts.PLAY_BUTTON);
-        quitButton = GameSingleton.getInstance().getTexture(Consts.QUIT_BUTTON);
-        helpButton = GameSingleton.getInstance().getTexture(Consts.HELP_BUTTON);
+        buttonWidth = 200;
+        buttonsHeight = 75;
+
+        configButton = new Sprite(GameSingleton.getInstance().getTexture(Consts.CONFIG_BUTTON));
+        highConfigButton = new Sprite(GameSingleton.getInstance().getTexture(Consts.HIGH_CONFIG_BUTTON));
+        playButton = new Sprite(GameSingleton.getInstance().getTexture(Consts.PLAY_BUTTON));
+        quitButton = new Sprite(GameSingleton.getInstance().getTexture(Consts.QUIT_BUTTON));
+        helpButton = new Sprite(GameSingleton.getInstance().getTexture(Consts.HELP_BUTTON));
 
     }
 
