@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -26,11 +27,13 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
     private Button playButton, quitButton, helpButton, configButton;
     private Table table;
+    private ImageButton imageButton;
 
     public MainMenuScreen(TowerDefenseGame game) {
         this.game = game;
         this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, game.camera));
         stage.clear();
+        Gdx.input.setInputProcessor(stage);
 
         //used SkinComposer to generate menu.atlas/menu.json/menu.png
         //https://github.com/raeleus/skin-composer
@@ -112,7 +115,6 @@ public class MainMenuScreen implements Screen {
 
         stage.addActor(table);
 
-        Gdx.input.setInputProcessor(stage);
     }
 
     private void initSounds() {

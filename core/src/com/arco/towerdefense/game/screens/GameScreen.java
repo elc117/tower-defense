@@ -3,6 +3,7 @@ package com.arco.towerdefense.game.screens;
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.controllers.GroundController;
 import com.arco.towerdefense.game.TowerDefenseGame;
+import com.arco.towerdefense.game.controllers.HudController;
 import com.arco.towerdefense.game.controllers.InteractionZoneController;
 import com.arco.towerdefense.game.controllers.LevelController;
 import com.arco.towerdefense.game.factories.LevelGenerator;
@@ -20,12 +21,13 @@ public class GameScreen implements Screen {
     private Texture homeButton;
     private LevelController levelController;
     private int level;
+    private HudController hudController;
 
     public GameScreen(TowerDefenseGame game, int level) {
         this.game = game;
 
         this.level = level;
-        System.out.println("COMEÇANDO O NIVEL : " + level);
+        //System.out.println("COMEÇANDO O NIVEL : " + level);
 
         int GRID_BLOCK_SIZE = 2;
 
@@ -33,7 +35,8 @@ public class GameScreen implements Screen {
 
         this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(level);
         groundController = new GroundController(game.batch,GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
-        interactionZoneController = new InteractionZoneController(game.batch, groundController);
+        this.hudController = new HudController(groundController, game.camera);
+        //interactionZoneController = new InteractionZoneController(game.batch, groundController);
 
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);
     }
@@ -44,10 +47,12 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-            groundController.update(delta);
-            interactionZoneController.update();
-            homeButtonUpdate();
+        groundController.update(delta);
+            //interactionZoneController.update();
+            //homeButtonUpdate();
         game.batch.end();
+
+        hudController.update(delta);
     }
 
     public void homeButtonUpdate() {
@@ -73,7 +78,8 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(interactionZoneController);
+        //multiplexer.addProcessor(interactionZoneController);
+        multiplexer.addProcessor(hudController);
         multiplexer.addProcessor(groundController);
         GameSingleton.getInstance().setInputProcessor(Gdx.input.getInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
