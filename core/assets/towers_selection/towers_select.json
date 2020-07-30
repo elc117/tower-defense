@@ -1,0 +1,16 @@
+{
+"ButtonStyle": {
+	"tower1": {
+		"up": "tower1-selection"
+	},
+	"tower2": {
+		"up": "tower2-selection"
+	},
+	"tower3": {
+		"up": "tower3-selection"
+	},
+	"tower4": {
+		"up": "tower4-selection"
+	}
+}
+}
