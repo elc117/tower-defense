@@ -108,8 +108,6 @@ public class GameSingleton {
         return groundScale;
     }
 
-    public AssetManager getAssetManager() { return assetManager; }
-
     public void setGroundScale(int groundScale) {
         this.groundScale = groundScale;
     }

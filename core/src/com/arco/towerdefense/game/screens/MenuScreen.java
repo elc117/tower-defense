@@ -65,7 +65,7 @@ public class MenuScreen implements Screen {
     public void playButtonUpdate() {
         int posX = 30;
 
-        game.setScreen(game.levelSelectScreen);
+        //game.setScreen(game.levelSelectScreen);
         music.stop();
 
         if (Utils.isCursorInside(posX, posY, playButton.getWidth()/5, playButton.getHeight()/5)) {

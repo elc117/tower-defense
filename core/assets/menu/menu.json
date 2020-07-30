@@ -1,0 +1,17 @@
+{
+"ButtonStyle": {
+	"playButton": {
+		"up": "PlayButton"
+	},
+	"quitButton": {
+		"up": "QuitButton"
+	},
+	"helpButton": {
+		"up": "HelpButton"
+	},
+	"configButton": {
+		"up": "config",
+		"over": "configSelected"
+	}
+}
+}
