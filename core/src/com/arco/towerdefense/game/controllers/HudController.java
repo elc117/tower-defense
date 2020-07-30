@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -28,9 +29,9 @@ public class HudController{
     private Table table;
     private Image baseHud;
 
-    public HudController(GroundController groundController, OrthographicCamera camera) {
+    public HudController(SpriteBatch batch, GroundController groundController, OrthographicCamera camera) {
         this.groundController = groundController;
-        this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, camera));
+        this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, camera), batch);
         stage.clear();
 
         this.skin = new Skin();
