@@ -117,7 +117,14 @@ public class WaveController {
         for(Spawn spawn : spawns) {
             if(order == spawn.order) {
                 for(int i = 0; i < spawn.quantity; i++) {
-                    addEnemy(spawn.enemyId, spawn.spawnInterval);
+                    // the first enemy of an order has immediate spawn
+                    // the others will hold according to the spawn interval
+                    if (i == 0) {
+                        addEnemy(spawn.enemyId, 0);
+                    } else {
+                        addEnemy(spawn.enemyId, spawn.spawnInterval);
+                    }
+
                 }
             }
         }
