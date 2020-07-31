@@ -119,8 +119,8 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        selectionSound.dispose();
-        music.dispose();
+        //selectionSound.dispose();
+        //music.dispose();
     }
 
     public void initButtons() {
@@ -135,12 +135,14 @@ public class MenuScreen implements Screen {
     }
 
     private void initSounds() {
+        /*
         selectionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/MainMenuSelection.mp3"));
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/musics/mainMenu.mp3"));
         float volume = GameSingleton.getInstance().soundController.getMusicVolume();
         music.setVolume(volume);
         music.setLooping(true);
         music.play();
+        */
     }
 
     @Override

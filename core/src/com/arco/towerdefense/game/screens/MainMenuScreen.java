@@ -73,7 +73,7 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.gameScreen);
+                game.setScreen(game.gameScreen = new GameScreen(game, 1));
             }
         });
         playButton.addAction(sequence( alpha(0), fadeIn(.5f)));

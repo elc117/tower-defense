@@ -52,7 +52,11 @@ public class GameScreen implements Screen {
             //homeButtonUpdate();
         game.batch.end();
 
-        hudController.update(delta);
+        if(groundController.getLevelGameOver()) {
+            game.setScreen(game.gameOverScreen);
+        }
+
+        hudController.update(delta, groundController.getCurrentWaveId(), groundController.getLevelMoney(), groundController.getLevelHearts());
     }
 
     public void homeButtonUpdate() {

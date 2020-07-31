@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class LevelController {
     private int id;
     private float dificulty;
+    private int money;
     private ArrayList<WaveController> waves;
     private WaveController currentWave;
     private ArrayList<Vector2> checkPoints;
@@ -19,6 +20,7 @@ public class LevelController {
         this.id = levelJson.id;
         this.dificulty = levelJson.dificulty;
         this.waves = waves;
+        this.money = levelJson.money;
         this.currentWave = null;
         this.checkPoints = levelJson.checkPoints;
     }
@@ -31,6 +33,13 @@ public class LevelController {
         return currentWave;
     }
 
+    public int getHearts() {
+        if(currentWave== null)
+            return 0;
+        return currentWave.getHearts();
+    }
+
+    public int getMoney() { return money; }
 
     private WaveController getNextWave(WaveController wave) {
         int next = waves.indexOf(wave) + 1;
@@ -70,14 +79,23 @@ public class LevelController {
     private void newWave() {
         if(currentWave == null) {
             currentWave = getFirstWave();
+            currentWave.setHearts(10);
         }
 
         else {
+            int hearts = currentWave.getHearts();
             currentWave = waves.get(currentWave.getId());
+            currentWave.setHearts(hearts);
         }
 
         System.out.println("COMEÇANDO A WAVE: " + currentWave.getId());
 
+    }
+
+    public boolean gameOver() { return currentWave.gameOver; }
+
+    public int getWaveID() {
+        return currentWave.getId();
     }
 
 

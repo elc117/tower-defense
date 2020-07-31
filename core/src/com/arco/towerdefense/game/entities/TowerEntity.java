@@ -20,6 +20,7 @@ public class TowerEntity extends Entity {
     private int id;
     private float range;
     private Vector2 centerTower;
+    private int price;
 
     public TowerEntity(String texturePath, int gridX, int gridY) {
         super(new Sprite(GameSingleton.getInstance().getTexture(texturePath)), gridX, gridY);
@@ -30,6 +31,7 @@ public class TowerEntity extends Entity {
         centerTower = new Vector2();
     }
 
+    public void setPrice(int price) { this.price = price; }
 
     public void setRange(float range) {
         this.range = range * scale;

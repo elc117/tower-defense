@@ -7,7 +7,8 @@
     "skinPath": "towers/tower1/tower1.png",
     "selectionPath": "towers/tower1/tower1.png",
     "bulletPath": "badlogic.jpg",
-    "range": 3
+    "range": 3,
+    "price": 200
   },
   {
     "id": 2,
@@ -17,7 +18,8 @@
     "skinPath": "towers/tower2/tower2.png",
     "selectionPath": "towers/tower2/tower2.png",
     "bulletPath": "badlogic.jpg",
-    "range": 5
+    "range": 4,
+    "price": 100
   },
   {
     "id": 3,
@@ -27,7 +29,8 @@
     "skinPath": "towers/tower3/tower3.png",
     "selectionPath": "towers/tower3/tower3.png",
     "bulletPath": "badlogic.jpg",
-    "range": 5
+    "range": 3,
+    "price": 600
   },
   {
     "id": 4,
@@ -37,6 +40,7 @@
     "skinPath": "towers/tower4/tower4.png",
     "selectionPath": "towers/tower4/tower4.png",
     "bulletPath": "badlogic.jpg",
-    "range": 5
+    "range": 2,
+    "price": 700
   }
 ]

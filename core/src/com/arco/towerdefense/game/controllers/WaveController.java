@@ -22,6 +22,8 @@ public class WaveController {
     private boolean first = true; // first off each order use to control the time between spawns
     public boolean completed = false;
     private int highestOrder;
+    private int hearts;
+    public boolean gameOver = false;
 
     public WaveController(int id, ArrayList<Spawn> spawns, ArrayList<Vector2> checkPoints) {
         this.spawns = spawns;
@@ -33,6 +35,14 @@ public class WaveController {
         this.id = id;
         this.highestOrder = searchHighestOrder();
         selectionToSpawn();
+    }
+
+    public int getHearts() {
+        return hearts;
+    }
+
+    public void setHearts(int hearts) {
+        this.hearts = hearts;
     }
 
     public void update(float delta) {
@@ -62,10 +72,16 @@ public class WaveController {
             // se o inimigo chegar no checkPoint e o ponto ser o fim ele é morto,
             // caso contrário ele atualizará pro próx ponto
             if (enemy.inCheckPoint()) {
-                if(reachedTheEnd(enemy))
+                if(reachedTheEnd(enemy)) {
                     enemy.setAlive(false);
-                else
+                    hearts--;
+                    if(hearts == 0) {
+                        gameOver = true;
+                    }
+                }
+                else {
                     changeCourse(enemy);
+                }
             }
 
             // se o inimigo morrer ele é retirado da lista

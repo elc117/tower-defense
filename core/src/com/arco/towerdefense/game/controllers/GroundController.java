@@ -43,6 +43,16 @@ public class GroundController extends InputAdapter {
 
     }
 
+    public int getCurrentWaveId() {
+        return levelController.getWaveID();
+    }
+
+    public int getLevelMoney() { return levelController.getMoney(); }
+
+    public int getLevelHearts() { return levelController.getHearts(); }
+
+    public boolean getLevelGameOver() { return levelController.gameOver(); }
+
     private boolean existsTowerAt(float x, float y) {
         for (TowerEntity tower: towers) {
             if (tower.getX() == x && tower.getY() == y) return true;
