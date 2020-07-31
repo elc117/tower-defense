@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class BulletEntity extends Entity {
-    private float speed;
+    private float duration;
     private int damage;
     private boolean shouldRemove;
     private EnemyEntity target;
@@ -18,6 +18,8 @@ public class BulletEntity extends Entity {
     private boolean hasHitTarget;
     private boolean shouldRotateBullet;
     private Vector2 originPos;
+    private Vector2 originPosGrid;
+    private boolean completeMovement;
 
     private Animation<TextureAtlas.AtlasRegion> spawnAnimations;
     private Animation<TextureAtlas.AtlasRegion> shotAnimations;
@@ -30,11 +32,12 @@ public class BulletEntity extends Entity {
         super.setSpriteSizeToScale();
 
         this.originPos = new Vector2(getScaledX(), getScaledY());
+        this.originPosGrid = new Vector2(x, y);
 
         initAnimationVariables(animationAtlasPath);
 
         this.stateTime = 0f;
-        this.speed = speed;
+        this.duration = 1 / speed;
         this.damage = damage;
         this.shouldRotateBullet = shouldRotateBullet;
         this.shouldRemove = false;
@@ -58,8 +61,9 @@ public class BulletEntity extends Entity {
     }
 
     public void update(float delta) {
-        x += adjustDeltaXAxis(delta) * speed;
-        y += adjustDeltaYAxis(delta) * speed;
+        stateTime += delta;
+
+        adjustPositions();
 
         if (isHittingTarget() && !hasHitTarget) {
             performTargetHit();
@@ -79,20 +83,15 @@ public class BulletEntity extends Entity {
         return Intersector.overlaps(super.getEntityRect(), target.getEntityRect());
     }
 
-    private float adjustDeltaXAxis(float delta) {
-        if (x > target.x) {
-            return -delta;
-        }
+    private void adjustPositions() {
+        if (completeMovement) return;
 
-        return delta;
-    }
+        completeMovement = stateTime >= duration;
 
-    private float adjustDeltaYAxis(float delta) {
-        if (y > target.y) {
-            return -delta;
-        }
+        float percent = completeMovement ? 1 : stateTime / duration;
 
-        return delta;
+        x = originPosGrid.x + (target.getX() - originPosGrid.x) * percent;
+        y = originPosGrid.y + (target.getY() - originPosGrid.y) * percent;
     }
 
     public boolean shouldRemove() {
@@ -147,10 +146,6 @@ public class BulletEntity extends Entity {
     }
 
     public void draw(SpriteBatch batch) {
-        stateTime += Gdx.graphics.getDeltaTime();
-
-        // TODO: MAKE BETTER SHOT TRAJECTORY
-
         drawSpawnBullet(batch);
         drawBulletOrHit(batch);
     }
