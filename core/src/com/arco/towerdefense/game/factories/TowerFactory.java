@@ -33,6 +33,8 @@ public class TowerFactory {
         towerEntity.setId(towerJson.id);
         towerEntity.setRange(towerJson.range);
         towerEntity.setPrice(towerJson.price);
+        towerEntity.setBulletAtlasPath(towerJson.bulletPath);
+        towerEntity.setShouldRotateBullet(towerJson.shouldRotateBullet);
 
         return towerEntity;
     }

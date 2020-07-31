@@ -21,6 +21,8 @@ public class TowerEntity extends Entity {
     private float range;
     private Vector2 centerTower;
     private int price;
+    private String bulletAtlasPath;
+    private boolean shouldRotateBullet;
 
     public TowerEntity(String texturePath, int gridX, int gridY) {
         super(new Sprite(GameSingleton.getInstance().getTexture(texturePath)), gridX, gridY);
@@ -50,8 +52,7 @@ public class TowerEntity extends Entity {
 
     private void shoot(EnemyEntity enemyTarget) {
         timeSinceLastShoot = 0;
-        // TODO: THE ANIMATION PATH SHOULD BE INSIDE THE JSON, WITH THE TOWER CHARACTERISTICS
-        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, "attacks/ice_shard/pack.atlas", x, y, 20, damage, enemyTarget));
+        bullets.add(new BulletEntity(bulletAtlasPath, shouldRotateBullet, x, y, 20, damage, enemyTarget));
 
     }
 
@@ -111,6 +112,14 @@ public class TowerEntity extends Entity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setBulletAtlasPath(String bulletAtlasPath) {
+        this.bulletAtlasPath = bulletAtlasPath;
+    }
+
+    public void setShouldRotateBullet(boolean shouldRotateBullet) {
+        this.shouldRotateBullet = shouldRotateBullet;
     }
 
     public EnemyEntity getEnemyInRange(ArrayList<EnemyEntity> enemies) {
