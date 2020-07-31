@@ -47,16 +47,16 @@ public class EnemyEntity extends Entity {
 
     public void update(float delta) {
         if(dir == direction.DOWN)
-            y -= delta * speed;
+            gridY -= delta * speed;
 
         if(dir == direction.UP)
-            y += delta * speed;
+            gridY += delta * speed;
 
         if(dir == direction.LEFT)
-            x -= delta * speed;
+            gridX -= delta * speed;
 
         if(dir == direction.RIGHT)
-            x += delta * speed;
+            gridX += delta * speed;
     }
 
     public void draw(SpriteBatch batch, ShapeDrawer shapeDrawer) {
@@ -106,28 +106,28 @@ public class EnemyEntity extends Entity {
     public void selectDirection() {
         if (nextCheckPoint == null) return;
 
-        if (y > nextCheckPoint.y) {
+        if (gridY > nextCheckPoint.y) {
             //baixo
             dir = direction.DOWN;
         }
-        if (y < nextCheckPoint.y) {
+        if (gridY < nextCheckPoint.y) {
             //cima
             dir = direction.UP;
         }
-        if (x > nextCheckPoint.x) {
+        if (gridX > nextCheckPoint.x) {
             //esquerda
             dir = direction.LEFT;
         }
-        if (x < nextCheckPoint.x) {
+        if (gridX < nextCheckPoint.x) {
             //direita
             dir = direction.RIGHT;
         }
     }
 
     public boolean inCheckPoint() {
-        if(x > nextCheckPoint.x - 0.1 && x < nextCheckPoint.x + 0.1 && y > nextCheckPoint.y - 0.1 && y < nextCheckPoint.y + 0.1) {
-            x = nextCheckPoint.x;
-            y = nextCheckPoint.y;
+        if(gridX > nextCheckPoint.x - 0.1 && gridX < nextCheckPoint.x + 0.1 && gridY > nextCheckPoint.y - 0.1 && gridY < nextCheckPoint.y + 0.1) {
+            gridX = nextCheckPoint.x;
+            gridY = nextCheckPoint.y;
             return true;
         }
 

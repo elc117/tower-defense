@@ -1,19 +1,23 @@
 
 package com.arco.towerdefense.game.controllers;
 
-import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.drawer.GroundDrawer;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
-import com.arco.towerdefense.game.utils.path.CheckPoint;
 import com.arco.towerdefense.game.utils.path.Lane;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.ArrayList;
 
@@ -21,6 +25,7 @@ public class GroundController extends InputAdapter {
     private GroundDrawer groundDrawer;
     private ArrayList<TowerEntity> towers;
     private ArrayList<Lane> lanes;
+    private Stage stage;
 
     private Rectangle viewRectangle;
 
@@ -28,8 +33,9 @@ public class GroundController extends InputAdapter {
     private TowerEntity towerEntityHolder;
     private LevelController levelController;
 
-    public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight, LevelController levelController) {
+    public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight, LevelController levelController, OrthographicCamera camera) {
         this.levelController = levelController;
+        this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, camera), batch);
 
         lanes = new ArrayList<>();
         setLanes();
@@ -41,7 +47,6 @@ public class GroundController extends InputAdapter {
 
         towerEntityHolder = null;
         hasSelectedTower = false;
-
     }
 
     public int getCurrentWaveId() {
@@ -56,19 +61,28 @@ public class GroundController extends InputAdapter {
 
     public boolean getLevelGameOver() { return levelController.gameOver(); }
 
-    private boolean existsTowerAt(float x, float y) {
+    private TowerEntity getTowerAt(float x, float y) {
         for (TowerEntity tower: towers) {
-            if (tower.getX() == x && tower.getY() == y) return true;
+            if (tower.getGridX() == x && tower.getGridY() == y) return tower;
         }
 
-        return false;
+        return null;
     }
 
     private void addTower(int gridX, int gridY) {
         if (towerEntityHolder == null) return;
 
-        towerEntityHolder.setX(gridX);
-        towerEntityHolder.setY(gridY);
+        towerEntityHolder.setGridX(gridX);
+        towerEntityHolder.setGridY(gridY);
+
+        towerEntityHolder.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("CLICKED");
+            }
+        });
+
+        stage.addActor(towerEntityHolder);
 
         towers.add(towerEntityHolder);
 
@@ -81,7 +95,7 @@ public class GroundController extends InputAdapter {
     public void update(float delta) {
         updateTowers(delta);
         levelController.update(delta);
-
+        stage.act(delta);
         groundDrawer.drawGround();
         groundDrawer.drawTowers(towers);
         groundDrawer.drawEnemies(levelController.getCurrentWave().getEnemiesInGame());
@@ -96,6 +110,11 @@ public class GroundController extends InputAdapter {
         }
     }
 
+    public void selfIncludeToMultiplexer(InputMultiplexer multiplexer) {
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(this);
+    }
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         screenY = Consts.V_HEIGHT - screenY;
@@ -103,7 +122,7 @@ public class GroundController extends InputAdapter {
             int gridX = screenX / groundDrawer.getScale();
             int gridY = screenY / groundDrawer.getScale();
 
-            if (!existsTowerAt(gridX, gridY)) {
+            if (getTowerAt(gridX, gridY) == null) {
                 addTower(gridX, gridY);
             }
 
