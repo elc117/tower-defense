@@ -10,20 +10,20 @@
           {
             "enemyId": 1,
             "quantity": 3,
-            "spawnInterval": 1,
+            "spawnInterval": 3,
             "order": 0
           },
           {
             "enemyId": 3,
             "quantity": 2,
             "spawnInterval": 2,
-            "order": 0
+            "order": 1
           },
           {
             "enemyId": 2,
             "quantity": 1,
             "spawnInterval": 2,
-            "order": 1
+            "order": 2
           }
         ]
       },

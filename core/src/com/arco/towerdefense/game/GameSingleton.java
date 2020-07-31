@@ -131,9 +131,10 @@ public class GameSingleton {
     }
 
     public int initGroundScale(int gridBlockSize) {
-        int groundSize = GameSingleton.getInstance().getTexture(Consts.GROUND_GRASS).getHeight();
+//        int groundSize = GameSingleton.getInstance().getTexture(Consts.GROUND_DIRT).getHeight();
 
-        setGroundScale(gridBlockSize*groundSize);
+//        setGroundScale(gridBlockSize*groundSize);
+        setGroundScale(32);
 
         return getGroundScale();
     }

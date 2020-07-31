@@ -25,7 +25,7 @@ public class GroundDrawer{
     private Texture grassImg;
     private Texture laneImg;
 
-    private int groundSize;
+    private int laneSize;
     private int gridBlockSize;
     private int scale;
 
@@ -47,9 +47,9 @@ public class GroundDrawer{
         grassImg = GameSingleton.getInstance().getTexture(Consts.GROUND_VEINS);
         laneImg = GameSingleton.getInstance().getTexture(Consts.GROUND_DIRT);
 
-        groundSize = grassImg.getHeight();
+        laneSize = laneImg.getHeight();
         this.gridBlockSize = gridBlockSize;
-        this.scale = gridBlockSize*groundSize;
+        this.scale = GameSingleton.getInstance().getGroundScale();
         this.viewRectangle = viewRectangle;
 
         scheduledDrawingPositions = new HashMap<>();
@@ -85,7 +85,7 @@ public class GroundDrawer{
         batch.disableBlending();
         for(int x = 0; x <= this.getGridWidth(); x++) {
             for (int y = 0; y <= this.getGridHeight(); y++) {
-                drawGridBlock(x, y, grassImg);
+                batch.draw(grassImg, x*scale, y*scale);
             }
         }
 
@@ -145,15 +145,15 @@ public class GroundDrawer{
         return scale;
     }
 
-    private void drawGridBlock(int x, int y, Texture texture) {
+    private void drawGridLaneBlock(int x, int y, Texture texture) {
         for (int i = 0; i < gridBlockSize; i++) {
             int realX = x*scale;
 
-            realX += i*groundSize;
+            realX += i* laneSize;
 
             for (int j = 0; j < gridBlockSize; j++) {
                 int realY = y*scale;
-                realY += j*groundSize;
+                realY += j* laneSize;
                 batch.draw(texture, realX, realY);
             }
         }
@@ -164,13 +164,13 @@ public class GroundDrawer{
             if(lane.getStartX() == lane.getFinalX()) {
                 if(lane.getStartY() < lane.getFinalY()) {
                     for (int y = lane.getStartY(); y <= lane.getFinalY(); y++) {
-                        drawGridBlock(lane.getStartX(), y, laneImg);
+                        drawGridLaneBlock(lane.getStartX(), y, laneImg);
                     }
                 }
 
                 if(lane.getStartY() > lane.getFinalY()) {
                     for (int y = lane.getFinalY(); y <= lane.getStartY(); y++) {
-                        drawGridBlock(lane.getStartX(), y, laneImg);
+                        drawGridLaneBlock(lane.getStartX(), y, laneImg);
                     }
                 }
             }
@@ -178,13 +178,13 @@ public class GroundDrawer{
             if(lane.getStartY() == lane.getFinalY()) {
                 if(lane.getStartX() < lane.getFinalX()) {
                     for (int x = lane.getStartX(); x <= lane.getFinalX(); x++) {
-                        drawGridBlock(x, lane.getStartY(), laneImg);
+                        drawGridLaneBlock(x, lane.getStartY(), laneImg);
                     }
                 }
 
                 if(lane.getStartX() > lane.getFinalX()) {
                     for (int x = lane.getFinalX(); x <= lane.getStartX(); x++) {
-                        drawGridBlock(x, lane.getStartY(), laneImg);
+                        drawGridLaneBlock(x, lane.getStartY(), laneImg);
                     }
                 }
             }
