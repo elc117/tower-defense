@@ -24,6 +24,7 @@ public class WaveController {
     private int highestOrder;
     private int hearts;
     public boolean gameOver = false;
+    private int money;
 
     public WaveController(int id, ArrayList<Spawn> spawns, ArrayList<Vector2> checkPoints) {
         this.spawns = spawns;
@@ -35,6 +36,7 @@ public class WaveController {
         this.id = id;
         this.highestOrder = searchHighestOrder();
         selectionToSpawn();
+        this.money = 0;
     }
 
     public int getHearts() {
@@ -88,6 +90,8 @@ public class WaveController {
             if (enemy.isAlive()) {
                 allEnemiesDead = false;
             } else {
+                if(enemy.couldReward)
+                    money+= enemy.getReward();
                 it.remove();
             }
         }
@@ -187,5 +191,13 @@ public class WaveController {
     public void setId(int id) {
         this.id  = id;
     }
+
+    public int getMoney() { return money; }
+
+    public void setMoney(int money) {
+        this.money -= money;
+    }
+
+    public void setInitMoney(int money) { this.money = money; }
 
 }

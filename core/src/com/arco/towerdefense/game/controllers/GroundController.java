@@ -5,6 +5,7 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.drawer.GroundDrawer;
 import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
+import com.arco.towerdefense.game.utils.path.CheckPoint;
 import com.arco.towerdefense.game.utils.path.Lane;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Input;
@@ -48,6 +49,8 @@ public class GroundController extends InputAdapter {
     }
 
     public int getLevelMoney() { return levelController.getMoney(); }
+
+    public void setMoney(int money) { levelController.setMoney(money); }
 
     public int getLevelHearts() { return levelController.getHearts(); }
 
