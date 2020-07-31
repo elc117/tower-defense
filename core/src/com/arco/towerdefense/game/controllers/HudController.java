@@ -23,6 +23,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.ArrayList;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+
 public class HudController{
     private Stage stage;
     private Skin skin;
@@ -34,6 +36,7 @@ public class HudController{
     private Label coinLabel;
     private Label heartLabel;
     private Label towerInfoLabel;
+    private Label noMoneyLabel;
     private Image backGroundHud;
     private ArrayList<Button> towerSelections;
 
@@ -61,13 +64,14 @@ public class HudController{
         stage.addActor(table);
         stage.addActor(waveLabel);
         stage.addActor(towerInfoLabel);
+        stage.addActor(noMoneyLabel);
 
     }
 
     public void update(float delta, int waveID, int money, int hearts) {
         waveLabel.setText(String.format("WAVE: %01d", waveID));
         heartLabel.setText(String.format("%01d", hearts));
-        // falta moneyupdate
+        coinLabel.setText(String.format("%01d", money));
         stage.act(delta);
         stage.draw();
     }
@@ -89,6 +93,9 @@ public class HudController{
         this.waveLabel.setPosition(0, Consts.V_HEIGHT - waveLabel.getHeight());
         this.coinLabel = new Label(String.format("%01d", groundController.getLevelMoney()), labelStyle);
         this.heartLabel = new Label(String.format("%01d", groundController.getLevelHearts()), labelStyle);
+
+        this.noMoneyLabel = new Label("VOCÊ NÃO POSSUI DINHEIRO SUFICIENTE :(", labelStyle);
+        noMoneyLabel.setVisible(false);
     }
 
     private void initTowers() {
@@ -103,9 +110,18 @@ public class HudController{
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    groundController.setHasSelectedTower(true);
-                    TowerEntity towerEntity = GameSingleton.getInstance().getTowerFactory().createById(towerJson.id);
-                    setTowerEntityToHolder(towerEntity);
+
+                    if(groundController.getLevelMoney() - towerJson.price >= 0) {
+
+                        groundController.setHasSelectedTower(true);
+                        TowerEntity towerEntity = GameSingleton.getInstance().getTowerFactory().createById(towerJson.id);
+                        setTowerEntityToHolder(towerEntity);
+
+                        groundController.setMoney(towerEntity.getPrice());
+                    } else {
+                        noMoneyLabel.setVisible(true);
+                        noMoneyLabel.addAction(sequence( alpha(0), fadeIn(.5f), delay(1f), fadeOut(1.5f)));
+                    }
                 }
 
                 @Override

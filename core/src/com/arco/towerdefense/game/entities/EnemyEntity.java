@@ -28,8 +28,10 @@ public class EnemyEntity extends Entity {
     private int healthPoints;
     private int maxHealthPoints;
     private float spawnInterval;
+    private int reward;
+    public boolean couldReward = false;
 
-    public EnemyEntity(int id, float speed, int health, String txt, UUID targetID) {
+    public EnemyEntity(int id, float speed, int health, String txt, UUID targetID, int reward) {
         super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
         super.setSpriteSizeToScale();
 
@@ -41,6 +43,7 @@ public class EnemyEntity extends Entity {
         this.stateTime = 0f;
         this.maxHealthPoints = health;
         this.healthPoints = health;
+        this.reward = reward;
     }
 
     public void update(float delta) {
@@ -85,6 +88,7 @@ public class EnemyEntity extends Entity {
 
         if (healthPoints <= 0) {
             alive = false;
+            couldReward = true;
         }
     }
 
@@ -147,5 +151,13 @@ public class EnemyEntity extends Entity {
 
     public void setSpawnInterval(float spawnInterval) {
         this.spawnInterval = spawnInterval;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+    public void setReward(int reward) {
+        this.reward = reward;
     }
 }

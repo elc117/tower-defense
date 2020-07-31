@@ -131,4 +131,8 @@ public class TowerEntity extends Entity {
 
         return null; // We could not find any
     }
+
+    public int getPrice() {
+        return price;
+    }
 }
