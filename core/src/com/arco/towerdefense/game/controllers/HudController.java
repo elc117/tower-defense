@@ -5,17 +5,16 @@ import com.arco.towerdefense.game.entities.TowerEntity;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.json.TowerJson;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -92,13 +91,11 @@ public class HudController{
     }
 
     private void initTowers() {
-
         Json json = new Json();
         Array<TowerJson> towersJson = json.fromJson(Array.class, TowerJson.class, Gdx.files.internal(Consts.TOWERS_JSON));
 
         for (final TowerJson towerJson: towersJson) {
             Button button = new Button(skin, "tower"+String.format("%01d", towerJson.id));
-            towerSelections.add(button);
 
             button.addListener(new ClickListener() {
                 @Override
@@ -110,11 +107,10 @@ public class HudController{
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    String str1 = new String();
-                    str1 = "Name: " + towerJson.name +
-                                "  Price: " + String.format("%01d", towerJson.price) +
-                                    "  Range: " + String.format("%01d", (int) towerJson.range) +
-                                        "  Damange: " + String.format("%01d", towerJson.damage) ;
+                    String str1 = "Name: " + towerJson.name +
+                            "  Price: " + String.format("%01d", towerJson.price) +
+                            "  Range: " + String.format("%01d", (int) towerJson.range) +
+                            "  Damange: " + String.format("%01d", towerJson.damage) ;
 
                     towerInfoLabel.setText(str1);
                     towerInfoLabel.setX(2);
@@ -126,6 +122,8 @@ public class HudController{
                     towerInfoLabel.setX(70);
                 }
             });
+
+            towerSelections.add(button);
         }
     }
 

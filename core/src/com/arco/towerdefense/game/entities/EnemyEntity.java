@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -80,8 +79,6 @@ public class EnemyEntity extends Entity {
 
     public void performHit(int damage) {
         healthPoints -= damage;
-
-        System.out.println("TOMA "+damage);
 
         if (healthPoints <= 0) {
             alive = false;
