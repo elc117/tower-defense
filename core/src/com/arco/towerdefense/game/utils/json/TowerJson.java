@@ -9,4 +9,5 @@ public class TowerJson {
     public String selectionPath;
     public String bulletPath;
     public float range;
+    public int price;
 }

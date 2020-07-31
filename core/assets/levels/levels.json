@@ -2,6 +2,7 @@
   {
     "id": 1,
     "dificulty": 2,
+    "money": 300,
     "waves": [
       {
         "waveID": 1,
@@ -63,6 +64,7 @@
   {
     "id": 2,
     "dificulty": 2,
+    "money": 500,
     "waves": [
       {
         "waveID": 1,
