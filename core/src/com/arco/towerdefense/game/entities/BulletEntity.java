@@ -2,7 +2,6 @@ package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.Utils;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -90,8 +89,8 @@ public class BulletEntity extends Entity {
 
         float percent = completeMovement ? 1 : stateTime / duration;
 
-        x = originPosGrid.x + (target.getX() - originPosGrid.x) * percent;
-        y = originPosGrid.y + (target.getY() - originPosGrid.y) * percent;
+        gridX = originPosGrid.x + (target.getGridX() - originPosGrid.x) * percent;
+        gridY = originPosGrid.y + (target.getGridY() - originPosGrid.y) * percent;
     }
 
     public boolean shouldRemove() {

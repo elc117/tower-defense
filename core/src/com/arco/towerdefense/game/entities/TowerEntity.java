@@ -1,7 +1,6 @@
 package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
-import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -52,7 +51,7 @@ public class TowerEntity extends Entity {
 
     private void shoot(EnemyEntity enemyTarget) {
         timeSinceLastShoot = 0;
-        bullets.add(new BulletEntity(bulletAtlasPath, shouldRotateBullet, x, y, 10, damage, enemyTarget));
+        bullets.add(new BulletEntity(bulletAtlasPath, shouldRotateBullet, gridX, gridY, 10, damage, enemyTarget));
 
     }
 
