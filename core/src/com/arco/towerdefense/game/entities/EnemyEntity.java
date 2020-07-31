@@ -29,7 +29,7 @@ public class EnemyEntity extends Entity {
     private int maxHealthPoints;
     private float spawnInterval;
 
-    public EnemyEntity(int id, float speed, String txt, UUID targetID) {
+    public EnemyEntity(int id, float speed, int health, String txt, UUID targetID) {
         super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
         super.setSpriteSizeToScale();
 
@@ -39,8 +39,8 @@ public class EnemyEntity extends Entity {
         this.targetID = targetID;
         this.animation = Utils.createAnimation(txt, 3, 1);
         this.stateTime = 0f;
-        this.maxHealthPoints = 100;
-        this.healthPoints = 100;
+        this.maxHealthPoints = health;
+        this.healthPoints = health;
     }
 
     public void update(float delta) {
@@ -80,6 +80,8 @@ public class EnemyEntity extends Entity {
 
     public void performHit(int damage) {
         healthPoints -= damage;
+
+        System.out.println("TOMA "+damage);
 
         if (healthPoints <= 0) {
             alive = false;

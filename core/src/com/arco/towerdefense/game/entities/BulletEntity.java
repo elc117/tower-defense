@@ -61,7 +61,7 @@ public class BulletEntity extends Entity {
         x += adjustDeltaXAxis(delta) * speed;
         y += adjustDeltaYAxis(delta) * speed;
 
-        if (isHittingTarget()) {
+        if (isHittingTarget() && !hasHitTarget) {
             performTargetHit();
         }
 
