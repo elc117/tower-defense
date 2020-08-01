@@ -24,6 +24,9 @@ public class GameSingleton {
     private EnemyFactory enemyFactory;
     private int groundScale;
 
+    private int hearts;
+    private int money;
+
 
     private GameSingleton() {
         assetManager = new AssetManager();
@@ -33,6 +36,8 @@ public class GameSingleton {
         levelGenerator = new LevelGenerator();
         enemyFactory = new EnemyFactory();
         groundScale = 1; // Default
+        hearts = 0;
+        money = 0;
 
 
         initAssetManager();
@@ -137,5 +142,50 @@ public class GameSingleton {
         setGroundScale(32);
 
         return getGroundScale();
+    }
+
+    public int getHearts() {
+        return hearts;
+    }
+
+    public void setHearts(int hearts) {
+        this.hearts = hearts;
+    }
+
+    public boolean decreaseHeartsBy(int val) {
+        int result = hearts - val;
+
+        if (result < 0) return false;
+
+        this.hearts = result;
+
+        return true;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void increaseMoneyBy(int val) {
+        this.money += val;
+    }
+
+    // Return false if it was not possible to decrease money and true otherwise
+    public boolean decreaseMoneyBy(int val) {
+        int result = money - val;
+
+        if (result < 0) return false;
+
+        this.money = result;
+
+        return true;
+    }
+
+    public boolean isGameOver() {
+        return hearts <= 0;
     }
 }

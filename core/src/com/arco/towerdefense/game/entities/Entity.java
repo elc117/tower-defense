@@ -2,6 +2,7 @@ package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -88,8 +89,12 @@ public abstract class Entity extends Actor {
 
     public void draw(SpriteBatch batch) {
         updateEntityPositionAndBounds();
-
         sprite.draw(batch);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        this.draw((SpriteBatch) batch);
     }
 
     protected void setTextureRegionToSprite(TextureRegion textureRegion) {

@@ -1,0 +1,48 @@
+
+pack.png
+size: 1024,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+arrow_up
+  rotate: false
+  xy: 565, 25
+  size: 44, 64
+  orig: 44, 64
+  offset: 0, 0
+  index: -1
+arrow_up2
+  rotate: false
+  xy: 502, 25
+  size: 61, 64
+  orig: 61, 64
+  offset: 0, 0
+  index: -1
+coin
+  rotate: false
+  xy: 304, 25
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+heart
+  rotate: false
+  xy: 370, 25
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+hintbox
+  rotate: false
+  xy: 2, 2
+  size: 300, 87
+  orig: 300, 87
+  offset: 0, 0
+  index: -1
+sell_coin
+  rotate: false
+  xy: 436, 25
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
