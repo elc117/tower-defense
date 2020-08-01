@@ -146,8 +146,8 @@ public class WaveController {
 
         EnemyEntity enemyEntity = GameSingleton.getInstance().getEnemyFactory().createById(id);
         enemyEntity.setNextCheckPoint(nextCheckPoint);
-        enemyEntity.setX(startCheckPoint.x);
-        enemyEntity.setY(startCheckPoint.y);
+        enemyEntity.setGridX(startCheckPoint.x);
+        enemyEntity.setGridY(startCheckPoint.y);
         enemyEntity.setSpawnInterval(spawnInterval);
         enemyEntity.selectDirection();
         enemiesToSpawn.add(enemyEntity);
