@@ -135,6 +135,14 @@ public class GameSingleton {
         assetManager.clear();
     }
 
+    public void saveCurrentInputProcessor() {
+        this.setInputProcessor(Gdx.input.getInputProcessor());
+    }
+
+    public void restoreOldInputProcessor() {
+        Gdx.input.setInputProcessor(getInputProcessor());
+    }
+
     public int initGroundScale(int gridBlockSize) {
 //        int groundSize = GameSingleton.getInstance().getTexture(Consts.GROUND_DIRT).getHeight();
 

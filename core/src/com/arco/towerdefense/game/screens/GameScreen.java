@@ -86,7 +86,7 @@ public class GameScreen implements Screen {
         //multiplexer.addProcessor(interactionZoneController);
         multiplexer.addProcessor(hudController.getStage());
         groundController.selfIncludeToMultiplexer(multiplexer);
-        GameSingleton.getInstance().setInputProcessor(Gdx.input.getInputProcessor());
+        GameSingleton.getInstance().saveCurrentInputProcessor();
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -101,6 +101,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-        Gdx.input.setInputProcessor(GameSingleton.getInstance().getInputProcessor());
+        GameSingleton.getInstance().restoreOldInputProcessor();
     }
 }
