@@ -1,0 +1,19 @@
+{
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	btnLvlOne: {
+		up: fases-1.png
+	}
+	btnLvlTwo: {
+		up: fases-2.png
+	}
+	btnLvlThr: {
+		up: fases-3.png
+	}
+	btnLvlFou: {
+		up: fases-4.png
+	}
+	btnLvlFiv: {
+		up: fases-5.png
+	}
+}
+}
