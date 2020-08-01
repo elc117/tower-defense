@@ -69,6 +69,10 @@ public class Utils {
         return array.get(last);
     }
 
+    public static int realToGrid(float x) {
+        return (int) (x / GameSingleton.getInstance().getGroundScale());
+    }
+
     public static Animation<TextureRegion> createAnimation(String texture, int FRAME_COLS, int FRAME_ROWS) {
         Texture provideTxt = GameSingleton.getInstance().getTexture(texture);
 

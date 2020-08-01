@@ -13,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
+import com.sun.org.glassfish.gmbal.GmbalException;
 
 public class GameScreen implements Screen {
     final TowerDefenseGame game;
@@ -22,16 +23,16 @@ public class GameScreen implements Screen {
     private LevelController levelController;
     private int level;
     private HudController hudController;
+    private GameSingleton gameSingleton;
 
     public GameScreen(TowerDefenseGame game, int level) {
         this.game = game;
-
+        this.gameSingleton = GameSingleton.getInstance();
         this.level = level;
-        //System.out.println("COMEÇANDO O NIVEL : " + level);
 
         int GRID_BLOCK_SIZE = 2;
 
-        GameSingleton.getInstance().initGroundScale(GRID_BLOCK_SIZE);
+        gameSingleton.initGroundScale(GRID_BLOCK_SIZE);
 
         this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(level);
         this.groundController = new GroundController(game.batch, GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController, game.camera);
@@ -52,11 +53,11 @@ public class GameScreen implements Screen {
             //homeButtonUpdate();
         game.batch.end();
 
-        if(groundController.getLevelGameOver()) {
+        if(GameSingleton.getInstance().isGameOver()) {
             game.setScreen(game.gameOverScreen);
         }
 
-        hudController.update(delta, groundController.getCurrentWaveId(), groundController.getLevelMoney(), groundController.getLevelHearts());
+        hudController.update(delta, groundController.getCurrentWaveId(), gameSingleton.getMoney(), gameSingleton.getHearts());
     }
 
     public void homeButtonUpdate() {
@@ -101,9 +102,5 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {
         GameSingleton.getInstance().restoreOldInputProcessor();
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 }

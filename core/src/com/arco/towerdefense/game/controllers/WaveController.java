@@ -22,9 +22,7 @@ public class WaveController {
     private boolean first = true; // first off each order use to control the time between spawns
     public boolean completed = false;
     private int highestOrder;
-    private int hearts;
-    public boolean gameOver = false;
-    private int money;
+    private GameSingleton gameSingleton;
 
     public WaveController(int id, ArrayList<Spawn> spawns, ArrayList<Vector2> checkPoints) {
         this.spawns = spawns;
@@ -36,15 +34,7 @@ public class WaveController {
         this.id = id;
         this.highestOrder = searchHighestOrder();
         selectionToSpawn();
-        this.money = 0;
-    }
-
-    public int getHearts() {
-        return hearts;
-    }
-
-    public void setHearts(int hearts) {
-        this.hearts = hearts;
+        this.gameSingleton = GameSingleton.getInstance();
     }
 
     public void update(float delta) {
@@ -76,10 +66,7 @@ public class WaveController {
             if (enemy.inCheckPoint()) {
                 if(reachedTheEnd(enemy)) {
                     enemy.setAlive(false);
-                    hearts--;
-                    if(hearts == 0) {
-                        gameOver = true;
-                    }
+                    gameSingleton.decreaseHeartsBy(1);
                 }
                 else {
                     changeCourse(enemy);
@@ -90,8 +77,8 @@ public class WaveController {
             if (enemy.isAlive()) {
                 allEnemiesDead = false;
             } else {
-                if(enemy.couldReward)
-                    money+= enemy.getReward();
+                if(enemy.couldReward) gameSingleton.increaseMoneyBy(enemy.getReward());
+
                 it.remove();
             }
         }
@@ -191,13 +178,5 @@ public class WaveController {
     public void setId(int id) {
         this.id  = id;
     }
-
-    public int getMoney() { return money; }
-
-    public void setMoney(int money) {
-        this.money -= money;
-    }
-
-    public void setInitMoney(int money) { this.money = money; }
 
 }
