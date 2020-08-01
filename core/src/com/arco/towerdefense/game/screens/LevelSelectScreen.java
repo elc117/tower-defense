@@ -51,8 +51,9 @@ public class LevelSelectScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
             testFont.draw(game.batch, "CLICA AI NO BAGUI PRA JOGAR O JOGO :", 300,350 );
+            update(delta);
         game.batch.end();
-        update(delta);
+
         this.stage.draw();
     }
 
@@ -64,7 +65,7 @@ public class LevelSelectScreen implements Screen {
                 game.setScreen(game.gameScreen = new GameScreen(game, 1));
             }
         });
-        btnLvl1.addAction(sequence( alpha(0), fadeIn(.5f)));
+        btnLvl1.addAction(sequence( alpha(0), fadeIn(.4f)));
 
 
         btnLvl2 = new Button(skin, "btnLvlTwo");
@@ -74,7 +75,7 @@ public class LevelSelectScreen implements Screen {
                 game.setScreen(game.gameScreen = new GameScreen(game, 2));
             }
         });
-        btnLvl2.addAction(sequence( alpha(0), fadeIn(.5f)));
+        btnLvl2.addAction(sequence( alpha(0), fadeIn(.45f)));
 
 
         btnLvl3 = new Button(skin, "btnLvlThr");
@@ -94,7 +95,7 @@ public class LevelSelectScreen implements Screen {
                 //game.setScreen(game.gameScreen = new GameScreen(game, 4));
             }
         });
-        btnLvl4.addAction(sequence( alpha(0), fadeIn(.5f)));
+        btnLvl4.addAction(sequence( alpha(0), fadeIn(.55f)));
 
 
         btnLvl5 = new Button(skin, "btnLvlFiv");
@@ -104,7 +105,7 @@ public class LevelSelectScreen implements Screen {
                 //game.setScreen(game.gameScreen = new GameScreen(game, 5));
             }
         });
-        btnLvl5.addAction(sequence( alpha(0), fadeIn(.5f)));
+        btnLvl5.addAction(sequence( alpha(0), fadeIn(.6f)));
 
         this.table.setBounds(0, -25, stage.getWidth(), stage.getHeight());
 
@@ -123,7 +124,7 @@ public class LevelSelectScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override
@@ -143,7 +144,7 @@ public class LevelSelectScreen implements Screen {
 
     @Override
     public void hide() {
-
+        GameSingleton.getInstance().restoreOldInputProcessor();
     }
 
     @Override

@@ -31,10 +31,10 @@ public class TowerDefenseGame extends Game {
 		gameScreen = new GameScreen(this, 1);
 		helpScreen = new HelpScreen(this);
 		levelSelectScreen = new LevelSelectScreen(this);
-		//mainMenuScreen = new MainMenuScreen(this);
+		mainMenuScreen = new MainMenuScreen(this);
 		gameOverScreen = new GameOverScreen(this);
 
-		this.setScreen(levelSelectScreen);
+		this.setScreen(mainMenuScreen);
 	}
 
 	@Override

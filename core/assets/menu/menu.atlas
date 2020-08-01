@@ -6,21 +6,21 @@ filter: Linear,Linear
 repeat: none
 HelpButton
   rotate: false
-  xy: 203, 332
+  xy: 1, 332
   size: 200, 69
   orig: 200, 69
   offset: 0, 0
   index: -1
 PlayButton
   rotate: false
-  xy: 1, 332
+  xy: 1, 261
   size: 200, 69
   orig: 200, 69
   offset: 0, 0
   index: -1
 QuitButton
   rotate: false
-  xy: 1, 261
+  xy: 203, 332
   size: 200, 69
   orig: 200, 69
   offset: 0, 0
