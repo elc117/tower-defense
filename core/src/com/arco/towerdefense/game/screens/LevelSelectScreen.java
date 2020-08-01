@@ -4,7 +4,6 @@ import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -21,7 +20,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public class LevelSelectScreen implements Screen {
 
     final TowerDefenseGame game;
-    BitmapFont testFont;
+    BitmapFont bitmapFont;
     private Stage stage;
     private Skin skin;
     private Button btnLvl1, btnLvl2, btnLvl3, btnLvl4, btnLvl5;
@@ -30,9 +29,9 @@ public class LevelSelectScreen implements Screen {
     public LevelSelectScreen(TowerDefenseGame game) {
         this.game = game;
 
-        testFont = new BitmapFont();
+        bitmapFont = new BitmapFont();
 
-        this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, game.camera));
+        this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, game.camera), game.batch);
         this.stage.clear();
         Gdx.input.setInputProcessor(this.stage);
 
@@ -50,7 +49,7 @@ public class LevelSelectScreen implements Screen {
         Gdx.gl.glClearColor(1, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-            testFont.draw(game.batch, "CLICA AI NO BAGUI PRA JOGAR O JOGO :", 300,350 );
+            bitmapFont.draw(game.batch, "CLICA AI NO BAGUI PRA JOGAR O JOGO :", 300,350 );
             update(delta);
         game.batch.end();
 
