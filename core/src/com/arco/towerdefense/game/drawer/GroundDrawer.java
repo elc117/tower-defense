@@ -122,7 +122,7 @@ public class GroundDrawer{
     public void drawTowerRange(TowerEntity towerEntity) {
         if (towerEntity == null) return;
 
-        Circle circleTower = selectedTowerEntity.getCircleRange();
+        Circle circleTower = towerEntity.getCircleRange();
         shapeDrawer.setColor(Color.BLUE);
         shapeDrawer.circle(circleTower.x, circleTower.y, circleTower.radius, 2);
     }
