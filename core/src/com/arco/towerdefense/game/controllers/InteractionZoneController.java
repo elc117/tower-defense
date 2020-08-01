@@ -57,7 +57,7 @@ public class InteractionZoneController extends InputAdapter {
                     new LayoutListener() {
                         @Override
                         public void onClick(LayoutWrapper layoutWrapper) {
-                            groundController.setHasSelectedTower(true);
+                            groundController.setHasSelectedBuyTower(true);
                             TowerEntity towerEntity = GameSingleton.getInstance().getTowerFactory().create(towerJson);
                             setTowerEntityToHolder(towerEntity);
                         }

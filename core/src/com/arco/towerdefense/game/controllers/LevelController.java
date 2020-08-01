@@ -77,11 +77,7 @@ public class LevelController {
             gameSingleton.setHearts(10);
             gameSingleton.setMoney(initMoney);
         } else {
-//            int hearts = currentWave.getHearts();
-//            int money = currentWave.getMoney();
-//            currentWave = waves.get(currentWave.getId());
-//            currentWave.setHearts(hearts);
-//            currentWave.setInitMoney(money);
+            currentWave = waves.get(currentWave.getId());
         }
 
         System.out.println("COMEÇANDO A WAVE: " + currentWave.getId());

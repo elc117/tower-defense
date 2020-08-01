@@ -19,8 +19,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -28,6 +26,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GroundController extends InputAdapter {
     private GroundDrawer groundDrawer;
@@ -38,7 +37,7 @@ public class GroundController extends InputAdapter {
 
     private Rectangle viewRectangle;
 
-    private boolean hasSelectedTower;
+    private boolean hasSelectedBuyTower;
     private TowerEntity towerEntityHolder;
     private LevelController levelController;
     private TowerEntity selectedTower;
@@ -56,7 +55,7 @@ public class GroundController extends InputAdapter {
         towers = new ArrayList<>();
 
         towerEntityHolder = null;
-        hasSelectedTower = false;
+        hasSelectedBuyTower = false;
     }
 
     private void initTowerMenu() {
@@ -66,11 +65,22 @@ public class GroundController extends InputAdapter {
         ImageButton upgradeBtn = new ImageButton(new TextureRegionDrawable(hudAtlas.findRegion("arrow_up2")));
         upgradeBtn.setSize(btnSize, btnSize);
         upgradeBtn.setPosition(0, 0, Align.bottomLeft);
+        upgradeBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                upgradeSelectedTower();
+            }
+        });
 
         ImageButton sellBtn = new ImageButton(new TextureRegionDrawable(hudAtlas.findRegion("sell_coin")));
         sellBtn.setSize(btnSize, btnSize);
         sellBtn.setPosition(upgradeBtn.getX() + upgradeBtn.getWidth() + 40, 0, Align.bottomLeft); // 64 is the padding
-
+        sellBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sellSelectedTower(event);
+            }
+        });
 
         towerMenu = new Table();
         towerMenu.setFillParent(false);
@@ -79,12 +89,42 @@ public class GroundController extends InputAdapter {
         towerMenu.addActor(upgradeBtn);
         towerMenu.addActor(sellBtn);
         towerMenu.setVisible(false);
-
         stage.addActor(towerMenu);
     }
 
     public int getCurrentWaveId() {
         return levelController.getWaveID();
+    }
+
+    private void sellSelectedTower(InputEvent event) {
+        if (selectedTower == null) return;
+
+        if (selectedTower.remove()) {
+            // When selling, we have a 20% loss of the original price
+            GameSingleton.getInstance().increaseMoneyBy((int) (selectedTower.getPrice() * 0.8));
+
+            Iterator<TowerEntity> it = towers.iterator();
+            while(it.hasNext()) {
+                TowerEntity tower = it.next();
+                if (tower.getGridX() == selectedTower.getGridX() && tower.getGridY() == selectedTower.getGridY()) {
+                    it.remove();
+                }
+            }
+
+            resetTowerSelection();
+        }
+    }
+
+    private void upgradeSelectedTower() {
+        if (selectedTower == null) return;
+        // Here he perform the upgrade
+
+        resetTowerSelection();
+    }
+
+    private void resetTowerSelection() {
+        selectedTower = null;
+        towerMenu.setVisible(false);
     }
 
     private TowerEntity getTowerAt(int x, int y) {
@@ -96,7 +136,10 @@ public class GroundController extends InputAdapter {
     }
 
     private boolean performTowerSelectionAt(int gridX, int gridY) {
+        if (hasSelectedBuyTower) return false;
+
         this.selectedTower = getTowerAt(gridX, gridY);
+
         if (selectedTower == null) return false;
 
         Vector2 center = selectedTower.getCenterTower();
@@ -123,11 +166,11 @@ public class GroundController extends InputAdapter {
         });
 
         stage.addActor(towerEntityHolder);
-
         towers.add(towerEntityHolder);
+        towerMenu.setZIndex(towers.size());
 
         groundDrawer.removeScheduleOfGroundSelection();
-        hasSelectedTower = false;
+        hasSelectedBuyTower = false;
         towerEntityHolder = null;
     }
 
@@ -168,10 +211,7 @@ public class GroundController extends InputAdapter {
             int gridY = Utils.realToGrid(screenY);
 
             if (getTowerAt(gridX, gridY) == null) {
-                if (selectedTower != null) {
-                    selectedTower = null;
-                    towerMenu.setVisible(false);
-                }
+                if (selectedTower != null) resetTowerSelection();
 
                 addTower(gridX, gridY);
             }
@@ -182,8 +222,12 @@ public class GroundController extends InputAdapter {
         return false; // Meaning that we have not handled the touch
     }
 
-    public void setHasSelectedTower(boolean hasSelectedTower) {
-        this.hasSelectedTower = hasSelectedTower;
+    public void setHasSelectedBuyTower(boolean hasSelectedBuyTower) {
+        this.hasSelectedBuyTower = hasSelectedBuyTower;
+
+        if (hasSelectedBuyTower) {
+            resetTowerSelection();
+        }
     }
 
     public void setTowerEntityHolder(TowerEntity towerEntity) {
@@ -195,7 +239,7 @@ public class GroundController extends InputAdapter {
     public boolean mouseMoved(int screenX, int screenY) {
         screenY = Consts.V_HEIGHT - screenY;
 
-        if (Utils.isInsideRectangle(viewRectangle, screenX, screenY) && hasSelectedTower) {
+        if (Utils.isInsideRectangle(viewRectangle, screenX, screenY) && hasSelectedBuyTower) {
             int gridX = screenX / groundDrawer.getScale();
             int gridY = screenY / groundDrawer.getScale();
 
@@ -213,7 +257,7 @@ public class GroundController extends InputAdapter {
     }
 
     private void drawSelectedTowerUnderCursor() {
-        if (hasSelectedTower) {
+        if (hasSelectedBuyTower) {
             groundDrawer.drawSelectedTowerUnderCursor();
         }
     }

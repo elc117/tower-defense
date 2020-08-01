@@ -109,7 +109,7 @@ public class HudController{
                 public void clicked(InputEvent event, float x, float y) {
 
                     if(gameSingleton.decreaseMoneyBy(towerJson.price)) {
-                        groundController.setHasSelectedTower(true);
+                        groundController.setHasSelectedBuyTower(true);
                         TowerEntity towerEntity = GameSingleton.getInstance().getTowerFactory().createById(towerJson.id);
                         setTowerEntityToHolder(towerEntity);
                     } else {
