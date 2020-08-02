@@ -1,0 +1,36 @@
+{
+"BitmapFont": {
+	"large": {
+		"file": "large.fnt"
+	},
+	"medium": {
+		"file": "medium.fnt"
+	},
+	"small": {
+		"file": "small.fnt"
+	}
+},
+"Color": {
+	"dourado": {
+		"r": 1,
+		"g": 0.75788885,
+		"b": 0,
+		"a": 1
+	},
+	"white": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 1
+	}
+},
+"TextButtonStyle": {
+	"default": {
+		"font": "large",
+		"fontColor": "white",
+		"overFontColor": "dourado",
+		"up": "textButtonWin",
+		"over": "hoverTextButton"
+	}
+}
+}
