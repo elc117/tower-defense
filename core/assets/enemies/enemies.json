@@ -2,25 +2,25 @@
   {
     "id": 1,
     "name": "Virus",
-    "speed": 0.5,
+    "speed": 1.5,
     "skinPath": "enemies/generic/virus/virus_animation.png",
-    "health": 200,
+    "health": 100,
     "reward": 200
   },
   {
     "id": 2,
     "name": "Bacteria",
-    "speed": 1.5,
+    "speed": 0.5,
     "skinPath": "enemies/generic/bacteria/bacteria_animation.png",
-    "health": 100,
+    "health": 200,
     "reward": 100
   },
   {
     "id": 3,
     "name": "Fungo",
-    "speed": 2.0,
+    "speed": 1,
     "skinPath": "enemies/generic/fungus/fungus_animation.png",
-    "health": 100,
+    "health": 150,
     "reward": 50
   }
 ]
