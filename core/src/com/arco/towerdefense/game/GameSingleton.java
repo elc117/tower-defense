@@ -211,7 +211,7 @@ public class GameSingleton {
     }
 
     public boolean isGameOver() {
-        return hearts <= 0;
+        return hearts == 0;
     }
 
 
