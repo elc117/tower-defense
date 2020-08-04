@@ -22,6 +22,7 @@ public class Consts {
     public static final String GROUND_DIRT = "ground/dirt.png";
     public static final String GROUND_VEINS = "ground/veins32.png";
     public static final String MENU_BACKGROUND = "menu/menu-background.png";
+    public static final String GROUND_LANE = "ground/laneTxt.png";
 
     //ENEMIES
     public static final String VIRUS_ENEMY = "enemies/generic/virus/virus_animation.png";

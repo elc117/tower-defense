@@ -85,7 +85,10 @@ public class WinScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 winMusic.stop();
-                game.setScreen(game.levelSelectScreen);
+                if(lastLevel == 5)
+                    game.setScreen(game.finalGameScreen);
+                else
+                    game.setScreen(game.levelSelectScreen);
             }
         });
 
