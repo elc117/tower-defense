@@ -96,6 +96,10 @@ public class GroundController extends InputAdapter {
         return levelController.getWaveID();
     }
 
+    public boolean getLevelCompleted() {
+        return levelController.completed;
+    }
+
     private void sellSelectedTower(InputEvent event) {
         if (selectedTower == null) return;
 

@@ -12,8 +12,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class WinScreen implements Screen {
@@ -28,31 +30,83 @@ public class WinScreen implements Screen {
     private Image trophyImage;
     private Image backGround;
     private Music winMusic;
+    private int lastLevel;
 
     public WinScreen(TowerDefenseGame game) {
         this.game = game;
         this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, game.camera));
         this.stage.clear();
 
-        this.backGround = new Image(new Texture("after_screens/winScreenBackGround.jpg"));
-        backGround.setBounds(0, 0, Consts.V_WIDTH, Consts.V_HEIGHT);
+        this.skin = GameSingleton.getInstance().getSkin();
 
         this.table = new Table();
         this.table.setFillParent(true);
         this.table.center();
 
-        this.skin = new Skin();
-        this.skin.addRegions(GameSingleton.getInstance().getTextureAtlas("after_screens/after.atlas"));
-        this.skin.load(Gdx.files.internal("after_screens/after.json"));
+        this.winMusic = Gdx.audio.newMusic(Gdx.files.internal("after_screens/winning.mp3"));
 
+        initButtons();
+        initImages();
+        initListeners();
+        composeScene();
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        stage.draw();
+        stage.act(delta);
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        winMusic.dispose();
+    }
+
+    private void initButtons() {
+        continueButton = new TextButton("CONTINUE", skin, "default");
+        restartButton = new TextButton("RESTART", skin, "default");
+        exitButton = new TextButton("EXIT", skin, "default");
+    }
+
+    private void initImages() {
+        this.backGround = new Image(new Texture("after_screens/winScreenBackGround.jpg"));
         this.victoryImage = new Image(new Texture("after_screens/victory.png"));
         this.trophyImage = new Image(new Texture("after_screens/trophy.png"));
 
-        this.winMusic = Gdx.audio.newMusic(Gdx.files.internal("after_screens/winning.mp3"));
-        //winSound.play();
+        backGround.setBounds(0, 0, Consts.V_WIDTH, Consts.V_HEIGHT);
+    }
 
-        initButtons();
+    private void initListeners() {
+        continueButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                winMusic.stop();
+                game.setScreen(game.levelSelectScreen);
+            }
+        });
 
+        restartButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                winMusic.stop();
+                game.setScreen(game.gameScreen = new GameScreen(game, lastLevel));
+            }
+        });
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                winMusic.stop();
+                game.setScreen(game.mainMenuScreen);
+            }
+        });
+    }
+
+    private void composeScene() {
         table.add(trophyImage);
         table.row();
         table.add(victoryImage);
@@ -67,11 +121,12 @@ public class WinScreen implements Screen {
         stage.addActor(table);
     }
 
-    private void initButtons() {
-        continueButton = new TextButton("CONTINUE", skin, "default");
-        restartButton = new TextButton("RESTART", skin, "default");
-        exitButton = new TextButton("EXIT", skin, "default");
+    public int getLastLevel() {
+        return lastLevel;
+    }
 
+    public void setLastLevel(int lastLevel) {
+        this.lastLevel = lastLevel;
     }
 
     @Override
@@ -81,37 +136,14 @@ public class WinScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        stage.draw();
-        stage.act(delta);
-    }
+    public void hide() { GameSingleton.getInstance().restoreOldInputProcessor(); }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        GameSingleton.getInstance().restoreOldInputProcessor();
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-        winMusic.dispose();
-    }
+    public void resume() { }
 }

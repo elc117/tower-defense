@@ -5,14 +5,14 @@ import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -21,30 +21,34 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 
 public class MainMenuScreen implements Screen {
-
     final TowerDefenseGame game;
     private Stage stage;
     private Skin skin;
-    private Button playButton, quitButton, helpButton, configButton;
+    private TextButton playButton, quitButton, helpButton;
+    private Button configButton;
     private Table table;
-    private ImageButton imageButton;
+    private Music menuMusic;
+    private Image backGround;
 
     public MainMenuScreen(TowerDefenseGame game) {
         this.game = game;
         this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, game.camera));
         stage.clear();
-        Gdx.input.setInputProcessor(stage);
 
-        //used SkinComposer to generate menu.atlas/menu.json/menu.png
-        //https://github.com/raeleus/skin-composer
-        this.skin = new Skin();
-        this.skin.addRegions(GameSingleton.getInstance().getTextureAtlas("menu/menu.atlas"));
-        this.skin.load(Gdx.files.internal("menu/menu.json"));
+        this.skin = GameSingleton.getInstance().getSkin();
 
-        //table é uma espécie de stackLayout que o mineiro tinha feito
-        this.table = new Table(skin);
+        this.table = new Table();
+        table.setFillParent(true);
+        table.center();
+
+        this.backGround = new Image(new Texture("menu/menu-background.png"));
+        backGround.setBounds(0, 0, Consts.V_WIDTH, Consts.V_HEIGHT);
 
         initButtons();
+        initListeners();
+        composeScene();
+
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menu/menuMusic.mp3"));
     }
 
     @Override
@@ -52,97 +56,100 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        update(delta);
+        stage.act(delta);
         stage.draw();
     }
 
-    public void update(float delta) {
-        stage.act(delta);
-    }
-
-
     @Override
     public void dispose() {
-        //selectionSound.dispose();
-        //music.dispose();
         stage.dispose();
     }
 
-    public void initButtons() {
-        playButton = new Button(skin, "playButton");
+    private void initButtons() {
+        playButton = new TextButton("PLAY", skin, "default");
+        playButton.addAction(sequence( alpha(0), fadeIn(.5f)));
+
+        quitButton = new TextButton("QUIT", skin, "default");
+        quitButton.addAction(sequence( alpha(0), fadeIn(.5f)));
+
+        helpButton = new TextButton("HELP", skin, "default");
+        helpButton.addAction(sequence( alpha(0), fadeIn(.5f)));
+
+        configButton = new Button(skin, "config");
+        configButton.addAction(sequence( alpha(0), fadeIn(.5f)));
+        configButton.setSize(50, 50);
+        configButton.setPosition(Consts.V_WIDTH - configButton.getWidth(), Consts.V_HEIGHT - configButton.getHeight());
+    }
+
+    private void initListeners() {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                menuMusic.stop();
+                GameSingleton.getInstance().getConfirmSound().play();
                 game.setScreen(game.levelSelectScreen);
             }
         });
-        playButton.addAction(sequence( alpha(0), fadeIn(.5f)));
 
-
-        quitButton = new Button(skin, "quitButton");
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                menuMusic.stop();
+                GameSingleton.getInstance().getConfirmSound().play();
                 Gdx.app.exit();
             }
         });
-        quitButton.addAction(sequence( alpha(0), fadeIn(.5f)));
 
-        helpButton = new Button(skin, "helpButton");
         helpButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                menuMusic.stop();
+                GameSingleton.getInstance().getConfirmSound().play();
                 System.out.println("help screen");
             }
         });
-        helpButton.addAction(sequence( alpha(0), fadeIn(.5f)));
 
-        configButton = new Button(skin, "configButton");
+
         configButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                menuMusic.stop();
+                GameSingleton.getInstance().getConfirmSound().play();
                 System.out.println("config screen");
             }
         });
-        configButton.addAction(sequence( alpha(0), fadeIn(.5f)));
 
-        table.setBounds(0, 0, stage.getWidth(), stage.getHeight());
-
-        table.add(playButton);
-        table.add(helpButton);
-        table.add(quitButton);
-        table.add(configButton).padBottom(300).padLeft(50);
-
-        stage.addActor(table);
 
     }
 
-    private void initSounds() {
+    private void composeScene() {
+        table.padTop(50);
+        table.add(playButton);
+        table.row();
+        table.add(helpButton);
+        table.row();
+        table.add(quitButton);
 
+        stage.addActor(backGround);
+        stage.addActor(configButton);
+        stage.addActor(table);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this.stage);
+        Gdx.input.setInputProcessor(stage);
+        menuMusic.play();
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void hide() { GameSingleton.getInstance().restoreOldInputProcessor(); }
 
     @Override
-    public void pause() {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void resume() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void hide() {
-        GameSingleton.getInstance().restoreOldInputProcessor();
-    }
+    public void resume() { }
 }
