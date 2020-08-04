@@ -13,12 +13,12 @@ public class TowerDefenseGame extends Game {
 	public SpriteBatch batch;
 
 	public IntroScreen introScreen;
-	public MenuScreen menuScreen;
 	public GameScreen gameScreen;
 	public HelpScreen helpScreen;
 	public LevelSelectScreen levelSelectScreen;
 	public MainMenuScreen mainMenuScreen;
 	public GameOverScreen gameOverScreen;
+	public WinScreen winScreen;
 
 	@Override
 	public void create () {
@@ -26,36 +26,37 @@ public class TowerDefenseGame extends Game {
 		camera.setToOrtho(false, Consts.V_WIDTH, Consts.V_HEIGHT);
 		batch = new SpriteBatch();
 
-		introScreen = new IntroScreen(this);
-		menuScreen = new MenuScreen(this);
-		gameScreen = new GameScreen(this, 1);
-		helpScreen = new HelpScreen(this);
-		levelSelectScreen = new LevelSelectScreen(this);
-		mainMenuScreen = new MainMenuScreen(this);
-		gameOverScreen = new GameOverScreen(this);
+		initScreens();
 
-		this.setScreen(new WinScreen(this));
+		this.setScreen(this.introScreen);
 	}
 
 	@Override
 	public void render () {
 		super.render();
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			Gdx.app.exit();
-		}
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
 		introScreen.dispose();
-		menuScreen.dispose();
-		gameScreen.dispose();
 		helpScreen.dispose();
 		levelSelectScreen.dispose();
 		mainMenuScreen.dispose();
 		gameOverScreen.dispose();
+		winScreen.dispose();
 		GameSingleton.getInstance().dispose();
+		if(gameScreen != null)
+			gameScreen.dispose();
+	}
+
+	public void initScreens() {
+		introScreen = new IntroScreen(this);
+		gameScreen = null;
+		helpScreen = new HelpScreen(this);
+		levelSelectScreen = new LevelSelectScreen(this);
+		mainMenuScreen = new MainMenuScreen(this);
+		gameOverScreen = new GameOverScreen(this);
+		winScreen = new WinScreen(this);
 	}
 }

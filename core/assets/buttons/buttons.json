@@ -1,0 +1,55 @@
+{
+"BitmapFont": {
+	"large": {
+		"file": "large.fnt"
+	}
+},
+"Color": {
+	"RGBA_255_193_0_255": {
+		"r": 1,
+		"g": 0.75788885,
+		"b": 0,
+		"a": 1
+	},
+	"RGBA_255_255_255_255": {
+		"r": 1,
+		"g": 1,
+		"b": 1,
+		"a": 1
+	}
+},
+"ButtonStyle": {
+	"play": {
+		"up": "play",
+		"over": "playOver"
+	},
+	"config": {
+		"up": "config",
+		"over": "configOver"
+	},
+	"pause": {
+		"up": "pause",
+		"over": "pauseOver"
+	}
+},
+"LabelStyle": {
+	"default": {
+		"font": "large"
+	}
+},
+"TextButtonStyle": {
+	"default": {
+		"font": "large",
+		"fontColor": "RGBA_255_255_255_255",
+		"downFontColor": "RGBA_255_193_0_255",
+		"up": "redUp",
+		"down": "redOver",
+		"over": "redOver"
+	}
+},
+"TextTooltipStyle": {
+	"default": {
+		"label": "default"
+	}
+}
+}

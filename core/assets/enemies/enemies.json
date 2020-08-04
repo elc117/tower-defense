@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Virus",
-    "speed": 10,
+    "speed": 0.5,
     "skinPath": "enemies/generic/virus/virus_animation.png",
     "health": 200,
     "reward": 200

@@ -34,7 +34,6 @@ public class HudController{
     private Label heartLabel;
     private Label towerInfoLabel;
     private Label noMoneyLabel;
-    private Image backGroundHud;
     private ArrayList<Button> towerSelections;
 
     public HudController(SpriteBatch batch, GroundController groundController, OrthographicCamera camera) {
@@ -58,7 +57,6 @@ public class HudController{
 
         setTable();
 
-        //stage.addActor(backGroundHud);
         stage.addActor(table);
         stage.addActor(waveLabel);
         stage.addActor(towerInfoLabel);
@@ -79,7 +77,6 @@ public class HudController{
 
         this.coinHud = new Image(hudAtlas.findRegion("coin"));
         this.heartHud = new Image(hudAtlas.findRegion("heart"));
-        //this.backGroundHud = new Image(new Texture("hud/hintbox.png"));
     }
 
     private void initLabels() {
