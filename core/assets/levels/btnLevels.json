@@ -5,15 +5,19 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	}
 	btnLvlTwo: {
 		up: fases-2.png
+		disabled: fases-2-lock
 	}
 	btnLvlThr: {
 		up: fases-3.png
+		disabled: fases-3-lock
 	}
 	btnLvlFou: {
 		up: fases-4.png
+		disabled: fases-4-lock
 	}
 	btnLvlFiv: {
 		up: fases-5.png
+		disabled: fases-5-lock
 	}
 }
 }
