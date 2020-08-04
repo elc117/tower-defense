@@ -26,7 +26,7 @@ public class HelpScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) game.setScreen(game.menuScreen);
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) game.setScreen(game.mainMenuScreen);
             font.draw(game.batch,"PRESS \"SPACE\" TO BACK", Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
         game.batch.end();
     }

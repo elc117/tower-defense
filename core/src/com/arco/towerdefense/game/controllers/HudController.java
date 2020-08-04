@@ -7,13 +7,12 @@ import com.arco.towerdefense.game.utils.json.TowerJson;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -22,9 +21,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.ArrayList;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
-
 public class HudController{
+    private GameSingleton gameSingleton;
     private Stage stage;
     private Skin skin;
     private GroundController groundController;
@@ -36,11 +34,11 @@ public class HudController{
     private Label heartLabel;
     private Label towerInfoLabel;
     private Label noMoneyLabel;
-    private Image backGroundHud;
     private ArrayList<Button> towerSelections;
 
     public HudController(SpriteBatch batch, GroundController groundController, OrthographicCamera camera) {
         this.groundController = groundController;
+        this.gameSingleton = GameSingleton.getInstance();
         this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, camera), batch);
         stage.clear();
 
@@ -59,7 +57,6 @@ public class HudController{
 
         setTable();
 
-        //stage.addActor(backGroundHud);
         stage.addActor(table);
         stage.addActor(waveLabel);
         stage.addActor(towerInfoLabel);
@@ -76,22 +73,22 @@ public class HudController{
     }
 
     private void initImages() {
+        TextureAtlas hudAtlas = GameSingleton.getInstance().getTextureAtlas("hud/pack.atlas");
 
-        this.coinHud = new Image((new Texture("hud/coin.png")));
-        this.heartHud = new Image((new Texture("hud/heart.png")));
-        //this.backGroundHud = new Image(new Texture("hud/hintbox.png"));
+        this.coinHud = new Image(hudAtlas.findRegion("coin"));
+        this.heartHud = new Image(hudAtlas.findRegion("heart"));
     }
 
     private void initLabels() {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
-        this.towerInfoLabel = new Label(String.format("TOWER SELECTION", groundController.getLevelHearts()), labelStyle);
+        this.towerInfoLabel = new Label(String.format("TOWER SELECTION", GameSingleton.getInstance().getHearts()), labelStyle);
         this.towerInfoLabel.setPosition(70, 85);
         this.waveLabel = new Label("WAVE", labelStyle);
         this.waveLabel.setPosition(0, Consts.V_HEIGHT - waveLabel.getHeight());
-        this.coinLabel = new Label(String.format("%01d", groundController.getLevelMoney()), labelStyle);
-        this.heartLabel = new Label(String.format("%01d", groundController.getLevelHearts()), labelStyle);
+        this.coinLabel = new Label(String.format("%01d", gameSingleton.getMoney()), labelStyle);
+        this.heartLabel = new Label(String.format("%01d", gameSingleton.getHearts()), labelStyle);
 
         this.noMoneyLabel = new Label("VOCÊ NÃO POSSUI DINHEIRO SUFICIENTE :(", labelStyle);
         noMoneyLabel.setVisible(false);
@@ -108,13 +105,10 @@ public class HudController{
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
 
-                    if(groundController.getLevelMoney() - towerJson.price >= 0) {
-
-                        groundController.setHasSelectedTower(true);
+                    if(gameSingleton.decreaseMoneyBy(towerJson.price)) {
+                        groundController.setHasSelectedBuyTower(true);
                         TowerEntity towerEntity = GameSingleton.getInstance().getTowerFactory().createById(towerJson.id);
                         setTowerEntityToHolder(towerEntity);
-
-                        groundController.setMoney(towerEntity.getPrice());
                     } else {
                         noMoneyLabel.setVisible(true);
                         noMoneyLabel.addAction(sequence( alpha(0), fadeIn(.5f), delay(1f), fadeOut(1.5f)));

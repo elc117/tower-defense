@@ -1,7 +1,8 @@
 package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
-import com.arco.towerdefense.game.utils.Consts;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -23,6 +24,7 @@ public class TowerEntity extends Entity {
     private int price;
     private String bulletAtlasPath;
     private boolean shouldRotateBullet;
+    private Sound shootSound;
 
     public TowerEntity(String texturePath, int gridX, int gridY) {
         super(new Sprite(GameSingleton.getInstance().getTexture(texturePath)), gridX, gridY);
@@ -31,6 +33,8 @@ public class TowerEntity extends Entity {
         this.bullets = new ArrayList<>();
 
         centerTower = new Vector2();
+
+        shootSound = Gdx.audio.newSound(Gdx.files.internal("towers/tower2/attack.wav"));
     }
 
     public void setPrice(int price) { this.price = price; }
@@ -52,7 +56,8 @@ public class TowerEntity extends Entity {
 
     private void shoot(EnemyEntity enemyTarget) {
         timeSinceLastShoot = 0;
-        bullets.add(new BulletEntity(bulletAtlasPath, shouldRotateBullet, x, y, 10, damage, enemyTarget));
+        shootSound.play();
+        bullets.add(new BulletEntity(bulletAtlasPath, shouldRotateBullet, gridX, gridY, 10, damage, enemyTarget));
 
     }
 

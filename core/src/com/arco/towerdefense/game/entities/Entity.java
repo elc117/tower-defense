@@ -2,26 +2,27 @@ package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public abstract class Entity {
+public abstract class Entity extends Actor {
 
     protected Sprite sprite;
-    protected float x;
-    protected float y;
+    protected float gridX;
+    protected float gridY;
     protected int scale;
 
-    public Entity(Sprite sprite, float x, float y) {
-        this.x = x;
-        this.y = y;
+    public Entity(Sprite sprite, float gridX, float gridY) {
+        this.gridX = gridX;
+        this.gridY = gridY;
         this.scale = GameSingleton.getInstance().getGroundScale();
         this.sprite = sprite;
-        this.sprite.setPosition(x*scale, y*scale);
-
+        this.updateEntityPositionAndBounds();
     }
 
     public Texture getTexture() {
@@ -36,32 +37,34 @@ public abstract class Entity {
         this.sprite = sprite;
     }
 
-    private void updateSpritePositions() {
+    private void updateEntityPositionAndBounds() {
+        setBounds(getScaledX(), getScaledY(), getWidth(), getHeight());
+        setPosition(getScaledX(), getScaledY());
         sprite.setPosition(getScaledX(), getScaledY());
     }
 
-    public float getX() {
-        return x;
+    public float getGridX() {
+        return gridX;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setGridX(float x) {
+        this.gridX = x;
     }
 
-    public float getY() {
-        return y;
+    public float getGridY() {
+        return gridY;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setGridY(float y) {
+        this.gridY = y;
     }
 
     public float getScaledX() {
-        return x * scale;
+        return gridX * scale;
     }
 
     public float getScaledY() {
-        return y * scale;
+        return gridY * scale;
     }
 
     public void setSpriteSizeToScale() {
@@ -85,14 +88,18 @@ public abstract class Entity {
     }
 
     public void draw(SpriteBatch batch) {
-        updateSpritePositions();
-
+        updateEntityPositionAndBounds();
         sprite.draw(batch);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        this.draw((SpriteBatch) batch);
     }
 
     protected void setTextureRegionToSprite(TextureRegion textureRegion) {
         this.sprite = new Sprite(textureRegion);
-        this.updateSpritePositions();
+        this.updateEntityPositionAndBounds();
         this.setSpriteSizeToScale();
     }
 }

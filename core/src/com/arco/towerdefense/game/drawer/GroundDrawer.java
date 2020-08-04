@@ -113,10 +113,16 @@ public class GroundDrawer{
 
         if (selectedTowerEntity == null) return;
 
-        selectedTowerEntity.setX(gridX);
-        selectedTowerEntity.setY(gridY);
+        selectedTowerEntity.setGridX(gridX);
+        selectedTowerEntity.setGridY(gridY);
 
-        Circle circleTower = selectedTowerEntity.getCircleRange();
+        drawTowerRange(selectedTowerEntity);
+    }
+
+    public void drawTowerRange(TowerEntity towerEntity) {
+        if (towerEntity == null) return;
+
+        Circle circleTower = towerEntity.getCircleRange();
         shapeDrawer.setColor(Color.BLUE);
         shapeDrawer.circle(circleTower.x, circleTower.y, circleTower.radius, 2);
     }

@@ -8,9 +8,11 @@ import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GameSingleton {
     private static GameSingleton instance = null;
@@ -22,7 +24,12 @@ public class GameSingleton {
     private TowerFactory towerFactory;
     private LevelGenerator levelGenerator;
     private EnemyFactory enemyFactory;
+    private Skin skin;
+    private Sound confirmSound;
     private int groundScale;
+
+    private int hearts;
+    private int money;
 
 
     private GameSingleton() {
@@ -33,8 +40,11 @@ public class GameSingleton {
         levelGenerator = new LevelGenerator();
         enemyFactory = new EnemyFactory();
         groundScale = 1; // Default
+        hearts = 0;
+        money = 0;
+        confirmSound = Gdx.audio.newSound(Gdx.files.internal("buttons/confirmation.wav"));
 
-
+        initSkin();
         initAssetManager();
     }
 
@@ -60,7 +70,6 @@ public class GameSingleton {
         assetManager.load(Consts.GROUND_GRASS, Texture.class);
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
         assetManager.load(Consts.GROUND_VEINS, Texture.class);
-        assetManager.load(Consts.BADLOGIC, Texture.class);
         assetManager.load(Consts.MENU_BACKGROUND, Texture.class);
 
         assetManager.load(Consts.BACTERIA_ENEMY, Texture.class);
@@ -74,6 +83,12 @@ public class GameSingleton {
 
 
         assetManager.finishLoading(); // Load all queued assets
+    }
+
+    private void initSkin() {
+        this.skin = new Skin();
+        this.skin.addRegions(getTextureAtlas("buttons/buttons.atlas"));
+        this.skin.load(Gdx.files.internal("buttons/buttons.json"));
     }
 
     public Texture getTexture(String internalPath) {
@@ -109,6 +124,12 @@ public class GameSingleton {
     }
 
     public AssetManager getAssetManager() { return assetManager; }
+
+    public Skin getSkin() {
+        return skin;
+    }
+
+    public Sound getConfirmSound() { return confirmSound; }
 
     public int getGroundScale() {
         return groundScale;
@@ -146,4 +167,51 @@ public class GameSingleton {
 
         return getGroundScale();
     }
+
+    public int getHearts() {
+        return hearts;
+    }
+
+    public void setHearts(int hearts) {
+        this.hearts = hearts;
+    }
+
+    public boolean decreaseHeartsBy(int val) {
+        int result = hearts - val;
+
+        if (result < 0) return false;
+
+        this.hearts = result;
+
+        return true;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void increaseMoneyBy(int val) {
+        this.money += val;
+    }
+
+    // Return false if it was not possible to decrease money and true otherwise
+    public boolean decreaseMoneyBy(int val) {
+        int result = money - val;
+
+        if (result < 0) return false;
+
+        this.money = result;
+
+        return true;
+    }
+
+    public boolean isGameOver() {
+        return hearts <= 0;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.arco.towerdefense.game.controllers;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.json.LevelJson;
 import com.arco.towerdefense.game.utils.json.Wave;
 import com.arco.towerdefense.game.utils.path.CheckPoint;
@@ -31,21 +32,6 @@ public class LevelController {
 
     public WaveController getCurrentWave() {
         return currentWave;
-    }
-
-    public int getMoney() {
-        if(currentWave== null)
-            return 0;
-
-        return currentWave.getMoney();
-    }
-
-    public void setMoney(int money) { currentWave.setMoney(money); }
-
-    public int getHearts() {
-        if(currentWave== null)
-            return 0;
-        return currentWave.getHearts();
     }
 
     private WaveController getNextWave(WaveController wave) {
@@ -84,25 +70,19 @@ public class LevelController {
 
 
     private void newWave() {
+        GameSingleton gameSingleton = GameSingleton.getInstance();
+
         if(currentWave == null) {
             currentWave = getFirstWave();
-            currentWave.setHearts(10);
-            currentWave.setInitMoney(initMoney);
-        }
-
-        else {
-            int hearts = currentWave.getHearts();
-            int money = currentWave.getMoney();
+            gameSingleton.setHearts(10);
+            gameSingleton.setMoney(initMoney);
+        } else {
             currentWave = waves.get(currentWave.getId());
-            currentWave.setHearts(hearts);
-            currentWave.setInitMoney(money);
         }
 
         System.out.println("COMEÇANDO A WAVE: " + currentWave.getId());
 
     }
-
-    public boolean gameOver() { return currentWave.gameOver; }
 
     public int getWaveID() {
         return currentWave.getId();
