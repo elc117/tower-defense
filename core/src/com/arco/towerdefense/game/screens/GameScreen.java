@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 
         this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(level);
         this.groundController = new GroundController(game.batch, GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController, game.camera);
-        this.hudController = new HudController(game.batch, groundController, game.camera);
+        this.hudController = new HudController(game.batch, groundController, game.camera, game, level);
 
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);
 

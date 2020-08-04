@@ -1,7 +1,9 @@
 package com.arco.towerdefense.game.controllers;
 
 import com.arco.towerdefense.game.GameSingleton;
+import com.arco.towerdefense.game.TowerDefenseGame;
 import com.arco.towerdefense.game.entities.TowerEntity;
+import com.arco.towerdefense.game.screens.GameScreen;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.json.TowerJson;
 import com.badlogic.gdx.Gdx;
@@ -35,8 +37,14 @@ public class HudController{
     private Label towerInfoLabel;
     private Label noMoneyLabel;
     private ArrayList<Button> towerSelections;
+    private TextButton backToMenuBtn;
+    private TextButton restartBtn;
+    private int level;
+    private final TowerDefenseGame game;
 
-    public HudController(SpriteBatch batch, GroundController groundController, OrthographicCamera camera) {
+    public HudController(SpriteBatch batch, GroundController groundController, OrthographicCamera camera, TowerDefenseGame game, int level) {
+        this.game = game;
+        this.level = level;
         this.groundController = groundController;
         this.gameSingleton = GameSingleton.getInstance();
         this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, camera), batch);
@@ -51,17 +59,50 @@ public class HudController{
         this.table = new Table();
         this.table.setFillParent(true);
 
+        backToMenuBtn = new TextButton("MENU", GameSingleton.getInstance().getSkin(), "default");
+        restartBtn = new TextButton("RESTART", GameSingleton.getInstance().getSkin(), "default");
+
         initTowers();
         initLabels();
         initImages();
+        initButtons();
 
         setTable();
 
         stage.addActor(table);
+        stage.addActor(backToMenuBtn);
+        stage.addActor(restartBtn);
         stage.addActor(waveLabel);
         stage.addActor(towerInfoLabel);
         stage.addActor(noMoneyLabel);
 
+    }
+
+    private void initButtons() {
+        backToMenuBtn = new TextButton("MENU", GameSingleton.getInstance().getSkin(), "default");
+        backToMenuBtn.setSize(backToMenuBtn.getWidth()/2, backToMenuBtn.getHeight()/2);
+        backToMenuBtn.setPosition(Consts.V_WIDTH - backToMenuBtn.getWidth(), Consts.V_HEIGHT - backToMenuBtn.getHeight());
+
+        restartBtn = new TextButton("RESTART", GameSingleton.getInstance().getSkin(), "default");
+        restartBtn.setSize(restartBtn.getWidth()/2, restartBtn.getHeight()/2);
+        restartBtn.setPosition(backToMenuBtn.getX() - restartBtn.getWidth(), backToMenuBtn.getY());
+        buttonsListeners();
+    }
+
+    private void buttonsListeners() {
+        backToMenuBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(game.mainMenuScreen);
+            }
+        });
+        restartBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.playAgainScreen.setLevel(level);
+                game.setScreen(game.playAgainScreen);
+            }
+        });
     }
 
     public void update(float delta, int waveID, int money, int hearts) {

@@ -20,6 +20,7 @@ public class TowerDefenseGame extends Game {
 	public GameOverScreen gameOverScreen;
 	public WinScreen winScreen;
 	public FinalGameScreen finalGameScreen;
+	public PlayAgainScreen playAgainScreen;
 
 	@Override
 	public void create () {
@@ -29,7 +30,7 @@ public class TowerDefenseGame extends Game {
 
 		initScreens();
 
-		this.setScreen(mainMenuScreen);
+		this.setScreen(introScreen);
 	}
 
 	@Override
@@ -47,6 +48,7 @@ public class TowerDefenseGame extends Game {
 		gameOverScreen.dispose();
 		winScreen.dispose();
 		finalGameScreen.dispose();
+		playAgainScreen.dispose();
 		GameSingleton.getInstance().dispose();
 		if(gameScreen != null)
 			gameScreen.dispose();
@@ -61,5 +63,6 @@ public class TowerDefenseGame extends Game {
 		gameOverScreen = new GameOverScreen(this);
 		winScreen = new WinScreen(this);
 		finalGameScreen = new FinalGameScreen(this);
+		playAgainScreen = new PlayAgainScreen(this);
 	}
 }
