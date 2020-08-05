@@ -28,7 +28,7 @@ public class TowerDefenseGame extends Game {
 
 		initScreens();
 
-		this.setScreen(introScreen);
+		this.setScreen(helpScreen);
 	}
 
 	@Override

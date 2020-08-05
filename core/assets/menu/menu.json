@@ -14,5 +14,8 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 		up: config
 		over: configSelected
 	}
+	homeBtn: {
+		up: HomeButton
+	}
 }
 }
