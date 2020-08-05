@@ -31,7 +31,7 @@
     "skinPath": "towers/tower3/tower3.png",
     "selectionPath": "towers/tower3/tower3.png",
     "bulletPath": "towers/tower3/attack/pack.atlas",
-    "range": 3,
+    "range": 4,
     "price": 300
   },
   {
