@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Tower 1",
     "firing_speed": 1,
-    "damage": 20,
+    "damage": 35,
     "skinPath": "towers/tower1/tower1.png",
     "selectionPath": "towers/tower1/tower1.png",
     "bulletPath": "towers/tower1/attack/pack.atlas",
@@ -15,33 +15,33 @@
     "id": 2,
     "name": "Tower 2",
     "firing_speed": 1,
-    "damage": 20,
+    "damage": 10,
     "skinPath": "towers/tower2/tower2.png",
     "selectionPath": "towers/tower2/tower2.png",
     "bulletPath": "towers/tower2/attack/pack.atlas",
     "range": 4,
-    "price": 100
+    "price": 150
   },
   {
     "id": 3,
     "name": "Tower 3",
-    "firing_speed": 1,
-    "damage": 20,
+    "firing_speed": 1.2,
+    "damage": 30,
     "skinPath": "towers/tower3/tower3.png",
     "selectionPath": "towers/tower3/tower3.png",
     "bulletPath": "towers/tower3/attack/pack.atlas",
     "range": 3,
-    "price": 600
+    "price": 300
   },
   {
     "id": 4,
     "name": "Tower 4",
-    "firing_speed": 1,
-    "damage": 20,
+    "firing_speed": 2,
+    "damage": 100,
     "skinPath": "towers/tower4/tower4.png",
     "selectionPath": "towers/tower4/tower4.png",
     "bulletPath": "towers/tower4/attack/pack.atlas",
-    "range": 2,
-    "price": 700
+    "range": 1,
+    "price": 600
   }
 ]
