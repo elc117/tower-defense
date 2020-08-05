@@ -56,7 +56,10 @@ public class GameScreen implements Screen {
             game.setScreen(game.gameOverScreen);
         }
 
-        if(groundController.getLevelCompleted()) {
+        if(groundController.getLevelCompleted() && !(GameSingleton.getInstance().isGameOver())) {
+            if(!(level == 5)) {
+                game.levelSelectScreen.openNextLevel(level+1);
+            }
             game.winScreen.setLastLevel(level);
             game.setScreen(game.winScreen);
         }

@@ -70,6 +70,7 @@ public class GameSingleton {
         assetManager.load(Consts.GROUND_GRASS, Texture.class);
         assetManager.load(Consts.GROUND_DIRT, Texture.class);
         assetManager.load(Consts.GROUND_VEINS, Texture.class);
+        assetManager.load(Consts.GROUND_LANE, Texture.class);
         assetManager.load(Consts.MENU_BACKGROUND, Texture.class);
 
         assetManager.load(Consts.BACTERIA_ENEMY, Texture.class);
@@ -210,7 +211,7 @@ public class GameSingleton {
     }
 
     public boolean isGameOver() {
-        return hearts <= 0;
+        return hearts == 0;
     }
 
 
