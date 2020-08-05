@@ -41,6 +41,7 @@ public class GroundDrawer{
     private Map<QueueKey, Vector2> scheduledDrawingPositions;
 
     private ArrayList<Lane> lanes;
+    private boolean canPlaceTower = true;
 
     public GroundDrawer(SpriteBatch batch, int gridBlockSize, Rectangle viewRectangle, ArrayList<Lane> lanes) {
         this.batch = batch;
@@ -106,7 +107,12 @@ public class GroundDrawer{
     }
 
     public void drawGroundSelection(int gridX, int gridY) {
-        shapeDrawer.setColor(Color.RED);
+        if (canPlaceTower) {
+            shapeDrawer.setColor(Color.GREEN);
+        } else {
+            shapeDrawer.setColor(Color.RED);
+        }
+
         int x = gridX*scale;
         int y = gridY*scale;
         shapeDrawer.rectangle(x, y, scale, scale);
@@ -149,6 +155,10 @@ public class GroundDrawer{
 
     public int getScale() {
         return scale;
+    }
+
+    public void setCanPlaceTower(boolean canPlaceTower) {
+        this.canPlaceTower = canPlaceTower;
     }
 
     private void drawGridLaneBlock(int x, int y, Texture texture) {

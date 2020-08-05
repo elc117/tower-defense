@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -178,6 +179,24 @@ public class GroundController extends InputAdapter {
         towerEntityHolder = null;
     }
 
+    private boolean isPointInsideLane(int gridX, int gridY) {
+        ArrayList<Vector2> checkpoints = this.levelController.getCheckPoints();
+
+        Iterator<Vector2> it = checkpoints.iterator();
+
+        Vector2 point = new Vector2(gridX, gridY);
+
+        while (it.hasNext()) {
+            Vector2 p1 = it.next();
+            if (!it.hasNext()) break;
+            Vector2 p2 = it.next();
+
+            if (Intersector.pointLineSide(p1, p2, point) == 0) return true;
+        }
+
+        return false;
+    }
+
     // Update call in game screen (call all the update methods to run the game)
     public void update(float delta) {
         updateTowers(delta);
@@ -214,7 +233,7 @@ public class GroundController extends InputAdapter {
             int gridX = Utils.realToGrid(screenX);
             int gridY = Utils.realToGrid(screenY);
 
-            if (getTowerAt(gridX, gridY) == null) {
+            if (getTowerAt(gridX, gridY) == null && !this.isPointInsideLane(gridX, gridY)) {
                 if (selectedTower != null) resetTowerSelection();
 
                 addTower(gridX, gridY);
@@ -249,6 +268,7 @@ public class GroundController extends InputAdapter {
 
             groundDrawer.setPositionSelectedTower(screenX, screenY);
             groundDrawer.scheduleDrawGroundSelectionAt(gridX , gridY);
+            groundDrawer.setCanPlaceTower(!this.isPointInsideLane(gridX, gridY));
 
             return true;
         }
