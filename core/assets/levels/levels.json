@@ -2,28 +2,16 @@
   {
     "id": 1,
     "dificulty": 2,
-    "money": 300,
+    "money": 100,
     "waves": [
       {
         "waveID": 1,
         "spawns": [
           {
-            "enemyId": 1,
-            "quantity": 3,
-            "spawnInterval": 3,
+            "enemyId": 4,
+            "quantity": 20,
+            "spawnInterval": 0.5,
             "order": 0
-          },
-          {
-            "enemyId": 3,
-            "quantity": 2,
-            "spawnInterval": 2,
-            "order": 1
-          },
-          {
-            "enemyId": 2,
-            "quantity": 1,
-            "spawnInterval": 2,
-            "order": 2
           }
         ]
       },
@@ -31,29 +19,61 @@
         "waveID": 2,
         "spawns": [
           {
-            "enemyId": 2,
-            "quantity": 3,
-            "spawnInterval": 1,
+            "enemyId": 4,
+            "quantity": 20,
+            "spawnInterval": 0.5,
             "order": 0
-          },
+          }
+        ]
+      },
+      {
+        "waveID": 3,
+        "spawns": [
           {
             "enemyId": 1,
-            "quantity": 2,
-            "spawnInterval": 2,
+            "quantity": 15,
+            "spawnInterval": 0.5,
             "order": 0
-          },
+          }
+        ]
+      },
+      {
+        "waveID": 4,
+        "spawns": [
           {
-            "enemyId": 3,
-            "quantity": 1,
-            "spawnInterval": 2,
-            "order": 1
+            "enemyId": 1,
+            "quantity": 15,
+            "spawnInterval": 0.5,
+            "order": 0
+          }
+        ]
+      },
+      {
+        "waveID": 5,
+        "spawns": [
+          {
+            "enemyId": 2,
+            "quantity": 5,
+            "spawnInterval": 2.5,
+            "order": 0
+          }
+        ]
+      },
+      {
+        "waveID": 6,
+        "spawns": [
+          {
+            "enemyId": 2,
+            "quantity": 10,
+            "spawnInterval": 1,
+            "order": 0
           }
         ]
       }
     ],
     "checkPoints":
     [
-      {"x": 0, "y": 6},
+      {"x": -1, "y": 6},
       {"x": 12, "y": 6},
       {"x": 12, "y": 10},
       {"x": 25, "y": 10}

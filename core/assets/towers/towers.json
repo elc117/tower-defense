@@ -3,46 +3,94 @@
     "id": 1,
     "name": "Tower 1",
     "firing_speed": 1,
-    "damage": 35,
+    "damage": 80,
     "skinPath": "towers/tower1/tower1.png",
     "selectionPath": "towers/tower1/tower1.png",
     "bulletPath": "towers/tower1/attack/pack.atlas",
     "shouldRotateBullet": false,
     "range": 3,
-    "price": 200
+    "price": 200,
+    "upgradeTowerId": 5
   },
   {
     "id": 2,
     "name": "Tower 2",
-    "firing_speed": 1,
-    "damage": 10,
+    "firing_speed": 0.15,
+    "damage": 8,
     "skinPath": "towers/tower2/tower2.png",
     "selectionPath": "towers/tower2/tower2.png",
     "bulletPath": "towers/tower2/attack/pack.atlas",
-    "range": 4,
-    "price": 150,
-    "upgradeTowerId": 3
+    "range": 3,
+    "price": 100,
+    "upgradeTowerId": 6
   },
   {
     "id": 3,
     "name": "Tower 3",
-    "firing_speed": 1.2,
-    "damage": 30,
+    "firing_speed": 2,
+    "damage": 100,
     "skinPath": "towers/tower3/tower3.png",
     "selectionPath": "towers/tower3/tower3.png",
     "bulletPath": "towers/tower3/attack/pack.atlas",
-    "range": 4,
-    "price": 300
+    "range": 5,
+    "price": 250,
+    "upgradeTowerId": 7
   },
   {
     "id": 4,
     "name": "Tower 4",
     "firing_speed": 2,
-    "damage": 100,
+    "damage": 200,
     "skinPath": "towers/tower4/tower4.png",
     "selectionPath": "towers/tower4/tower4.png",
     "bulletPath": "towers/tower4/attack/pack.atlas",
-    "range": 1,
-    "price": 600
+    "range": 3,
+    "price": 325,
+    "upgradeTowerId": 8
+  },
+  {
+    "id": 5,
+    "name": "Upgrade Tower 1",
+    "firing_speed": 0.7,
+    "damage": 120,
+    "skinPath": "towers/upgrades/tower1/tower1UPGRADED.png",
+    "bulletPath": "towers/tower1/attack/pack.atlas",
+    "shouldRotateBullet": false,
+    "isUpgrade": true,
+    "range": 4,
+    "price": 200
+  },
+  {
+    "id": 6,
+    "name": "Upgrade Tower 2",
+    "firing_speed": 0.15,
+    "damage": 18,
+    "skinPath": "towers/upgrades/tower2/tower2UPGRADED.png",
+    "bulletPath": "towers/tower2/attack/pack.atlas",
+    "range": 4,
+    "price": 100,
+    "isUpgrade": true
+  },
+  {
+    "id": 7,
+    "name": "Upgrade Tower 3",
+    "firing_speed": 1.7,
+    "damage": 180,
+    "skinPath": "towers/upgrades/tower3/tower3UPGRADED.png",
+    "bulletPath": "towers/tower3/attack/pack.atlas",
+    "range": 5,
+    "price": 200,
+    "isUpgrade": true
+  },
+  {
+    "id": 8,
+    "name": "Upgrade Tower 4",
+    "firing_speed": 1.7,
+    "damage": 230,
+    "skinPath": "towers/upgrades/tower4/tower4UPGRADED.png",
+    "bulletPath": "towers/tower4/attack/pack.atlas",
+    "range": 4,
+    "price": 350,
+    "isUpgrade": true
   }
 ]

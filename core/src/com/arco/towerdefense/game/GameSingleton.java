@@ -93,6 +93,11 @@ public class GameSingleton {
     }
 
     public Texture getTexture(String internalPath) {
+        if (!assetManager.isLoaded(internalPath)) {
+            assetManager.load(internalPath, Texture.class);
+            assetManager.finishLoading();
+        }
+
         return assetManager.get(internalPath, Texture.class);
     }
 

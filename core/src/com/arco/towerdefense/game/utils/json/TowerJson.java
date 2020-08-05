@@ -12,4 +12,5 @@ public class TowerJson {
     public int price;
     public int upgradeTowerId = -1;
     public boolean shouldRotateBullet = true;
+    public boolean isUpgrade = false;
 }
