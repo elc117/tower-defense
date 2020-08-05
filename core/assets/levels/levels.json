@@ -69,6 +69,17 @@
             "order": 0
           }
         ]
+      },
+      {
+        "waveID": 7,
+        "spawns": [
+          {
+            "enemyId": 5,
+            "quantity": 3,
+            "spawnInterval": 5,
+            "order": 0
+          }
+        ]
       }
     ],
     "checkPoints":
