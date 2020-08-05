@@ -105,7 +105,7 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 menuMusic.stop();
                 GameSingleton.getInstance().getConfirmSound().play();
-                System.out.println("help screen");
+                game.setScreen(game.helpScreen);
             }
         });
 
