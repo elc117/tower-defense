@@ -19,7 +19,8 @@ public class LevelController {
         this.id = levelJson.id;
         this.dificulty = levelJson.dificulty;
         this.waves = waves;
-        this.initMoney = levelJson.money;
+//        this.initMoney = levelJson.money;
+        this.initMoney = 1000;
         this.currentWave = null;
         this.checkPoints = levelJson.checkPoints;
     }

@@ -22,9 +22,13 @@ public class TowerEntity extends Entity {
     private float range;
     private Vector2 centerTower;
     private int price;
+    private int upgradeTowerId;
+    private int upgradeTowerPrice;
     private String bulletAtlasPath;
     private boolean shouldRotateBullet;
     private Sound shootSound;
+
+    private float PERCENTAGE_LOSS_ON_SELL = 0.2f;
 
     public TowerEntity(String texturePath, int gridX, int gridY) {
         super(new Sprite(GameSingleton.getInstance().getTexture(texturePath)), gridX, gridY);
@@ -41,6 +45,30 @@ public class TowerEntity extends Entity {
 
     public void setRange(float range) {
         this.range = range * scale;
+    }
+
+    public void setUpgradeTowerId(int upgradeTowerId) {
+        this.upgradeTowerId = upgradeTowerId;
+    }
+
+    public int getUpgradeTowerId() {
+        return upgradeTowerId;
+    }
+
+    public int getUpgradeTowerPrice() {
+        return upgradeTowerPrice;
+    }
+
+    public void setUpgradeTowerPrice(int upgradeTowerPrice) {
+        this.upgradeTowerPrice = upgradeTowerPrice;
+    }
+
+    public boolean isUpgradable() {
+        return this.upgradeTowerId != -1;
+    }
+
+    public int getSellPrice() {
+        return (int) (this.price * (1 - this.PERCENTAGE_LOSS_ON_SELL));
     }
 
     public Vector2 getCenterTower() {

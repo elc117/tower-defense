@@ -4,14 +4,17 @@ package com.arco.towerdefense.game.controllers;
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.drawer.GroundDrawer;
 import com.arco.towerdefense.game.entities.TowerEntity;
+import com.arco.towerdefense.game.factories.TowerFactory;
 import com.arco.towerdefense.game.utils.Consts;
 import com.arco.towerdefense.game.utils.path.Lane;
 import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Intersector;
@@ -20,6 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -42,26 +46,44 @@ public class GroundController extends InputAdapter {
     private TowerEntity towerEntityHolder;
     private LevelController levelController;
     private TowerEntity selectedTower;
+    private TowerFactory towerFactory;
+
+    private Label upgradeLabel;
+    private float upgradeLabelOriginX;
+    private Label sellLabel;
 
     public GroundController(SpriteBatch batch,  int gridBlockSize, int viewWidth, int viewHeight, LevelController levelController, OrthographicCamera camera) {
         this.levelController = levelController;
         this.stage = new Stage(new StretchViewport(Consts.V_WIDTH, Consts.V_HEIGHT, camera), batch);
 
         setUpLanes();
+        initLabels();
         initTowerMenu();
 
         viewRectangle = new Rectangle(0, 0, viewWidth, viewHeight);
         groundDrawer = new GroundDrawer(batch, gridBlockSize, viewRectangle, lanes);
 
         towers = new ArrayList<>();
+        towerFactory = new TowerFactory();
 
         towerEntityHolder = null;
         hasSelectedBuyTower = false;
     }
 
+
+
+    private void initLabels() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        upgradeLabel = new Label("", labelStyle);
+        sellLabel = new Label("", labelStyle);
+    }
+
     private void initTowerMenu() {
         TextureAtlas hudAtlas = GameSingleton.getInstance().getTextureAtlas("hud/pack.atlas");
         float btnSize = 32;
+
+
+
 
         ImageButton upgradeBtn = new ImageButton(new TextureRegionDrawable(hudAtlas.findRegion("arrow_up2")));
         upgradeBtn.setSize(btnSize, btnSize);
@@ -83,12 +105,18 @@ public class GroundController extends InputAdapter {
             }
         });
 
+        upgradeLabel.setPosition(upgradeBtn.getX(), upgradeBtn.getY() - upgradeLabel.getHeight() - 20); // 20 is the padding
+        upgradeLabelOriginX = upgradeBtn.getX();
+        sellLabel.setPosition(sellBtn.getX(), sellBtn.getY() - sellLabel.getHeight() - 20);
+
         towerMenu = new Table();
         towerMenu.setFillParent(false);
         towerMenu.setWidth(sellBtn.getX() + sellBtn.getWidth());
         towerMenu.setHeight(btnSize);
         towerMenu.addActor(upgradeBtn);
+        towerMenu.addActor(upgradeLabel);
         towerMenu.addActor(sellBtn);
+        towerMenu.addActor(sellLabel);
         towerMenu.setVisible(false);
         stage.addActor(towerMenu);
     }
@@ -101,20 +129,26 @@ public class GroundController extends InputAdapter {
         return levelController.completed;
     }
 
+    private boolean removeTowerFromStageAndArray(TowerEntity towerRemove) {
+        Iterator<TowerEntity> it = towers.iterator();
+        while(it.hasNext()) {
+            TowerEntity tower = it.next();
+            if (tower.getGridX() == towerRemove.getGridX() && tower.getGridY() == towerRemove.getGridY()) {
+                it.remove();
+                return tower.remove();
+            }
+        }
+
+        return false;
+    }
+
     private void sellSelectedTower(InputEvent event) {
         if (selectedTower == null) return;
 
         if (selectedTower.remove()) {
-            // When selling, we have a 20% loss of the original price
-            GameSingleton.getInstance().increaseMoneyBy((int) (selectedTower.getPrice() * 0.8));
+            GameSingleton.getInstance().increaseMoneyBy(selectedTower.getSellPrice());
 
-            Iterator<TowerEntity> it = towers.iterator();
-            while(it.hasNext()) {
-                TowerEntity tower = it.next();
-                if (tower.getGridX() == selectedTower.getGridX() && tower.getGridY() == selectedTower.getGridY()) {
-                    it.remove();
-                }
-            }
+            removeTowerFromStageAndArray(selectedTower);
 
             resetTowerSelection();
         }
@@ -122,7 +156,14 @@ public class GroundController extends InputAdapter {
 
     private void upgradeSelectedTower() {
         if (selectedTower == null) return;
-        // Here he perform the upgrade
+
+        TowerEntity upgradeTower = towerFactory.createById(selectedTower.getUpgradeTowerId());
+
+        if (upgradeTower != null && GameSingleton.getInstance().decreaseMoneyBy(upgradeTower.getPrice())) {
+            this.towerEntityHolder = upgradeTower;
+            removeTowerFromStageAndArray(selectedTower);
+            addTower((int) selectedTower.getGridX(), (int) selectedTower.getGridY());
+        }
 
         resetTowerSelection();
     }
@@ -146,6 +187,16 @@ public class GroundController extends InputAdapter {
         this.selectedTower = getTowerAt(gridX, gridY);
 
         if (selectedTower == null) return false;
+
+        sellLabel.setText("R$ "+String.format("%01d", selectedTower.getSellPrice()));
+        if (selectedTower.isUpgradable()) {
+            upgradeLabel.setX(upgradeLabelOriginX);
+            upgradeLabel.setText("R$ "+String.format("%01d", selectedTower.getUpgradeTowerPrice()));
+        } else {
+            upgradeLabel.setText("Indisponivel");
+            upgradeLabel.setX(upgradeLabel.getX() - upgradeLabel.getPrefWidth()/3);
+        }
+
 
         Vector2 center = selectedTower.getCenterTower();
         towerMenu.setPosition(center.x - (towerMenu.getWidth() / 2), center.y - (towerMenu.getHeight() / 2), Align.bottomLeft);

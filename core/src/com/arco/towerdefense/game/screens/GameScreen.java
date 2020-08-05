@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
         groundController.selfIncludeToMultiplexer(multiplexer);
         GameSingleton.getInstance().saveCurrentInputProcessor();
         Gdx.input.setInputProcessor(multiplexer);
-        music.play();
+//        music.play();
     }
 
     @Override

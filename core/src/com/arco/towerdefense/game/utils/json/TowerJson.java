@@ -10,5 +10,6 @@ public class TowerJson {
     public String bulletPath;
     public int range;
     public int price;
+    public int upgradeTowerId = -1;
     public boolean shouldRotateBullet = true;
 }

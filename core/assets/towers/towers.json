@@ -20,7 +20,8 @@
     "selectionPath": "towers/tower2/tower2.png",
     "bulletPath": "towers/tower2/attack/pack.atlas",
     "range": 4,
-    "price": 150
+    "price": 150,
+    "upgradeTowerId": 3
   },
   {
     "id": 3,
