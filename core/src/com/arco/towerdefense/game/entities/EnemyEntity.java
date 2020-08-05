@@ -65,7 +65,7 @@ public class EnemyEntity extends Entity {
 
         batch.draw(currentFrame, getScaledX(), getScaledY(), getWidth(), getHeight());
 
-        drawHealthBar(shapeDrawer);
+        if (maxHealthPoints != healthPoints) drawHealthBar(shapeDrawer);
     }
 
     private void drawHealthBar(ShapeDrawer shapeDrawer) {
