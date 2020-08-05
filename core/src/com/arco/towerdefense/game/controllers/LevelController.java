@@ -64,7 +64,6 @@ public class LevelController {
 
         if(currentWave.getId() == waves.size() && currentWave.completed) {
             completed = true;
-            System.out.println("PARABENS VC CONCLUIU O LEVEL");
         }
     }
 
@@ -79,9 +78,6 @@ public class LevelController {
         } else {
             currentWave = waves.get(currentWave.getId());
         }
-
-        System.out.println("COMEÇANDO A WAVE: " + currentWave.getId());
-
     }
 
     public int getWaveID() {
