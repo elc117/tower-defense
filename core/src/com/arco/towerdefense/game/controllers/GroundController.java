@@ -232,17 +232,20 @@ public class GroundController extends InputAdapter {
 
     private boolean isPointInsideLane(int gridX, int gridY) {
         ArrayList<Vector2> checkpoints = this.levelController.getCheckPoints();
-
         Iterator<Vector2> it = checkpoints.iterator();
 
         Vector2 point = new Vector2(gridX, gridY);
 
-        while (it.hasNext()) {
-            Vector2 p1 = it.next();
-            if (!it.hasNext()) break;
-            Vector2 p2 = it.next();
+        if (!it.hasNext()) return false;
 
-            if (Intersector.pointLineSide(p1, p2, point) == 0) return true;
+        Vector2 p1 = it.next();
+
+        while (it.hasNext()) {
+            Vector2 p2 = it.next();
+            if (p1.x <= point.x && point.x <= p2.x && p1.y <= point.y && point.y <= p2.y) {
+                return true;
+            }
+            p1 = p2;
         }
 
         return false;
