@@ -46,7 +46,7 @@ public class GroundDrawer{
     public GroundDrawer(SpriteBatch batch, int gridBlockSize, Rectangle viewRectangle, ArrayList<Lane> lanes) {
         this.batch = batch;
         grassImg = GameSingleton.getInstance().getTexture(Consts.GROUND_VEINS);
-        laneImg = GameSingleton.getInstance().getTexture(Consts.GROUND_DIRT);
+        laneImg = GameSingleton.getInstance().getTexture(Consts.GROUND_LANE);
 
         laneSize = laneImg.getHeight();
         this.gridBlockSize = gridBlockSize;

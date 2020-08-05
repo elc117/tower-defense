@@ -25,10 +25,10 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private TextButton playButton, quitButton, helpButton;
-    private Button configButton;
     private Table table;
     private Music menuMusic;
     private Image backGround;
+    private Image title;
 
     public MainMenuScreen(TowerDefenseGame game) {
         this.game = game;
@@ -43,6 +43,10 @@ public class MainMenuScreen implements Screen {
 
         this.backGround = new Image(new Texture("menu/menu-background.png"));
         backGround.setBounds(0, 0, Consts.V_WIDTH, Consts.V_HEIGHT);
+        backGround.addAction(sequence( alpha(0), fadeIn(0.5f)));
+
+        this.title = new Image(new Texture("title.png"));
+        title.addAction(sequence( alpha(0), fadeIn(1f)));
 
         initButtons();
         initListeners();
@@ -67,18 +71,13 @@ public class MainMenuScreen implements Screen {
 
     private void initButtons() {
         playButton = new TextButton("PLAY", skin, "default");
-        playButton.addAction(sequence( alpha(0), fadeIn(.5f)));
+        playButton.addAction(sequence( alpha(0), fadeIn(1f)));
 
         quitButton = new TextButton("QUIT", skin, "default");
-        quitButton.addAction(sequence( alpha(0), fadeIn(.5f)));
+        quitButton.addAction(sequence( alpha(0), fadeIn(1f)));
 
         helpButton = new TextButton("HELP", skin, "default");
-        helpButton.addAction(sequence( alpha(0), fadeIn(.5f)));
-
-        configButton = new Button(skin, "config");
-        configButton.addAction(sequence( alpha(0), fadeIn(.5f)));
-        configButton.setSize(50, 50);
-        configButton.setPosition(Consts.V_WIDTH - configButton.getWidth(), Consts.V_HEIGHT - configButton.getHeight());
+        helpButton.addAction(sequence( alpha(0), fadeIn(1f)));
     }
 
     private void initListeners() {
@@ -105,25 +104,14 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 menuMusic.stop();
                 GameSingleton.getInstance().getConfirmSound().play();
-                System.out.println("help screen");
+                game.setScreen(game.helpScreen);
             }
         });
-
-
-        configButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                menuMusic.stop();
-                GameSingleton.getInstance().getConfirmSound().play();
-                System.out.println("config screen");
-            }
-        });
-
-
     }
 
     private void composeScene() {
-        table.padTop(50);
+        table.add(title);
+        table.row();
         table.add(playButton);
         table.row();
         table.add(helpButton);
@@ -131,7 +119,6 @@ public class MainMenuScreen implements Screen {
         table.add(quitButton);
 
         stage.addActor(backGround);
-        stage.addActor(configButton);
         stage.addActor(table);
     }
 
