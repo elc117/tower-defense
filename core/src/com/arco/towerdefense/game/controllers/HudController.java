@@ -140,6 +140,8 @@ public class HudController{
         Array<TowerJson> towersJson = json.fromJson(Array.class, TowerJson.class, Gdx.files.internal(Consts.TOWERS_JSON));
 
         for (final TowerJson towerJson: towersJson) {
+            if (towerJson.isUpgrade) continue;
+
             Button button = new Button(skin, "tower"+String.format("%01d", towerJson.id));
 
             button.addListener(new ClickListener() {
@@ -161,7 +163,7 @@ public class HudController{
                     String str1 = "Name: " + towerJson.name +
                             "  Price: " + String.format("%01d", towerJson.price) +
                             "  Range: " + String.format("%01d", (int) towerJson.range) +
-                            "  Damange: " + String.format("%01d", towerJson.damage) ;
+                            "  Damage: " + String.format("%01d", towerJson.damage) ;
 
                     towerInfoLabel.setText(str1);
                     towerInfoLabel.setX(2);
