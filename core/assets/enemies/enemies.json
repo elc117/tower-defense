@@ -4,15 +4,15 @@
     "name": "Virus",
     "speed": 1.5,
     "skinPath": "enemies/generic/virus/virus_animation.png",
-    "health": 100,
+    "health": 125,
     "reward": 200
   },
   {
     "id": 2,
     "name": "Bacteria",
-    "speed": 0.5,
+    "speed": 0.7,
     "skinPath": "enemies/generic/bacteria/bacteria_animation.png",
-    "health": 200,
+    "health": 350,
     "reward": 100
   },
   {

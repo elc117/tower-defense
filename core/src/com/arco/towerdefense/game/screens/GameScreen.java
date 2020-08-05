@@ -9,6 +9,7 @@ import com.arco.towerdefense.game.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.*;
 
 public class GameScreen implements Screen {
@@ -19,6 +20,7 @@ public class GameScreen implements Screen {
     private int level;
     private HudController hudController;
     private GameSingleton gameSingleton;
+    private Music music;
 
     public GameScreen(TowerDefenseGame game, int level) {
         this.game = game;
@@ -34,6 +36,8 @@ public class GameScreen implements Screen {
         this.hudController = new HudController(game.batch, groundController, game.camera);
 
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/gameplayMusic.mp3"));
     }
 
     @Override
@@ -70,11 +74,13 @@ public class GameScreen implements Screen {
         groundController.selfIncludeToMultiplexer(multiplexer);
         GameSingleton.getInstance().saveCurrentInputProcessor();
         Gdx.input.setInputProcessor(multiplexer);
+        music.play();
     }
 
     @Override
     public void hide() {
         GameSingleton.getInstance().restoreOldInputProcessor();
+        music.stop();
     }
 
     @Override
