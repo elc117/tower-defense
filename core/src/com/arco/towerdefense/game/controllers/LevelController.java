@@ -41,6 +41,10 @@ public class LevelController {
         return waves.get(next);
     }
 
+    public int getTotalWaves() {
+        return waves.size();
+    }
+
     private WaveController getFirstWave() {
         return this.waves.get(0);
     }

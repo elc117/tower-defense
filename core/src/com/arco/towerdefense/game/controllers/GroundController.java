@@ -125,6 +125,10 @@ public class GroundController extends InputAdapter {
         return levelController.getWaveID();
     }
 
+    public int getTotalWaves() {
+        return levelController.getTotalWaves();
+    }
+
     public boolean getLevelCompleted() {
         return levelController.completed;
     }

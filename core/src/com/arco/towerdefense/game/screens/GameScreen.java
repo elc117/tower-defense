@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
             groundController.update(delta);
         game.batch.end();
 
-        hudController.update(delta, groundController.getCurrentWaveId(), gameSingleton.getMoney(), gameSingleton.getHearts());
+        hudController.update(delta, groundController.getCurrentWaveId(), groundController.getTotalWaves(), gameSingleton.getMoney(), gameSingleton.getHearts());
 
         if(GameSingleton.getInstance().isGameOver()) {
             game.gameOverScreen.setLastLevel(level);

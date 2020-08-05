@@ -105,8 +105,8 @@ public class HudController{
         });
     }
 
-    public void update(float delta, int waveID, int money, int hearts) {
-        waveLabel.setText(String.format("WAVE: %01d", waveID));
+    public void update(float delta, int waveID, int totalWaves,int money, int hearts) {
+        waveLabel.setText(String.format("WAVE: %01d/%01d", waveID, totalWaves));
         heartLabel.setText(String.format("%01d", hearts));
         coinLabel.setText(String.format("%01d", money));
         stage.act(delta);
