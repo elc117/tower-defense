@@ -1,8 +1,7 @@
 package com.arco.towerdefense.game.controllers;
 
+import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.utils.json.LevelJson;
-import com.arco.towerdefense.game.utils.json.Wave;
-import com.arco.towerdefense.game.utils.path.CheckPoint;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 public class LevelController {
     private int id;
     private float dificulty;
+    private int initMoney;
     private ArrayList<WaveController> waves;
     private WaveController currentWave;
     private ArrayList<Vector2> checkPoints;
@@ -19,6 +19,7 @@ public class LevelController {
         this.id = levelJson.id;
         this.dificulty = levelJson.dificulty;
         this.waves = waves;
+        this.initMoney = levelJson.money;
         this.currentWave = null;
         this.checkPoints = levelJson.checkPoints;
     }
@@ -31,7 +32,6 @@ public class LevelController {
         return currentWave;
     }
 
-
     private WaveController getNextWave(WaveController wave) {
         int next = waves.indexOf(wave) + 1;
 
@@ -39,6 +39,10 @@ public class LevelController {
             return null;
 
         return waves.get(next);
+    }
+
+    public int getTotalWaves() {
+        return waves.size();
     }
 
     private WaveController getFirstWave() {
@@ -62,22 +66,24 @@ public class LevelController {
 
         if(currentWave.getId() == waves.size() && currentWave.completed) {
             completed = true;
-            System.out.println("PARABENS VC CONCLUIU O LEVEL");
         }
     }
 
 
     private void newWave() {
+        GameSingleton gameSingleton = GameSingleton.getInstance();
+
         if(currentWave == null) {
             currentWave = getFirstWave();
-        }
-
-        else {
+            gameSingleton.setHearts(10);
+            gameSingleton.setMoney(initMoney);
+        } else {
             currentWave = waves.get(currentWave.getId());
         }
+    }
 
-        System.out.println("COMEÇANDO A WAVE: " + currentWave.getId());
-
+    public int getWaveID() {
+        return currentWave.getId();
     }
 
 

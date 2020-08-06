@@ -17,6 +17,8 @@ public class TowerFactory {
     }
 
     public TowerEntity createById(int id) {
+        if (id == -1) return null;
+
         for (TowerJson towerJson: towersJson) {
             if (towerJson.id == id) {
                 return create(towerJson);
@@ -26,12 +28,29 @@ public class TowerFactory {
         return null;
     }
 
+    private int getPriceFromTowerId(int id) {
+        for (TowerJson towerJson: towersJson) {
+            if (towerJson.id == id) {
+                return towerJson.price;
+            }
+        }
+
+        return 0;
+    }
+
     public TowerEntity create(TowerJson towerJson) {
         TowerEntity towerEntity = new TowerEntity(towerJson.skinPath, 0, 0); //Create tower at generic point
         towerEntity.setDamage(towerJson.damage);
         towerEntity.setFiringSpeed(towerJson.firing_speed);
         towerEntity.setId(towerJson.id);
         towerEntity.setRange(towerJson.range);
+        towerEntity.setPrice(towerJson.price);
+        towerEntity.setBulletAtlasPath(towerJson.bulletPath);
+        towerEntity.setShouldRotateBullet(towerJson.shouldRotateBullet);
+        towerEntity.setUpgradeTowerId(towerJson.upgradeTowerId);
+        if (towerJson.upgradeTowerId != -1) {
+            towerEntity.setUpgradeTowerPrice(this.getPriceFromTowerId(towerJson.upgradeTowerId));
+        }
 
         return towerEntity;
     }

@@ -8,5 +8,9 @@ public class TowerJson {
     public String skinPath;
     public String selectionPath;
     public String bulletPath;
-    public float range;
+    public int range;
+    public int price;
+    public int upgradeTowerId = -1;
+    public boolean shouldRotateBullet = true;
+    public boolean isUpgrade = false;
 }

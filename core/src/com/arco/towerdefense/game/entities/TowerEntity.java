@@ -1,7 +1,8 @@
 package com.arco.towerdefense.game.entities;
 
 import com.arco.towerdefense.game.GameSingleton;
-import com.arco.towerdefense.game.utils.Consts;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -20,6 +21,14 @@ public class TowerEntity extends Entity {
     private int id;
     private float range;
     private Vector2 centerTower;
+    private int price;
+    private int upgradeTowerId;
+    private int upgradeTowerPrice;
+    private String bulletAtlasPath;
+    private boolean shouldRotateBullet;
+    private Sound shootSound;
+
+    private float PERCENTAGE_LOSS_ON_SELL = 0.2f;
 
     public TowerEntity(String texturePath, int gridX, int gridY) {
         super(new Sprite(GameSingleton.getInstance().getTexture(texturePath)), gridX, gridY);
@@ -28,11 +37,38 @@ public class TowerEntity extends Entity {
         this.bullets = new ArrayList<>();
 
         centerTower = new Vector2();
+
+        shootSound = Gdx.audio.newSound(Gdx.files.internal("towers/tower2/attack.wav"));
     }
 
+    public void setPrice(int price) { this.price = price; }
 
     public void setRange(float range) {
         this.range = range * scale;
+    }
+
+    public void setUpgradeTowerId(int upgradeTowerId) {
+        this.upgradeTowerId = upgradeTowerId;
+    }
+
+    public int getUpgradeTowerId() {
+        return upgradeTowerId;
+    }
+
+    public int getUpgradeTowerPrice() {
+        return upgradeTowerPrice;
+    }
+
+    public void setUpgradeTowerPrice(int upgradeTowerPrice) {
+        this.upgradeTowerPrice = upgradeTowerPrice;
+    }
+
+    public boolean isUpgradable() {
+        return this.upgradeTowerId != -1;
+    }
+
+    public int getSellPrice() {
+        return (int) (this.price * (1 - this.PERCENTAGE_LOSS_ON_SELL));
     }
 
     public Vector2 getCenterTower() {
@@ -48,8 +84,8 @@ public class TowerEntity extends Entity {
 
     private void shoot(EnemyEntity enemyTarget) {
         timeSinceLastShoot = 0;
-        // TODO: THE ANIMATION PATH SHOULD BE INSIDE THE JSON, WITH THE TOWER CHARACTERISTICS
-        bullets.add(new BulletEntity(Consts.ATTACK_BADLOGIC, "attacks/ice_shard/pack.atlas", x, y, 20, damage, enemyTarget));
+        shootSound.play();
+        bullets.add(new BulletEntity(bulletAtlasPath, shouldRotateBullet, gridX, gridY, 10, damage, enemyTarget));
 
     }
 
@@ -111,6 +147,14 @@ public class TowerEntity extends Entity {
         this.id = id;
     }
 
+    public void setBulletAtlasPath(String bulletAtlasPath) {
+        this.bulletAtlasPath = bulletAtlasPath;
+    }
+
+    public void setShouldRotateBullet(boolean shouldRotateBullet) {
+        this.shouldRotateBullet = shouldRotateBullet;
+    }
+
     public EnemyEntity getEnemyInRange(ArrayList<EnemyEntity> enemies) {
         for (EnemyEntity enemy: enemies) {
             if (Intersector.overlaps(this.getCircleRange(), enemy.getEntityRect())) {
@@ -119,5 +163,9 @@ public class TowerEntity extends Entity {
         }
 
         return null; // We could not find any
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

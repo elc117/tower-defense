@@ -1,0 +1,48 @@
+
+menu.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+HelpButton
+  rotate: false
+  xy: 1, 130
+  size: 200, 69
+  orig: 200, 69
+  offset: 0, 0
+  index: -1
+PlayButton
+  rotate: false
+  xy: 387, 516
+  size: 200, 69
+  orig: 200, 69
+  offset: 0, 0
+  index: -1
+QuitButton
+  rotate: false
+  xy: 1, 59
+  size: 200, 69
+  orig: 200, 69
+  offset: 0, 0
+  index: -1
+config
+  rotate: false
+  xy: 203, 135
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+configSelected
+  rotate: false
+  xy: 387, 450
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+HomeButton
+  rotate: false
+  xy: 1, 201
+  size: 384, 384
+  orig: 384, 384
+  offset: 0, 0
+  index: -1

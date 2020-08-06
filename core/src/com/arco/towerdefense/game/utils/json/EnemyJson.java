@@ -10,4 +10,6 @@ public class EnemyJson {
     public float speed;
     public float spawnInterval;
     public String skinPath;
+    public int health;
+    public int reward;
 }

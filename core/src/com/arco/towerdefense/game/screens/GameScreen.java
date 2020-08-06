@@ -3,39 +3,41 @@ package com.arco.towerdefense.game.screens;
 import com.arco.towerdefense.game.GameSingleton;
 import com.arco.towerdefense.game.controllers.GroundController;
 import com.arco.towerdefense.game.TowerDefenseGame;
-import com.arco.towerdefense.game.controllers.InteractionZoneController;
+import com.arco.towerdefense.game.controllers.HudController;
 import com.arco.towerdefense.game.controllers.LevelController;
-import com.arco.towerdefense.game.factories.LevelGenerator;
 import com.arco.towerdefense.game.utils.Consts;
-import com.arco.towerdefense.game.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.*;
 
 public class GameScreen implements Screen {
     final TowerDefenseGame game;
     private GroundController groundController;
-    private InteractionZoneController interactionZoneController;
     private Texture homeButton;
     private LevelController levelController;
     private int level;
+    private HudController hudController;
+    private GameSingleton gameSingleton;
+    private Music music;
 
     public GameScreen(TowerDefenseGame game, int level) {
         this.game = game;
-
+        this.gameSingleton = GameSingleton.getInstance();
         this.level = level;
-        System.out.println("COMEÇANDO O NIVEL : " + level);
 
         int GRID_BLOCK_SIZE = 2;
 
-        GameSingleton.getInstance().initGroundScale(GRID_BLOCK_SIZE);
+        gameSingleton.initGroundScale(GRID_BLOCK_SIZE);
 
         this.levelController = GameSingleton.getInstance().getLevelGenerator().createById(level);
-        groundController = new GroundController(game.batch,GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController);
-        interactionZoneController = new InteractionZoneController(game.batch, groundController);
+        this.groundController = new GroundController(game.batch, GRID_BLOCK_SIZE, Consts.V_WIDTH, Consts.V_HEIGHT, levelController, game.camera);
+        this.hudController = new HudController(game.batch, groundController, game.camera, game, level);
 
         homeButton = GameSingleton.getInstance().getTexture(Consts.HOME_BUTTON);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/gameplayMusic.mp3"));
     }
 
     @Override
@@ -45,18 +47,21 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
             groundController.update(delta);
-            interactionZoneController.update();
-            homeButtonUpdate();
         game.batch.end();
-    }
 
-    public void homeButtonUpdate() {
-        game.batch.draw(homeButton, Consts.V_WIDTH - 32, Consts.V_HEIGHT - 32, 32, 32);
+        hudController.update(delta, groundController.getCurrentWaveId(), groundController.getTotalWaves(), gameSingleton.getMoney(), gameSingleton.getHearts());
 
-        if(Utils.isCursorInside(Consts.V_WIDTH - 32, Consts.V_HEIGHT - 32, 32, 32)) {
-            if (Gdx.input.isTouched()) {
-                game.setScreen(game.menuScreen);
+        if(GameSingleton.getInstance().isGameOver()) {
+            game.gameOverScreen.setLastLevel(level);
+            game.setScreen(game.gameOverScreen);
+        }
+
+        if(groundController.getLevelCompleted() && !(GameSingleton.getInstance().isGameOver())) {
+            if(!(level == 5)) {
+                game.levelSelectScreen.openNextLevel(level+1);
             }
+            game.winScreen.setLastLevel(level);
+            game.setScreen(game.winScreen);
         }
     }
 
@@ -66,34 +71,27 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
     public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(interactionZoneController);
-        multiplexer.addProcessor(groundController);
-        GameSingleton.getInstance().setInputProcessor(Gdx.input.getInputProcessor());
+        multiplexer.addProcessor(hudController.getStage());
+        groundController.selfIncludeToMultiplexer(multiplexer);
+        GameSingleton.getInstance().saveCurrentInputProcessor();
         Gdx.input.setInputProcessor(multiplexer);
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-
+//        music.play();
     }
 
     @Override
     public void hide() {
-        Gdx.input.setInputProcessor(GameSingleton.getInstance().getInputProcessor());
+        GameSingleton.getInstance().restoreOldInputProcessor();
+        music.stop();
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+    @Override
+    public void resize(int width, int height) { }
+
+    @Override
+    public void pause() { }
+
+    @Override
+    public void resume() { }
 }

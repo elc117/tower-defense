@@ -22,6 +22,7 @@ public class WaveController {
     private boolean first = true; // first off each order use to control the time between spawns
     public boolean completed = false;
     private int highestOrder;
+    private GameSingleton gameSingleton;
 
     public WaveController(int id, ArrayList<Spawn> spawns, ArrayList<Vector2> checkPoints) {
         this.spawns = spawns;
@@ -33,6 +34,7 @@ public class WaveController {
         this.id = id;
         this.highestOrder = searchHighestOrder();
         selectionToSpawn();
+        this.gameSingleton = GameSingleton.getInstance();
     }
 
     public void update(float delta) {
@@ -62,16 +64,21 @@ public class WaveController {
             // se o inimigo chegar no checkPoint e o ponto ser o fim ele é morto,
             // caso contrário ele atualizará pro próx ponto
             if (enemy.inCheckPoint()) {
-                if(reachedTheEnd(enemy))
+                if(reachedTheEnd(enemy)) {
                     enemy.setAlive(false);
-                else
+                    gameSingleton.decreaseHeartsBy(1);
+                }
+                else {
                     changeCourse(enemy);
+                }
             }
 
             // se o inimigo morrer ele é retirado da lista
             if (enemy.isAlive()) {
                 allEnemiesDead = false;
             } else {
+                if(enemy.couldReward) gameSingleton.increaseMoneyBy(enemy.getReward());
+
                 it.remove();
             }
         }
@@ -101,7 +108,14 @@ public class WaveController {
         for(Spawn spawn : spawns) {
             if(order == spawn.order) {
                 for(int i = 0; i < spawn.quantity; i++) {
-                    addEnemy(spawn.enemyId, spawn.spawnInterval);
+                    // the first enemy of an order has immediate spawn
+                    // the others will hold according to the spawn interval
+                    if (i == 0) {
+                        addEnemy(spawn.enemyId, 0);
+                    } else {
+                        addEnemy(spawn.enemyId, spawn.spawnInterval);
+                    }
+
                 }
             }
         }
@@ -119,8 +133,8 @@ public class WaveController {
 
         EnemyEntity enemyEntity = GameSingleton.getInstance().getEnemyFactory().createById(id);
         enemyEntity.setNextCheckPoint(nextCheckPoint);
-        enemyEntity.setX(startCheckPoint.x);
-        enemyEntity.setY(startCheckPoint.y);
+        enemyEntity.setGridX(startCheckPoint.x);
+        enemyEntity.setGridY(startCheckPoint.y);
         enemyEntity.setSpawnInterval(spawnInterval);
         enemyEntity.selectDirection();
         enemiesToSpawn.add(enemyEntity);
@@ -164,5 +178,6 @@ public class WaveController {
     public void setId(int id) {
         this.id  = id;
     }
+
 
 }

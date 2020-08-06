@@ -20,9 +20,9 @@ public class Consts {
     public static final String HELP_BUTTON = "menu/HelpButton.png";
     public static final String GROUND_GRASS = "ground/grasstop.png";
     public static final String GROUND_DIRT = "ground/dirt.png";
-    public static final String GROUND_VEINS = "ground/veins.png";
-    public static final String BADLOGIC = "badlogic.jpg";
+    public static final String GROUND_VEINS = "ground/veins32.png";
     public static final String MENU_BACKGROUND = "menu/menu-background.png";
+    public static final String GROUND_LANE = "ground/laneTxt.png";
 
     //ENEMIES
     public static final String VIRUS_ENEMY = "enemies/generic/virus/virus_animation.png";
@@ -30,6 +30,12 @@ public class Consts {
     public static final String FUNGUS_ENEMY = "enemies/generic/fungus/fungus_animation.png";
     //public static final String PROTOZOA_ENEMY = "";
     public static final String ENEMIES_JSON = "enemies/enemies.json";
+
+    //TOWERS
+    public static final String TOWER1 = "towers/tower1/tower1.png";
+    public static final String TOWER2 = "towers/tower2/tower2.png";
+    public static final String TOWER3 = "towers/tower3/tower3.png";
+    public static final String TOWER4 = "towers/tower4/tower4.png";
 
     public static final String TOWERS_JSON = "towers/towers.json";
     public static final String LEVELS_JSON = "levels/levels.json";

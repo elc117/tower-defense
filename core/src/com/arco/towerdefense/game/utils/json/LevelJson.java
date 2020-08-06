@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class LevelJson {
     public int id;
     public int dificulty;
+    public int money;
     public ArrayList<Wave> waves;
     public ArrayList<Vector2> checkPoints;
 }

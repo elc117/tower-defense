@@ -1,0 +1,21 @@
+{
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	playButton: {
+		up: PlayButton
+	}
+	quitButton: {
+		up: QuitButton
+	}
+	helpButton: {
+		up: HelpButton
+		down: PlayButton
+	}
+	configButton: {
+		up: config
+		over: configSelected
+	}
+	homeBtn: {
+		up: HomeButton
+	}
+}
+}

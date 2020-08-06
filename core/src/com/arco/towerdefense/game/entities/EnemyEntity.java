@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -28,8 +27,10 @@ public class EnemyEntity extends Entity {
     private int healthPoints;
     private int maxHealthPoints;
     private float spawnInterval;
+    private int reward;
+    public boolean couldReward = false;
 
-    public EnemyEntity(int id, float speed, String txt, UUID targetID) {
+    public EnemyEntity(int id, float speed, int health, String txt, UUID targetID, int reward) {
         super(new Sprite(GameSingleton.getInstance().getTexture(txt)), 0, 0);
         super.setSpriteSizeToScale();
 
@@ -39,22 +40,23 @@ public class EnemyEntity extends Entity {
         this.targetID = targetID;
         this.animation = Utils.createAnimation(txt, 3, 1);
         this.stateTime = 0f;
-        this.maxHealthPoints = 100;
-        this.healthPoints = 100;
+        this.maxHealthPoints = health;
+        this.healthPoints = health;
+        this.reward = reward;
     }
 
     public void update(float delta) {
         if(dir == direction.DOWN)
-            y -= delta * speed;
+            gridY -= delta * speed;
 
         if(dir == direction.UP)
-            y += delta * speed;
+            gridY += delta * speed;
 
         if(dir == direction.LEFT)
-            x -= delta * speed;
+            gridX -= delta * speed;
 
         if(dir == direction.RIGHT)
-            x += delta * speed;
+            gridX += delta * speed;
     }
 
     public void draw(SpriteBatch batch, ShapeDrawer shapeDrawer) {
@@ -63,7 +65,7 @@ public class EnemyEntity extends Entity {
 
         batch.draw(currentFrame, getScaledX(), getScaledY(), getWidth(), getHeight());
 
-        drawHealthBar(shapeDrawer);
+        if (maxHealthPoints != healthPoints) drawHealthBar(shapeDrawer);
     }
 
     private void drawHealthBar(ShapeDrawer shapeDrawer) {
@@ -83,6 +85,7 @@ public class EnemyEntity extends Entity {
 
         if (healthPoints <= 0) {
             alive = false;
+            couldReward = true;
         }
     }
 
@@ -103,28 +106,28 @@ public class EnemyEntity extends Entity {
     public void selectDirection() {
         if (nextCheckPoint == null) return;
 
-        if (y > nextCheckPoint.y) {
+        if (gridY > nextCheckPoint.y) {
             //baixo
             dir = direction.DOWN;
         }
-        if (y < nextCheckPoint.y) {
+        if (gridY < nextCheckPoint.y) {
             //cima
             dir = direction.UP;
         }
-        if (x > nextCheckPoint.x) {
+        if (gridX > nextCheckPoint.x) {
             //esquerda
             dir = direction.LEFT;
         }
-        if (x < nextCheckPoint.x) {
+        if (gridX < nextCheckPoint.x) {
             //direita
             dir = direction.RIGHT;
         }
     }
 
     public boolean inCheckPoint() {
-        if(x > nextCheckPoint.x - 0.1 && x < nextCheckPoint.x + 0.1 && y > nextCheckPoint.y - 0.1 && y < nextCheckPoint.y + 0.1) {
-            x = nextCheckPoint.x;
-            y = nextCheckPoint.y;
+        if(gridX > nextCheckPoint.x - 0.1 && gridX < nextCheckPoint.x + 0.1 && gridY > nextCheckPoint.y - 0.1 && gridY < nextCheckPoint.y + 0.1) {
+            gridX = nextCheckPoint.x;
+            gridY = nextCheckPoint.y;
             return true;
         }
 
@@ -145,5 +148,13 @@ public class EnemyEntity extends Entity {
 
     public void setSpawnInterval(float spawnInterval) {
         this.spawnInterval = spawnInterval;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+    public void setReward(int reward) {
+        this.reward = reward;
     }
 }
