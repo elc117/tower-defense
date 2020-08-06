@@ -40,17 +40,16 @@
     "reward": 20
   },
   {
-
-    "id": 5,
+    "id": 6,
     "name": "Boss Gripe",
-    "speed": 1,
+    "speed": 1.4,
     "skinPath": "enemies/boss/boss-4/gripe-1.png",
     "health": 2000,
     "reward": 25
   },
   {
 
-    "id": 6,
+    "id": 7,
     "name": "Boss Fago",
     "speed": 0.8,
     "skinPath": "enemies/boss/boss-3/bacteriofago-1.png",
@@ -59,7 +58,7 @@
   },
   {
 
-    "id": 7,
+    "id": 8,
     "name": "Boss Virus",
     "speed": 0.6,
     "skinPath": "enemies/boss/boss-1/virusOP-1.png",
@@ -68,7 +67,7 @@
   },
   {
 
-    "id": 8,
+    "id": 9,
     "name": "Boss Corona Virus",
     "speed": 0.6,
     "skinPath": "enemies/boss/boss-5/coronga-1.png",
